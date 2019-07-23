@@ -7,7 +7,7 @@ import axios from "axios";
 class App extends React.Component {
   state = {
     title: "",
-    movieData: []
+    moviesData: []
   };
 
   onButtonClick = movieName => {
@@ -15,14 +15,25 @@ class App extends React.Component {
     this.setState({ title: movieName }, () => this.getMoviesData());
   };
 
-  getMoviesData = () => {
+  getMovieDetailedData = () => {
     axios
       .get(`http://www.omdbapi.com/?apikey=bf24a0f8&t=${this.state.title}`)
       .then(res => {
         //console.log(res.data);
-        const movieData = res.data;
+        const movieData = res.data.Search;
 
         this.setState({ movieData });
+      });
+  }
+
+  getMoviesData = () => {
+    axios
+      .get(`http://www.omdbapi.com/?apikey=bf24a0f8&s=${this.state.title}`)
+      .then(res => {
+        console.log(res.data.Search);
+        const moviesData = res.data.Search;
+        //console.log(moviesData.slice(0,9))
+        this.setState({ moviesData: moviesData.slice(0,9) });
       });
   };
 
@@ -46,8 +57,35 @@ class App extends React.Component {
             className="ui segment"
             style={{ height: "100px", width: "500px", margin: "auto" }}
           >
-            <div className="ui active inverted dimmer">
-              <div className="ui text loader">Loading</div>
+            <div className="content">
+              Please make a search...
+            </div>
+            <p />
+          </div>
+          <div className="ui container">Copyright, 2019</div>
+        </div>
+      );
+    } 
+    if (this.state.title) { 
+      return (
+        <div style={{ backgroundColor: "#f1f8ff", margin: "15px" }}>
+          <div className="ui container">
+            <div className="ui grid" style={{ margin: "15px" }}>
+              <div className="centered row">
+                <div className="ui input focus">
+                  <SearchBar
+                    onButtonClick={this.onButtonClick}
+                    title={this.state.title}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="ui container" style={{ margin: "auto" }}>
+            <div className="ui five column grid">
+            {this.state.moviesData.map(item => (    
+              <img alt={item.imdbID} src={item.Poster}></img>
+            ))}
             </div>
             <p />
           </div>
@@ -61,7 +99,8 @@ class App extends React.Component {
             <div className="ui grid" style={{ margin: "15px" }}>
               <div className="centered row">
                 <div className="ui input focus">
-                  <SearchBar />
+                  <SearchBar onButtonClick={this.onButtonClick}
+                    title={this.state.title}/>
                 </div>
               </div>
             </div>
@@ -73,7 +112,7 @@ class App extends React.Component {
             <div className="ui grid">
               <div className="ui centered card" style={{ width: "500px" }}>
                 <div className="content">
-                  <MovieCard movieData={this.state.movieData} />
+                  <MovieCard moviesData={this.state.moviesData} />
                 </div>
               </div>
             </div>
