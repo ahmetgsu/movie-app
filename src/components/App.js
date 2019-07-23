@@ -11,7 +11,8 @@ class App extends React.Component {
     moviesData: [],
     selectedMovieID: "",
     selectedMovieData: [],
-    renderCondition: "landing page"
+    renderCondition: "landing page",
+    errorMessage: ""
   };
 
   onButtonClick = movieName => {
@@ -46,20 +47,36 @@ class App extends React.Component {
   // This function is for fetching movies data according to the searching term
   getMoviesData = () => {
     axios
-      .get(`http://www.omdbapi.com/?apikey=bf24a0f8&s=${this.state.title}`)
+      .get(
+        `http://www.omdbapi.com/?apikey=bf24a0f8&type=movie&s=${
+          this.state.title
+        }`
+      )
       .then(res => {
         console.log(res.data.Search);
-        const moviesData = res.data.Search;
-        //console.log(moviesData.slice(0,9))
-        this.setState({
-          moviesData: moviesData.slice(0, 10),
-          renderCondition: "movies list"
-        });
+        if (res.data.Search) {
+          const moviesData = res.data.Search;
+          //console.log(moviesData.slice(0,9))
+          this.setState({
+            moviesData: moviesData.slice(0, 10),
+            renderCondition: "movies list"
+          });
+        } else {
+          console.log(res.data.Error);
+          const errorMessage = res.data.Error;
+          this.setState({ errorMessage });
+        }
+      })
+      .catch(err => {
+        console.log("Opps", err.message);
       });
   };
 
   renderContent = () => {
-    if (this.state.renderCondition === "landing page") {
+    if (
+      this.state.renderCondition === "landing page" &&
+      !this.state.errorMessage
+    ) {
       return (
         <div style={{ backgroundColor: "#f1f8ff", margin: "15px" }}>
           <div className="ui container">
@@ -140,6 +157,38 @@ class App extends React.Component {
                 </div>
               </div>
             </div>
+          </div>
+          <div className="ui container">Copyright, 2019</div>
+        </div>
+      );
+    }
+    if (this.state.errorMessage) {
+      return (
+        <div style={{ backgroundColor: "#f1f8ff", margin: "15px" }}>
+          <div className="ui container">
+            <div className="ui grid" style={{ margin: "15px" }}>
+              <div className="centered row">
+                <div className="ui input focus">
+                  <SearchBar
+                    onButtonClick={this.onButtonClick}
+                    title={this.state.title}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            className="ui raised segment"
+            style={{
+              height: "100px",
+              width: "500px",
+              margin: "auto",
+              textAlign: "center"
+            }}
+          >
+            <h3 style={{ margin: "auto" }}>{this.state.errorMessage}</h3>
+
+            <p />
           </div>
           <div className="ui container">Copyright, 2019</div>
         </div>
