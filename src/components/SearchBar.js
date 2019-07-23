@@ -10,27 +10,31 @@ class SearchBar extends React.Component {
     //this.props.onInputChange(e.target.value);
   };
 
-  handleClick = () => {
-    //e.preventDefault();
+  handleClick = e => {
+    e.preventDefault();
 
     this.props.onButtonClick(this.state.searchTerm);
   };
 
   render() {
-    console.log("this.state.searchTerm :", this.state.searchTerm);
+    //console.log("this.state.searchTerm :", this.state.searchTerm);
     return (
       <div className="search-bar ui segment" style={{ width: "500px" }}>
         <label>
           <h3>Movie Search</h3>
         </label>
         <br />
-        <div className="ui action input">
+        <div className="ui action fluid input focus">
           <input
             type="text"
+            value={this.state.searchTerm}
             placeholder="Search by movie title"
             onChange={e => this.handleChange(e)}
           />
-          <button className="ui button" onClick={() => this.handleClick()}>
+          <button
+            className="ui positive button"
+            onClick={e => this.handleClick(e)}
+          >
             Search
           </button>
         </div>

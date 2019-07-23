@@ -1,13 +1,17 @@
 import React from "react";
 import MovieCard from "./MovieCard";
 import SearchBar from "./SearchBar";
+import MoviesList from "./MoviesList";
 import axios from "axios";
 //import getMovies from '../apis/getMovies'
 
 class App extends React.Component {
   state = {
     title: "",
-    moviesData: []
+    moviesData: [],
+    selectedMovieID: "",
+    selectedMovieData: [],
+    renderCondition: "landing page"
   };
 
   onButtonClick = movieName => {
@@ -15,17 +19,31 @@ class App extends React.Component {
     this.setState({ title: movieName }, () => this.getMoviesData());
   };
 
+  onImageClick = id => {
+    console.log(id);
+    this.setState({ selectedMovieID: id }, () => this.getMovieDetailedData());
+  };
+
+  // This function is for fetching detailed info of selected movie
   getMovieDetailedData = () => {
     axios
-      .get(`http://www.omdbapi.com/?apikey=bf24a0f8&t=${this.state.title}`)
+      .get(
+        `http://www.omdbapi.com/?apikey=bf24a0f8&i=${
+          this.state.selectedMovieID
+        }`
+      )
       .then(res => {
-        //console.log(res.data);
-        const movieData = res.data.Search;
+        console.log(res.data);
+        const selectedMovieData = res.data;
 
-        this.setState({ movieData });
+        this.setState({
+          selectedMovieData,
+          renderCondition: "movie card"
+        });
       });
-  }
+  };
 
+  // This function is for fetching movies data according to the searching term
   getMoviesData = () => {
     axios
       .get(`http://www.omdbapi.com/?apikey=bf24a0f8&s=${this.state.title}`)
@@ -33,12 +51,15 @@ class App extends React.Component {
         console.log(res.data.Search);
         const moviesData = res.data.Search;
         //console.log(moviesData.slice(0,9))
-        this.setState({ moviesData: moviesData.slice(0,9) });
+        this.setState({
+          moviesData: moviesData.slice(0, 10),
+          renderCondition: "movies list"
+        });
       });
   };
 
   renderContent = () => {
-    if (this.state.title === "") {
+    if (this.state.renderCondition === "landing page") {
       return (
         <div style={{ backgroundColor: "#f1f8ff", margin: "15px" }}>
           <div className="ui container">
@@ -54,19 +75,23 @@ class App extends React.Component {
             </div>
           </div>
           <div
-            className="ui segment"
-            style={{ height: "100px", width: "500px", margin: "auto" }}
+            className="ui raised segment"
+            style={{
+              height: "100px",
+              width: "500px",
+              margin: "auto",
+              textAlign: "center"
+            }}
           >
-            <div className="content">
-              Please make a search...
-            </div>
+            <h3 style={{ margin: "auto" }}>Please make a search...</h3>
+
             <p />
           </div>
           <div className="ui container">Copyright, 2019</div>
         </div>
       );
-    } 
-    if (this.state.title) { 
+    }
+    if (this.state.renderCondition === "movies list") {
       return (
         <div style={{ backgroundColor: "#f1f8ff", margin: "15px" }}>
           <div className="ui container">
@@ -81,26 +106,25 @@ class App extends React.Component {
               </div>
             </div>
           </div>
-          <div className="ui container" style={{ margin: "auto" }}>
-            <div className="ui five column grid">
-            {this.state.moviesData.map(item => (    
-              <img alt={item.imdbID} src={item.Poster}></img>
-            ))}
-            </div>
-            <p />
-          </div>
+          <MoviesList
+            moviesData={this.state.moviesData}
+            onImageClick={this.onImageClick}
+          />
           <div className="ui container">Copyright, 2019</div>
         </div>
       );
-    } else {
+    }
+    if (this.state.renderCondition === "movie card") {
       return (
         <div style={{ backgroundColor: "#f1f8ff", margin: "15px" }}>
           <div className="ui container">
             <div className="ui grid" style={{ margin: "15px" }}>
               <div className="centered row">
                 <div className="ui input focus">
-                  <SearchBar onButtonClick={this.onButtonClick}
-                    title={this.state.title}/>
+                  <SearchBar
+                    onButtonClick={this.onButtonClick}
+                    title={this.state.title}
+                  />
                 </div>
               </div>
             </div>
@@ -110,9 +134,9 @@ class App extends React.Component {
             style={{ margin: "15px" }}
           >
             <div className="ui grid">
-              <div className="ui centered card" style={{ width: "500px" }}>
+              <div className="ui centered card" style={{ width: "400px" }}>
                 <div className="content">
-                  <MovieCard moviesData={this.state.moviesData} />
+                  <MovieCard selectedMovieData={this.state.selectedMovieData} />
                 </div>
               </div>
             </div>

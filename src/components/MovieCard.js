@@ -6,40 +6,40 @@ class MovieCard extends React.Component {
   }
 
   render() {
-    //console.log(movieData);
-    const { moviesData } = this.props;
+    const { selectedMovieData } = this.props;
+    //const infoArray = ["RELEASED", "IMDB RATING", "GENRE", "RUNTIME"]
     return (
       <div>
         <div>
-          <div className="ui centered card" style={{ width: "500px" }}>
+          <div className="ui centered card" style={{ width: "400px" }}>
             <div className="image">
-              <img src={moviesData.Poster} alt="" />
+              <img src={selectedMovieData.Poster} alt="" />
             </div>
             <div className="content">
-              <div className="header">{moviesData.Title}</div>
-              <div className="description">{moviesData.Plot}</div>
+              <div className="header">{selectedMovieData.Title}</div>
+              <div className="description">{selectedMovieData.Plot}</div>
             </div>
             <div className="content">
               <div className="ui grid">
                 <div className="ui four wide column">
                   <span style={{ fontSize: "15px" }}>RELEASED</span>
                   <div className="ui divider" />
-                  <strong>{moviesData.Released}</strong>
+                  <strong>{selectedMovieData.Released}</strong>
                 </div>
                 <div className="ui four wide column">
                   <span style={{ fontSize: "15px" }}>IMDB RATING</span>
                   <div className="ui divider" />
-                  <strong>{moviesData.imdbRating}</strong>
+                  <strong>{selectedMovieData.imdbRating}</strong>
                 </div>
                 <div className="ui four wide column">
                   <span style={{ fontSize: "15px" }}>GENRE</span>
                   <div className="ui divider" />
-                  <strong>{moviesData.Genre}</strong>
+                  <strong>{selectedMovieData.Genre}</strong>
                 </div>
                 <div className="ui four wide column">
                   <span style={{ fontSize: "15px" }}>RUNTIME</span>
                   <div className="ui divider" />
-                  <strong>{moviesData.Runtime}</strong>
+                  <strong>{selectedMovieData.Runtime}</strong>
                 </div>
               </div>
             </div>
@@ -51,3 +51,11 @@ class MovieCard extends React.Component {
 }
 
 export default MovieCard;
+
+// {infoArray.map(item => (
+//   <div className="ui four wide column">
+//     <span style={{ fontSize: "15px" }}>{item}</span>
+//     <div className="ui divider" />
+//     <strong>{moviesData.find(elem => elem.toLocaleLowerCase('en-US') === item.toLocaleLowerCase('en-US'))}</strong>
+// </div>
+// ))}
