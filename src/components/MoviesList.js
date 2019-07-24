@@ -3,7 +3,6 @@ import React from "react";
 
 class MoviesList extends React.Component {
   handleClick = id => {
-    //e.preventDefault();
     console.log(id);
 
     this.props.onImageClick(id);

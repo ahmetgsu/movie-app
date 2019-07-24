@@ -59,7 +59,8 @@ class App extends React.Component {
           //console.log(moviesData.slice(0,9))
           this.setState({
             moviesData: moviesData.slice(0, 10),
-            renderCondition: "movies list"
+            renderCondition: "movies list",
+            errorMessage: ""
           });
         } else {
           console.log(res.data.Error);
