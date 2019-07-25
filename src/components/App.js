@@ -1,9 +1,10 @@
 import React from "react";
+import { Provider } from "react-redux";
 import MovieCard from "./MovieCard";
 import SearchBar from "./SearchBar";
 import MoviesList from "./MoviesList";
 import axios from "axios";
-//import getMovies from '../apis/getMovies'
+import store from "../store";
 
 class App extends React.Component {
   state = {
@@ -25,7 +26,6 @@ class App extends React.Component {
     this.setState({ selectedMovieID: id }, () => this.getMovieDetailedData());
   };
 
-  // This function is for fetching detailed info of selected movie
   getMovieDetailedData = () => {
     axios
       .get(
@@ -44,7 +44,6 @@ class App extends React.Component {
       });
   };
 
-  // This function is for fetching movies data according to the searching term
   getMoviesData = () => {
     axios
       .get(
@@ -198,8 +197,11 @@ class App extends React.Component {
   };
 
   render() {
-    console.log(this.state);
-    return <div>{this.renderContent()}</div>;
+    return (
+      <Provider store={store}>
+        <div>{this.renderContent()}</div>
+      </Provider>
+    );
   }
 }
 
