@@ -55,7 +55,7 @@ class App extends React.Component {
       !this.state.errorMessage
     ) {
       return (
-        <div style={{ backgroundColor: "#f1f8ff", margin: "15px" }}>
+        <div style={{ margin: "15px" }}>
           <div className="ui container">
             <div className="ui grid" style={{ margin: "15px" }}>
               <div className="centered row">
@@ -77,7 +77,7 @@ class App extends React.Component {
               textAlign: "center"
             }}
           >
-            <h3 style={{ margin: "auto" }}>Please make a search...</h3>
+            <h3 style={{ margin: "20px auto" }}>Please make a search...</h3>
 
             <p />
           </div>
@@ -87,7 +87,7 @@ class App extends React.Component {
     }
     if (this.state.renderCondition === "MOVIES_LIST") {
       return (
-        <div style={{ backgroundColor: "#f1f8ff", margin: "15px" }}>
+        <div style={{ margin: "15px" }}>
           <div className="ui container">
             <div className="ui grid" style={{ margin: "15px" }}>
               <div className="centered row">
@@ -110,7 +110,7 @@ class App extends React.Component {
     }
     if (this.state.renderCondition === "MOVIE_CARD") {
       return (
-        <div style={{ backgroundColor: "#f1f8ff", margin: "15px" }}>
+        <div style={{ margin: "15px" }}>
           <div className="ui container">
             <div className="ui grid" style={{ margin: "15px" }}>
               <div className="centered row">
@@ -141,7 +141,7 @@ class App extends React.Component {
     }
     if (this.state.errorMessage) {
       return (
-        <div style={{ backgroundColor: "#f1f8ff", margin: "15px" }}>
+        <div style={{ margin: "15px" }}>
           <div className="ui container">
             <div className="ui grid" style={{ margin: "15px" }}>
               <div className="centered row">
@@ -163,7 +163,7 @@ class App extends React.Component {
               textAlign: "center"
             }}
           >
-            <h3 style={{ margin: "auto" }}>{this.state.errorMessage}</h3>
+            <h3 style={{ margin: "20px auto" }}>{this.state.errorMessage}</h3>
 
             <p />
           </div>
@@ -187,6 +187,6 @@ class App extends React.Component {
 // }
 
 export default connect(
-  mapStateToProps,
+  null,
   { fetchMovies, buttonClick }
 )(App);
