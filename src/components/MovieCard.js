@@ -1,9 +1,6 @@
 import React from "react";
 
 class MovieCard extends React.Component {
-  componentDidMount() {
-    console.log("componentDidMount", this.props);
-  }
 
   render() {
     const { selectedMovieData } = this.props;

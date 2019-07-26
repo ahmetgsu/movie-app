@@ -1,4 +1,4 @@
-import "./MoviesList.css";
+import "../styles/MoviesList.css";
 import React from "react";
 
 class MoviesList extends React.Component {
@@ -20,7 +20,6 @@ class MoviesList extends React.Component {
                 alt={item.imdbID}
                 src={item.Poster}
                 onClick={() => this.handleClick(item.imdbID)}
-                style={{ cursor: "pointer" }}
               />
             ))}
           </div>

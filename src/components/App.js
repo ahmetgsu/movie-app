@@ -5,21 +5,22 @@ import SearchBar from "./SearchBar";
 import MoviesList from "./MoviesList";
 import axios from "axios";
 import store from "../store";
+import { fetchMovies, buttonClick } from "../actions/movieActions";
+import { connect } from "http2";
 
 class App extends React.Component {
-  state = {
-    title: "",
-    moviesData: [],
-    selectedMovieID: "",
-    selectedMovieData: [],
-    renderCondition: "landing page",
-    errorMessage: ""
-  };
+  // state = {
+  //   title: ""
+  //   moviesData: [],
+  //   selectedMovieID: "",
+  //   selectedMovieData: [],
+  //   renderCondition: "LANDING_PAGE",
+  //   errorMessage: ""
+  // };
 
-  onButtonClick = movieName => {
-    console.log(movieName);
-    this.setState({ title: movieName }, () => this.getMoviesData());
-  };
+  // onButtonClick = movieName => {
+  //   this.props.buttonClick(movieName) () => this.getMoviesData());
+  // };
 
   onImageClick = id => {
     console.log(id);
@@ -39,42 +40,18 @@ class App extends React.Component {
 
         this.setState({
           selectedMovieData,
-          renderCondition: "movie card"
+          renderCondition: "MOVIE_CARD"
         });
       });
   };
 
   getMoviesData = () => {
-    axios
-      .get(
-        `http://www.omdbapi.com/?apikey=bf24a0f8&type=movie&s=${
-          this.state.title
-        }`
-      )
-      .then(res => {
-        console.log(res.data.Search);
-        if (res.data.Search) {
-          const moviesData = res.data.Search;
-          //console.log(moviesData.slice(0,9))
-          this.setState({
-            moviesData: moviesData.slice(0, 10),
-            renderCondition: "movies list",
-            errorMessage: ""
-          });
-        } else {
-          console.log(res.data.Error);
-          const errorMessage = res.data.Error;
-          this.setState({ errorMessage });
-        }
-      })
-      .catch(err => {
-        console.log("Opps", err.message);
-      });
+    this.props.fetchMovies();
   };
 
   renderContent = () => {
     if (
-      this.state.renderCondition === "landing page" &&
+      this.state.renderCondition === "LANDING_PAGE" &&
       !this.state.errorMessage
     ) {
       return (
@@ -108,7 +85,7 @@ class App extends React.Component {
         </div>
       );
     }
-    if (this.state.renderCondition === "movies list") {
+    if (this.state.renderCondition === "MOVIES_LIST") {
       return (
         <div style={{ backgroundColor: "#f1f8ff", margin: "15px" }}>
           <div className="ui container">
@@ -131,7 +108,7 @@ class App extends React.Component {
         </div>
       );
     }
-    if (this.state.renderCondition === "movie card") {
+    if (this.state.renderCondition === "MOVIE_CARD") {
       return (
         <div style={{ backgroundColor: "#f1f8ff", margin: "15px" }}>
           <div className="ui container">
@@ -205,4 +182,11 @@ class App extends React.Component {
   }
 }
 
-export default App;
+// const mapStateToProps = state => {
+//   movies: state.movies.moviesData,
+// }
+
+export default connect(
+  mapStateToProps,
+  { fetchMovies, buttonClick }
+)(App);
