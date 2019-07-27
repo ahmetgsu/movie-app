@@ -2,7 +2,6 @@ import {
   FETCH_MOVIES,
   FETCH_SELECTED_MOVIE,
   MOVIE_TITLE,
-  SELECTED_MOVIE_ID,
   RENDER_CONDITION,
   ERROR_MSG
 } from "../actions/types";
@@ -10,7 +9,6 @@ import {
 const initialState = {
   title: "",
   moviesData: [],
-  selectedMovieID: "",
   selectedMovieData: [],
   renderCondition: "LANDING_PAGE",
   errorMessage: ""
@@ -37,11 +35,6 @@ export default function(state = initialState, action) {
       return {
         ...state,
         title: action.payload
-      };
-    case SELECTED_MOVIE_ID:
-      return {
-        ...state,
-        selectedMovieID: action.payload
       };
     case FETCH_SELECTED_MOVIE:
       return {

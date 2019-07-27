@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 class MovieCard extends React.Component {
   render() {
     const { selectedMovieData } = this.props;
+    console.log(selectedMovieData);
     //const infoArray = ["RELEASED", "IMDB RATING", "GENRE", "RUNTIME"]
     return (
       <div>

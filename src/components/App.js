@@ -1,59 +1,13 @@
 import React from "react";
-
 import MovieCard from "./MovieCard";
 import SearchBar from "./SearchBar";
 import MoviesList from "./MoviesList";
-
 import { connect } from "react-redux";
 
 class App extends React.Component {
-  // state = {
-  //   title: ""
-  //   moviesData: [],
-  //   selectedMovieID: "",
-  //   selectedMovieData: [],
-  //   renderCondition: "LANDING_PAGE",
-  //   errorMessage: ""
-  // };
-
-  // componentWillReceiveProps(nextProps) {
-  //   if (nextProps.title) {
-  //     this.props.fetchMovies(nextProps.title);
-  //   }
-  // }
-
-  // onButtonClick = movieName => {
-  //   this.props.buttonClick(movieName);
-  // };
-
-  // onImageClick = id => {
-  //   console.log(id);
-  //   this.setState({ selectedMovieID: id }, () => this.getMovieDetailedData());
-  // };
-
-  // getMovieDetailedData = () => {
-  // axios
-  //   .get(
-  //     `http://www.omdbapi.com/?apikey=bf24a0f8&i=${
-  //       this.state.selectedMovieID
-  //     }`
-  //   )
-  //   .then(res => {
-  //     console.log(res.data);
-  //     const selectedMovieData = res.data;
-
-  //     this.setState({
-  //       selectedMovieData,
-  //       renderCondition: "MOVIE_CARD"
-  //     });
-  //   });
-  // };
-
-  // // getMoviesData = name => {
-
-  // // };
-
   renderContent = () => {
+    const today = new Date();
+    const year = today.getFullYear();
     const { renderCondition, errorMessage } = this.props;
     if (renderCondition === "LANDING_PAGE" && !errorMessage) {
       return (
@@ -80,7 +34,12 @@ class App extends React.Component {
 
             <p />
           </div>
-          <div className="ui container">Copyright, 2019</div>
+          <div
+            className="ui container"
+            style={{ textAlign: "center", marginTop: "30px" }}
+          >
+            Copyright &copy; {year}
+          </div>
         </div>
       );
     }
@@ -97,7 +56,12 @@ class App extends React.Component {
             </div>
           </div>
           <MoviesList />
-          <div className="ui container">Copyright, 2019</div>
+          <div
+            className="ui container"
+            style={{ textAlign: "center", marginTop: "30px" }}
+          >
+            Copyright &copy; {year}
+          </div>
         </div>
       );
     }
@@ -125,7 +89,12 @@ class App extends React.Component {
               </div>
             </div>
           </div>
-          <div className="ui container">Copyright, 2019</div>
+          <div
+            className="ui container"
+            style={{ textAlign: "center", marginTop: "30px" }}
+          >
+            Copyright &copy; {year}>
+          </div>
         </div>
       );
     }
@@ -154,7 +123,12 @@ class App extends React.Component {
 
             <p />
           </div>
-          <div className="ui container">Copyright, 2019</div>
+          <div
+            className="ui container"
+            style={{ textAlign: "center", marginTop: "30px" }}
+          >
+            Copyright &copy; {year}
+          </div>
         </div>
       );
     }

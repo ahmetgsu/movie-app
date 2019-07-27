@@ -14,8 +14,7 @@ class SearchBar extends React.Component {
   };
 
   handleClick = () => {
-    console.log(`Button clicked and movie title is ${this.props.title}`);
-    // e.preventDefault();
+    //console.log(`Button clicked and movie title is ${this.props.title}`);
 
     this.props.fetchMovies(this.props.title);
   };

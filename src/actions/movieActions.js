@@ -2,7 +2,6 @@ import {
   FETCH_MOVIES,
   FETCH_SELECTED_MOVIE,
   MOVIE_TITLE,
-  SELECTED_MOVIE_ID,
   RENDER_CONDITION,
   ERROR_MSG
 } from "./types";
@@ -15,22 +14,8 @@ export const inputChange = movieName => dispatch => {
   });
 };
 
-// export const buttonClick = movieName => dispatch => {
-//   dispatch({
-//     type: MOVIE_TITLE,
-//     payload: movieName
-//   });
-// };
-
-export const imageClick = id => dispatch => {
-  dispatch({
-    type: SELECTED_MOVIE_ID,
-    payload: id
-  });
-};
-
 export const fetchMovies = title => dispatch => {
-  console.log(`function invoked`);
+  //console.log(`fetchMovies function invoked`);
   axios
     .get(`http://www.omdbapi.com/?apikey=bf24a0f8&s=${title}`)
     .then(res => {
@@ -62,17 +47,17 @@ export const fetchMovies = title => dispatch => {
 };
 
 export const fetchSelectedMovie = imdbID => dispatch => {
-  console.log(`fetchSelectedMovie function invoked`);
+  //console.log(`fetchSelectedMovie function invoked`);
   axios.get(`http://www.omdbapi.com/?apikey=bf24a0f8&i=${imdbID}`).then(res => {
-    console.log(res.data);
     const selectedMovieData = res.data;
+    //console.log(selectedMovieData);
     dispatch({
       type: FETCH_SELECTED_MOVIE,
       payload: selectedMovieData
     });
     dispatch({
       type: RENDER_CONDITION,
-      payload: "MOVIES_CARD"
+      payload: "MOVIE_CARD"
     });
   });
 };
