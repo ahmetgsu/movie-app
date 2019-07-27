@@ -1,11 +1,13 @@
 import "../styles/MoviesList.css";
 import React from "react";
+import { connect } from "react-redux";
+import { imageClick } from "../actions/movieActions";
 
 class MoviesList extends React.Component {
   handleClick = id => {
     console.log(id);
 
-    this.props.onImageClick(id);
+    this.props.ImageClick(id);
   };
 
   render() {
@@ -30,4 +32,11 @@ class MoviesList extends React.Component {
   }
 }
 
-export default MoviesList;
+const mapStateToProps = state => ({
+  moviesData: state.movies.moviesData
+});
+
+export default connect(
+  mapStateToProps,
+  { imageClick }
+)(MoviesList);

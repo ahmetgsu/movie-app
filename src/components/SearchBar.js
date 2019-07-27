@@ -1,4 +1,6 @@
 import React from "react";
+import { connect } from "react-redux";
+import { buttonClick } from "../actions/movieActions";
 
 class SearchBar extends React.Component {
   state = {
@@ -7,13 +9,12 @@ class SearchBar extends React.Component {
 
   handleChange = e => {
     this.setState({ searchTerm: e.target.value });
-    //this.props.onInputChange(e.target.value);
   };
 
   handleClick = e => {
     e.preventDefault();
 
-    this.props.onButtonClick(this.state.searchTerm);
+    this.props.buttonClick(this.state.searchTerm);
   };
 
   render() {
@@ -43,4 +44,7 @@ class SearchBar extends React.Component {
   }
 }
 
-export default SearchBar;
+export default connect(
+  null,
+  { buttonClick }
+)(SearchBar);

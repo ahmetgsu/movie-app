@@ -1,7 +1,7 @@
 import React from "react";
+import { connect } from "react-redux";
 
 class MovieCard extends React.Component {
-
   render() {
     const { selectedMovieData } = this.props;
     //const infoArray = ["RELEASED", "IMDB RATING", "GENRE", "RUNTIME"]
@@ -47,7 +47,11 @@ class MovieCard extends React.Component {
   }
 }
 
-export default MovieCard;
+const mapStateToProps = state => ({
+  selectedMovieData: state.movies.selectedMovieData
+});
+
+export default connect(mapStateToProps)(MovieCard);
 
 // {infoArray.map(item => (
 //   <div className="ui four wide column">

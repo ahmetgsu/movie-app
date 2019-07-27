@@ -15,6 +15,13 @@ export const buttonClick = movieName => dispatch => {
   });
 };
 
+export const imageClick = id => dispatch => {
+  dispatch({
+    type: SELECTED_MOVIE_ID,
+    payload: id
+  });
+};
+
 export const fetchMovies = title => dispatch => {
   axios
     .get(`http://www.omdbapi.com/?apikey=bf24a0f8&type=movie&s=${title}`)
@@ -44,4 +51,19 @@ export const fetchMovies = title => dispatch => {
     .catch(err => {
       console.log("Opps", err.message);
     });
+};
+
+export const fetchSelectedMovie = imdbID => dispatch => {
+  axios.get(`http://www.omdbapi.com/?apikey=bf24a0f8&i=${imdbID}`).then(res => {
+    console.log(res.data);
+    const selectedMovieData = res.data;
+    dispatch({
+      type: FETCH_SELECTED_MOVIE,
+      payload: selectedMovieData
+    });
+    dispatch({
+      type: RENDER_CONDITION,
+      payload: "MOVIES_CARD"
+    });
+  });
 };

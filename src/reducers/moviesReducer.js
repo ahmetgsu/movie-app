@@ -34,10 +34,20 @@ export default function(state = initialState, action) {
         errorMessage: action.payload
       };
     case MOVIE_TITLE:
-        return {
-          ...state,
-          title: action.payload
-        };
+      return {
+        ...state,
+        title: action.payload
+      };
+    case SELECTED_MOVIE_ID:
+      return {
+        ...state,
+        selectedMovieID: action.payload
+      };
+    case FETCH_SELECTED_MOVIE:
+      return {
+        ...state,
+        selectedMovieData: action.payload
+      };
     default:
       return state;
   }
