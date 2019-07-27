@@ -8,12 +8,19 @@ import {
 } from "./types";
 import axios from "axios";
 
-export const buttonClick = movieName => dispatch => {
+export const inputChange = movieName => dispatch => {
   dispatch({
     type: MOVIE_TITLE,
     payload: movieName
   });
 };
+
+// export const buttonClick = movieName => dispatch => {
+//   dispatch({
+//     type: MOVIE_TITLE,
+//     payload: movieName
+//   });
+// };
 
 export const imageClick = id => dispatch => {
   dispatch({
@@ -23,8 +30,9 @@ export const imageClick = id => dispatch => {
 };
 
 export const fetchMovies = title => dispatch => {
+  console.log(`function invoked`);
   axios
-    .get(`http://www.omdbapi.com/?apikey=bf24a0f8&type=movie&s=${title}`)
+    .get(`http://www.omdbapi.com/?apikey=bf24a0f8&s=${title}`)
     .then(res => {
       if (res.data.Search) {
         const moviesData = res.data.Search;
@@ -54,6 +62,7 @@ export const fetchMovies = title => dispatch => {
 };
 
 export const fetchSelectedMovie = imdbID => dispatch => {
+  console.log(`fetchSelectedMovie function invoked`);
   axios.get(`http://www.omdbapi.com/?apikey=bf24a0f8&i=${imdbID}`).then(res => {
     console.log(res.data);
     const selectedMovieData = res.data;

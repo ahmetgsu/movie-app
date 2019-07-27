@@ -1,14 +1,31 @@
 import "../styles/MoviesList.css";
 import React from "react";
 import { connect } from "react-redux";
-import { imageClick } from "../actions/movieActions";
+import { imageClick, fetchMovies } from "../actions/movieActions";
 
 class MoviesList extends React.Component {
   handleClick = id => {
     console.log(id);
 
-    this.props.ImageClick(id);
+    this.props.imageClick(id);
   };
+  // componentDidMount() {
+  //   console.log(`component mounted`);
+  //   this.props.fetchMovies(this.props.title);
+  // }
+
+  // componentWillUpdate(prevProps) {
+  //   console.log(prevProps);
+  //   if (this.props.title !== prevProps.title) {
+  //     this.props.fetchMovies(this.props.title);
+  //   }
+  // }
+  // componentWillReceiveProps(nextProps) {
+  //   console.log(nextProps.title);
+  //   if (nextProps.title) {
+  //     this.props.fetchMovies(nextProps.title);
+  //   }
+  // }
 
   render() {
     const { moviesData } = this.props;
@@ -33,10 +50,11 @@ class MoviesList extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  moviesData: state.movies.moviesData
+  moviesData: state.movies.moviesData,
+  title: state.movies.title
 });
 
 export default connect(
   mapStateToProps,
-  { imageClick }
+  { imageClick, fetchMovies }
 )(MoviesList);
