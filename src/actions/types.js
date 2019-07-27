@@ -4,4 +4,3 @@ export const MOVIE_TITLE = "MOVIE_TITLE";
 export const SELECTED_MOVIE_ID = "SELECTED_MOVIE_ID";
 export const RENDER_CONDITION = "RENDER_CONDITION";
 export const ERROR_MSG = "ERROR_MSG";
-export const SEARCH_TERM = "SEARCH_TERM";

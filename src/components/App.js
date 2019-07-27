@@ -3,9 +3,7 @@ import React from "react";
 import MovieCard from "./MovieCard";
 import SearchBar from "./SearchBar";
 import MoviesList from "./MoviesList";
-//import axios from "axios";
 
-//import { fetchMovies, buttonClick } from "../actions/movieActions";
 import { connect } from "react-redux";
 
 class App extends React.Component {
