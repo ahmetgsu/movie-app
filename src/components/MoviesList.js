@@ -16,9 +16,9 @@ class MoviesList extends React.Component {
       <div>
         <div className="ui container">
           <div className="image-list">
-            {moviesData.map(item => (
+            {moviesData.map((item, index) => (
               <img
-                key={item.imdbID}
+                key={index}
                 alt={item.imdbID}
                 src={item.Poster}
                 onClick={() => this.handleClick(item.imdbID)}

@@ -4,8 +4,7 @@ import { connect } from "react-redux";
 class MovieCard extends React.Component {
   render() {
     const { selectedMovieData } = this.props;
-    console.log(selectedMovieData);
-    //const infoArray = ["RELEASED", "IMDB RATING", "GENRE", "RUNTIME"]
+    const infoArray = ["Released", "Imdb Rating", "Genre", "Runtime"];
     return (
       <div>
         <div>
@@ -19,26 +18,21 @@ class MovieCard extends React.Component {
             </div>
             <div className="content">
               <div className="ui grid">
-                <div className="ui four wide column">
-                  <span style={{ fontSize: "15px" }}>RELEASED</span>
-                  <div className="ui divider" />
-                  <strong>{selectedMovieData.Released}</strong>
-                </div>
-                <div className="ui four wide column">
-                  <span style={{ fontSize: "15px" }}>IMDB RATING</span>
-                  <div className="ui divider" />
-                  <strong>{selectedMovieData.imdbRating}</strong>
-                </div>
-                <div className="ui four wide column">
-                  <span style={{ fontSize: "15px" }}>GENRE</span>
-                  <div className="ui divider" />
-                  <strong>{selectedMovieData.Genre}</strong>
-                </div>
-                <div className="ui four wide column">
-                  <span style={{ fontSize: "15px" }}>RUNTIME</span>
-                  <div className="ui divider" />
-                  <strong>{selectedMovieData.Runtime}</strong>
-                </div>
+                {infoArray.map((item, index) => (
+                  <div key={index} className="ui four wide column">
+                    <span style={{ fontSize: "15px" }}>
+                      {item.toUpperCase()}
+                    </span>
+                    <div className="ui divider" />
+                    <strong>
+                      {
+                        selectedMovieData[
+                          item !== "Imdb Rating" ? item : "imdbRating"
+                        ]
+                      }
+                    </strong>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
@@ -53,11 +47,3 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps)(MovieCard);
-
-// {infoArray.map(item => (
-//   <div className="ui four wide column">
-//     <span style={{ fontSize: "15px" }}>{item}</span>
-//     <div className="ui divider" />
-//     <strong>{moviesData.find(elem => elem.toLocaleLowerCase('en-US') === item.toLocaleLowerCase('en-US'))}</strong>
-// </div>
-// ))}
