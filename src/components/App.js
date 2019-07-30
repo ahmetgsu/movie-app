@@ -1,10 +1,8 @@
 import React from "react";
-import { Provider } from "react-redux";
 import MovieCard from "./MovieCard";
 import SearchBar from "./SearchBar";
 import MoviesList from "./MoviesList";
 import axios from "axios";
-import store from "../store";
 
 class App extends React.Component {
   state = {
@@ -197,11 +195,7 @@ class App extends React.Component {
   };
 
   render() {
-    return (
-      <Provider store={store}>
-        <div>{this.renderContent()}</div>
-      </Provider>
-    );
+    return <div>{this.renderContent()}</div>;
   }
 }
 

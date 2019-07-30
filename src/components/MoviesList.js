@@ -1,4 +1,4 @@
-import "./MoviesList.css";
+import "./styles/MoviesList.css";
 import React from "react";
 
 class MoviesList extends React.Component {

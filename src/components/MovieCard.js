@@ -1,13 +1,9 @@
 import React from "react";
 
 class MovieCard extends React.Component {
-  componentDidMount() {
-    console.log("componentDidMount", this.props);
-  }
-
   render() {
     const { selectedMovieData } = this.props;
-    //const infoArray = ["RELEASED", "IMDB RATING", "GENRE", "RUNTIME"]
+
     return (
       <div>
         <div>
@@ -51,11 +47,3 @@ class MovieCard extends React.Component {
 }
 
 export default MovieCard;
-
-// {infoArray.map(item => (
-//   <div className="ui four wide column">
-//     <span style={{ fontSize: "15px" }}>{item}</span>
-//     <div className="ui divider" />
-//     <strong>{moviesData.find(elem => elem.toLocaleLowerCase('en-US') === item.toLocaleLowerCase('en-US'))}</strong>
-// </div>
-// ))}

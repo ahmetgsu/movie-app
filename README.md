@@ -2,7 +2,7 @@
 
 What this project is about to create a tiny movie search app by firstly using React and then implement Redux to practice my Redux knowledge.
 
-App get data from [http://www.omdbapi.com/](http://www.omdbapi.com/) This is my second React and first React-Redux project.
+App gets data from [http://www.omdbapi.com/](http://www.omdbapi.com/) This is my second React and first React-Redux project.
 
 ## Table of contents:
 
