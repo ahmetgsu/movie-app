@@ -34,6 +34,6 @@ App gets data from [http://www.omdbapi.com/](http://www.omdbapi.com/) This is my
 
 You can find below the first version of the app's screenshots:
 
-![Landing Page](https://github.com/ahmetgsu/movie-app/tree/master/src/images/01-landing-page.png)
-![Movies List](https://github.com/ahmetgsu/movie-app/tree/master/src/images/02-movie-lists.png)
-![Movie Card](https://github.com/ahmetgsu/movie-app/tree/master/src/images/03-movie-card.png)
+![Landing Page](./src/images/01-landing-page.png)
+![Movies List](./src/images/02-movie-lists.png)
+![Movie Card](./src/images/03-movie-card.png)
