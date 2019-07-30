@@ -1,6 +1,6 @@
 # Movie Search App (React.JS)
 
-What this project is about to create a tiny movie search app by firstly using React and then implement Redux to practice my Redux knowledge. 
+What this project is about to create a tiny movie search app by firstly using React and then implement Redux to practice my Redux knowledge.
 
 App get data from [http://www.omdbapi.com/](http://www.omdbapi.com/) This is my second React and first React-Redux project.
 
@@ -26,14 +26,12 @@ App get data from [http://www.omdbapi.com/](http://www.omdbapi.com/) This is my 
    - to understand lifecycle methods
    - to be able to implement different event handlers
 2. To learn and practice how to implement Redux to React project
-2. To practice JS ES6 features
-3. To learn how to use & implement semantic ui
-4. To find solutions to encountered problems
+3. To practice JS ES6 features
+4. To learn how to use & implement semantic ui
+5. To find solutions to encountered problems
 
 ## Screenshots of the App
 
 You can find below the first version of the app's screenshots:
 
-![Landing Page](https://github.com/ahmetgsu/movie-app/tree/master/src/images/01-landing-page.png)
-![Movies List](https://github.com/ahmetgsu/movie-app/tree/master/src/images/02-movie-lists.png)
-![Movie Card](https://github.com/ahmetgsu/movie-app/tree/master/src/images/03-movie-card.png)
+![App Gif](./src/images/movie-search.gif)
