@@ -93,7 +93,7 @@ class App extends React.Component {
             className="ui container"
             style={{ textAlign: "center", marginTop: "30px" }}
           >
-            Copyright &copy; {year}>
+            Copyright &copy; {year}
           </div>
         </div>
       );
