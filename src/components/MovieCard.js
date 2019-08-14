@@ -1,8 +1,10 @@
 import React from "react";
+import { connect } from "react-redux";
 
 class MovieCard extends React.Component {
   render() {
     const { selectedMovieData } = this.props;
+    const infoArray = ["Released", "Imdb Rating", "Genre", "Runtime"];
 
     return (
       <div>
@@ -17,26 +19,21 @@ class MovieCard extends React.Component {
             </div>
             <div className="content">
               <div className="ui grid">
-                <div className="ui four wide column">
-                  <span style={{ fontSize: "15px" }}>RELEASED</span>
-                  <div className="ui divider" />
-                  <strong>{selectedMovieData.Released}</strong>
-                </div>
-                <div className="ui four wide column">
-                  <span style={{ fontSize: "15px" }}>IMDB RATING</span>
-                  <div className="ui divider" />
-                  <strong>{selectedMovieData.imdbRating}</strong>
-                </div>
-                <div className="ui four wide column">
-                  <span style={{ fontSize: "15px" }}>GENRE</span>
-                  <div className="ui divider" />
-                  <strong>{selectedMovieData.Genre}</strong>
-                </div>
-                <div className="ui four wide column">
-                  <span style={{ fontSize: "15px" }}>RUNTIME</span>
-                  <div className="ui divider" />
-                  <strong>{selectedMovieData.Runtime}</strong>
-                </div>
+                {infoArray.map((item, index) => (
+                  <div key={index} className="ui four wide column">
+                    <span style={{ fontSize: "15px" }}>
+                      {item.toUpperCase()}
+                    </span>
+                    <div className="ui divider" />
+                    <strong>
+                      {
+                        selectedMovieData[
+                          item !== "Imdb Rating" ? item : "imdbRating"
+                        ]
+                      }
+                    </strong>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
@@ -46,4 +43,9 @@ class MovieCard extends React.Component {
   }
 }
 
-export default MovieCard;
+const mapStateToProps = state => ({
+  selectedMovieData: state.movies.selectedMovieData
+});
+
+export default connect(mapStateToProps)(MovieCard);
+

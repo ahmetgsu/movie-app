@@ -1,4 +1,6 @@
 import React from "react";
+import { connect } from "react-redux";
+import { inputChange, fetchMovies } from "../actions/movieActions";
 
 class SearchBar extends React.Component {
   state = {
@@ -6,14 +8,15 @@ class SearchBar extends React.Component {
   };
 
   handleChange = e => {
-    this.setState({ searchTerm: e.target.value });
-    //this.props.onInputChange(e.target.value);
+    this.setState({ searchTerm: e.target.value }, () =>
+      this.props.inputChange(this.state.searchTerm)
+    );
   };
 
-  handleClick = e => {
-    e.preventDefault();
+  handleClick = () => {
+    //console.log(`Button clicked and movie title is ${this.props.title}`);
 
-    this.props.onButtonClick(this.state.searchTerm);
+    this.props.fetchMovies(this.props.title);
   };
 
   render() {
@@ -43,4 +46,11 @@ class SearchBar extends React.Component {
   }
 }
 
-export default SearchBar;
+const mapStateToProps = state => ({
+  title: state.movies.title
+});
+
+export default connect(
+  mapStateToProps,
+  { inputChange, fetchMovies }
+)(SearchBar);

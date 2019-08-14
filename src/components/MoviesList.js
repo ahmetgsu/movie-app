@@ -1,11 +1,13 @@
-import "./styles/MoviesList.css";
+import "../styles/MoviesList.css";
 import React from "react";
+import { connect } from "react-redux";
+import { fetchSelectedMovie, fetchMovies } from "../actions/movieActions";
 
 class MoviesList extends React.Component {
   handleClick = id => {
     console.log(id);
 
-    this.props.onImageClick(id);
+    this.props.fetchSelectedMovie(id);
   };
 
   render() {
@@ -14,13 +16,12 @@ class MoviesList extends React.Component {
       <div>
         <div className="ui container">
           <div className="image-list">
-            {moviesData.map(item => (
+            {moviesData.map((item, index) => (
               <img
-                key={item.imdbID}
+                key={index}
                 alt={item.imdbID}
                 src={item.Poster}
                 onClick={() => this.handleClick(item.imdbID)}
-                style={{ cursor: "pointer" }}
               />
             ))}
           </div>
@@ -31,4 +32,12 @@ class MoviesList extends React.Component {
   }
 }
 
-export default MoviesList;
+const mapStateToProps = state => ({
+  moviesData: state.movies.moviesData,
+  title: state.movies.title
+});
+
+export default connect(
+  mapStateToProps,
+  { fetchSelectedMovie, fetchMovies }
+)(MoviesList);
