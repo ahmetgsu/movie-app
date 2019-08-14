@@ -5,6 +5,7 @@ class MovieCard extends React.Component {
   render() {
     const { selectedMovieData } = this.props;
     const infoArray = ["Released", "Imdb Rating", "Genre", "Runtime"];
+
     return (
       <div>
         <div>
@@ -47,3 +48,4 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps)(MovieCard);
+
