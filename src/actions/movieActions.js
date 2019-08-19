@@ -2,7 +2,6 @@ import {
   FETCH_MOVIES,
   FETCH_SELECTED_MOVIE,
   MOVIE_TITLE,
-  RENDER_CONDITION,
   ERROR_MSG
 } from "./types";
 import axios from "axios";
@@ -24,10 +23,6 @@ export const fetchMovies = title => dispatch => {
         dispatch({
           type: FETCH_MOVIES,
           payload: moviesData.slice(0, 10)
-        });
-        dispatch({
-          type: RENDER_CONDITION,
-          payload: "MOVIES_LIST"
         });
         dispatch({
           type: ERROR_MSG,
@@ -54,10 +49,6 @@ export const fetchSelectedMovie = imdbID => dispatch => {
     dispatch({
       type: FETCH_SELECTED_MOVIE,
       payload: selectedMovieData
-    });
-    dispatch({
-      type: RENDER_CONDITION,
-      payload: "MOVIE_CARD"
     });
   });
 };
