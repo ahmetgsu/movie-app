@@ -1,5 +1,4 @@
 export const FETCH_MOVIES = "FETCH_MOVIES";
 export const FETCH_SELECTED_MOVIE = "FETCH_SELECTED_MOVIE";
 export const MOVIE_TITLE = "MOVIE_TITLE";
-export const RENDER_CONDITION = "RENDER_CONDITION";
 export const ERROR_MSG = "ERROR_MSG";

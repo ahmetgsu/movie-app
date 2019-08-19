@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { inputChange, fetchMovies } from "../actions/movieActions";
+import { Link } from "react-router-dom";
 
 class SearchBar extends React.Component {
   state = {
@@ -34,12 +35,14 @@ class SearchBar extends React.Component {
             placeholder="Search by movie title"
             onChange={e => this.handleChange(e)}
           />
-          <button
-            className="ui positive button"
-            onClick={e => this.handleClick(e)}
-          >
-            Search
-          </button>
+          <Link to="/movies/list">
+            <button
+              className="ui positive button"
+              onClick={e => this.handleClick(e)}
+            >
+              Search
+            </button>
+          </Link>
         </div>
       </div>
     );
@@ -47,7 +50,8 @@ class SearchBar extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  title: state.movies.title
+  title: state.movies.title,
+  errorMessage: state.movies.errorMessage
 });
 
 export default connect(
