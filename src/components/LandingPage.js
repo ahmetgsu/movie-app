@@ -5,8 +5,6 @@ const LandingPage = () => {
     <div
       className="ui raised segment"
       style={{
-        height: "100px",
-        width: "500px",
         margin: "auto",
         textAlign: "center"
       }}
