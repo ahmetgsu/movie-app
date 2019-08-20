@@ -1,4 +1,4 @@
-import "../styles/MoviesList.css";
+import "./styles/MoviesList.css";
 import React from "react";
 import { connect } from "react-redux";
 import { fetchSelectedMovie } from "../actions/movieActions";
@@ -38,7 +38,7 @@ function MovieListContainer(props) {
       <div className="ui container">
         <div className="image-list">
           {moviesData.map((item, index) => (
-            <Link to="/movies/card" key={index}>
+            <Link to="/movies/container" key={index}>
               <img
                 key={index}
                 alt={item.imdbID}
@@ -59,8 +59,6 @@ function ErrorMessage(props) {
     <div
       className="ui raised segment"
       style={{
-        height: "100px",
-        width: "500px",
         margin: "auto",
         textAlign: "center"
       }}

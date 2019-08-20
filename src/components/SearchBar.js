@@ -21,19 +21,28 @@ class SearchBar extends React.Component {
     const className = `ui fluid input ${
       meta.error && meta.touched ? "error" : ""
     }`;
+
     return (
-      <div className={className}>
-        <input
-          {...input}
-          autoComplete="off"
-          placeholder="Search by movie title"
-        />
-        <button
-          className="ui positive button"
-          onClick={() => history.push("/movies/list")}
-        >
-          Search
-        </button>
+      <div>
+        <div className={className}>
+          <input
+            {...input}
+            autoComplete="off"
+            placeholder="Search by movie title"
+          />
+          <button
+            className="ui positive button"
+            onClick={() =>
+              `${
+                meta.error && meta.touched
+                  ? history.push("/")
+                  : history.push("/movies/list")
+              }`
+            }
+          >
+            Search
+          </button>
+        </div>
         {this.renderError(meta)}
       </div>
     );
@@ -48,9 +57,9 @@ class SearchBar extends React.Component {
   render() {
     // console.log(this.props);
     return (
-      <div className="search-bar ui segment" style={{ width: "500px" }}>
+      <div className="search-bar ui segment">
         <label>
-          <h3>Movie Search</h3>
+          <h3 style={{ textAlign: "center" }}>Movie Search</h3>
         </label>
         <br />
         <form

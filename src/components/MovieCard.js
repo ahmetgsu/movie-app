@@ -8,33 +8,29 @@ class MovieCard extends React.Component {
 
     return (
       <div>
-        <div>
-          <div className="ui centered card" style={{ width: "400px" }}>
-            <div className="image">
-              <img src={selectedMovieData.Poster} alt="" />
-            </div>
-            <div className="content">
-              <div className="header">{selectedMovieData.Title}</div>
-              <div className="description">{selectedMovieData.Plot}</div>
-            </div>
-            <div className="content">
-              <div className="ui grid">
-                {infoArray.map((item, index) => (
-                  <div key={index} className="ui four wide column">
-                    <span style={{ fontSize: "15px" }}>
-                      {item.toUpperCase()}
-                    </span>
-                    <div className="ui divider" />
-                    <strong>
-                      {
-                        selectedMovieData[
-                          item !== "Imdb Rating" ? item : "imdbRating"
-                        ]
-                      }
-                    </strong>
-                  </div>
-                ))}
-              </div>
+        <div className="ui centered card" style={{ width: "400px" }}>
+          <div className="image">
+            <img src={selectedMovieData.Poster} alt="" />
+          </div>
+          <div className="content" style={{ textAlign: "center" }}>
+            <div className="header">{selectedMovieData.Title}</div>
+            <div className="description">{selectedMovieData.Plot}</div>
+          </div>
+          <div className="content" style={{ textAlign: "center" }}>
+            <div className="ui grid">
+              {infoArray.map((item, index) => (
+                <div key={index} className="four wide column">
+                  <div style={{ fontSize: "15px" }}>{item.toUpperCase()}</div>
+                  <div className="ui divider" />
+                  <strong>
+                    {
+                      selectedMovieData[
+                        item !== "Imdb Rating" ? item : "imdbRating"
+                      ]
+                    }
+                  </strong>
+                </div>
+              ))}
             </div>
           </div>
         </div>
