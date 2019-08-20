@@ -1,17 +1,11 @@
 import {
   FETCH_MOVIES,
   FETCH_SELECTED_MOVIE,
-  MOVIE_TITLE,
+  //MOVIE_TITLE,
   ERROR_MSG
 } from "./types";
 import axios from "axios";
-
-// export const inputChange = movieName => dispatch => {
-//   dispatch({
-//     type: MOVIE_TITLE,
-//     payload: movieName
-//   });
-// };
+//import history from "../history";
 
 export const fetchMovies = title => dispatch => {
   console.log(`fetchMovies function invoked`);

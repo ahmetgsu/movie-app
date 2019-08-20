@@ -1,8 +1,9 @@
 import React from "react";
 import { connect } from "react-redux";
 import { fetchMovies } from "../actions/movieActions";
-import { Link } from "react-router-dom";
+//import { Link } from "react-router-dom";
 import { Field, reduxForm } from "redux-form";
+import history from "../history";
 
 class SearchBar extends React.Component {
   renderError = ({ error, touched }) => {
@@ -27,7 +28,12 @@ class SearchBar extends React.Component {
           autoComplete="off"
           placeholder="Search by movie title"
         />
-
+        <button
+          className="ui positive button"
+          onClick={() => history.push("/movies/list")}
+        >
+          Search
+        </button>
         {this.renderError(meta)}
       </div>
     );
@@ -47,13 +53,11 @@ class SearchBar extends React.Component {
           <h3>Movie Search</h3>
         </label>
         <br />
-
         <form
           onSubmit={this.props.handleSubmit(this.onSubmit)}
           className="ui form error"
         >
           <Field name="movieTitle" component={this.renderInput} />
-          <button className="ui positive button">Search</button>
         </form>
       </div>
     );
