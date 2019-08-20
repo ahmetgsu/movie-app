@@ -19,7 +19,7 @@ class MoviesList extends React.Component {
           <div className="ui container">
             <div className="image-list">
               {moviesData.map((item, index) => (
-                <Link to="/movies/card">
+                <Link to="/movies/card" key={index}>
                   <img
                     key={index}
                     alt={item.imdbID}

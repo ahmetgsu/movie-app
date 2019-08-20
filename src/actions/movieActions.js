@@ -6,15 +6,16 @@ import {
 } from "./types";
 import axios from "axios";
 
-export const inputChange = movieName => dispatch => {
-  dispatch({
-    type: MOVIE_TITLE,
-    payload: movieName
-  });
-};
+// export const inputChange = movieName => dispatch => {
+//   dispatch({
+//     type: MOVIE_TITLE,
+//     payload: movieName
+//   });
+// };
 
 export const fetchMovies = title => dispatch => {
-  //console.log(`fetchMovies function invoked`);
+  console.log(`fetchMovies function invoked`);
+  console.log(title);
   axios
     .get(`http://www.omdbapi.com/?apikey=bf24a0f8&s=${title}`)
     .then(res => {

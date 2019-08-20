@@ -1,60 +1,82 @@
 import React from "react";
 import { connect } from "react-redux";
-import { inputChange, fetchMovies } from "../actions/movieActions";
+import { fetchMovies } from "../actions/movieActions";
 import { Link } from "react-router-dom";
+import { Field, reduxForm } from "redux-form";
 
 class SearchBar extends React.Component {
-  state = {
-    searchTerm: ""
+  renderError = ({ error, touched }) => {
+    if (touched && error) {
+      return (
+        <div className="ui error message">
+          <div className="header">{error}</div>
+        </div>
+      );
+    }
   };
 
-  handleChange = e => {
-    this.setState({ searchTerm: e.target.value }, () =>
-      this.props.inputChange(this.state.searchTerm)
+  renderInput = ({ input, meta }) => {
+    // console.log(input);
+    const className = `ui fluid input ${
+      meta.error && meta.touched ? "error" : ""
+    }`;
+    return (
+      <div className={className}>
+        <input
+          {...input}
+          autoComplete="off"
+          placeholder="Search by movie title"
+        />
+
+        {this.renderError(meta)}
+      </div>
     );
   };
 
-  handleClick = () => {
-    //console.log(`Button clicked and movie title is ${this.props.title}`);
+  onSubmit = formValues => {
+    console.log(formValues);
 
-    this.props.fetchMovies(this.props.title);
+    this.props.fetchMovies(formValues.movieTitle);
   };
 
   render() {
-    //console.log("this.state.searchTerm :", this.state.searchTerm);
+    // console.log(this.props);
     return (
       <div className="search-bar ui segment" style={{ width: "500px" }}>
         <label>
           <h3>Movie Search</h3>
         </label>
         <br />
-        <div className="ui action fluid input focus">
-          <input
-            type="text"
-            value={this.state.searchTerm}
-            placeholder="Search by movie title"
-            onChange={e => this.handleChange(e)}
-          />
-          <Link to="/movies/list">
-            <button
-              className="ui positive button"
-              onClick={e => this.handleClick(e)}
-            >
-              Search
-            </button>
-          </Link>
-        </div>
+
+        <form
+          onSubmit={this.props.handleSubmit(this.onSubmit)}
+          className="ui form error"
+        >
+          <Field name="movieTitle" component={this.renderInput} />
+          <button className="ui positive button">Search</button>
+        </form>
       </div>
     );
   }
 }
 
-const mapStateToProps = state => ({
-  title: state.movies.title,
-  errorMessage: state.movies.errorMessage
-});
+const validate = formValue => {
+  console.log(formValue);
+  const error = {};
+
+  if (!formValue.movieTitle) {
+    error.movieTitle = "Please enter a movie title...";
+  }
+
+  return error;
+};
+
+const formInput = reduxForm({
+  form: "movieSearch",
+  validate
+})(SearchBar);
 
 export default connect(
-  mapStateToProps,
-  { inputChange, fetchMovies }
-)(SearchBar);
+  null,
+  { fetchMovies }
+)(formInput);
