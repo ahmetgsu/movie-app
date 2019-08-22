@@ -4,6 +4,7 @@ import { fetchMovies } from "../actions/movieActions";
 //import { Link } from "react-router-dom";
 import { Field, reduxForm } from "redux-form";
 import history from "../history";
+import GoogleAuth from "./GoogleAuth";
 
 class SearchBar extends React.Component {
   renderError = ({ error, touched }) => {
@@ -58,9 +59,7 @@ class SearchBar extends React.Component {
     // console.log(this.props);
     return (
       <div className="search-bar ui segment">
-        <label>
-          <h3 style={{ textAlign: "center" }}>Movie Search</h3>
-        </label>
+        <SearchBarHeader />
         <br />
         <form
           onSubmit={this.props.handleSubmit(this.onSubmit)}
@@ -73,8 +72,24 @@ class SearchBar extends React.Component {
   }
 }
 
+function SearchBarHeader(props) {
+  return (
+    <div className="ui grid">
+      <div className="four wide column" />
+      <div className="eight wide column">
+        <div style={{ textAlign: "center", fontSize: "1.5em" }}>
+          <strong>Movie Search</strong>
+        </div>
+      </div>
+      <div className="four wide column">
+        <GoogleAuth />
+      </div>
+    </div>
+  );
+}
+
 const validate = formValue => {
-  console.log(formValue);
+  //console.log(formValue);
   const error = {};
 
   if (!formValue.movieTitle) {
