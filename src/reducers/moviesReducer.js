@@ -2,13 +2,15 @@ import {
   FETCH_MOVIES,
   FETCH_SELECTED_MOVIE,
   MOVIE_TITLE,
-  ERROR_MSG
+  ERROR_MSG,
+  TRENDING_MOVIES
 } from "../actions/types";
 
 const initialState = {
   title: "",
   moviesData: [],
   selectedMovieData: [],
+  trendingMovies: [],
   errorMessage: ""
 };
 
@@ -33,6 +35,11 @@ export default function(state = initialState, action) {
       return {
         ...state,
         selectedMovieData: action.payload
+      };
+    case TRENDING_MOVIES:
+      return {
+        ...state,
+        trendingMovies: action.payload
       };
     default:
       return state;

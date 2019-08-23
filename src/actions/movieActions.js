@@ -1,4 +1,9 @@
-import { FETCH_MOVIES, FETCH_SELECTED_MOVIE, ERROR_MSG } from "./types";
+import {
+  FETCH_MOVIES,
+  FETCH_SELECTED_MOVIE,
+  ERROR_MSG,
+  TRENDING_MOVIES
+} from "./types";
 import axios from "axios";
 
 export const fetchMovies = title => dispatch => {
@@ -40,4 +45,18 @@ export const fetchSelectedMovie = imdbID => dispatch => {
       payload: selectedMovieData
     });
   });
+};
+
+export const fetchTrendingMovies = () => dispatch => {
+  axios
+    .get(
+      `https://api.themoviedb.org/3/trending/movie/day?api_key=9d59cf1cfa65858ed8a861785ddce025`
+    )
+    .then(res => {
+      const trendingMovies = res.data.results;
+      dispatch({
+        type: TRENDING_MOVIES,
+        payload: trendingMovies
+      });
+    });
 };
