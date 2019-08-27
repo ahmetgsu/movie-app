@@ -1,10 +1,9 @@
-//import "./styles/MoviesList.css";
+import "./styles/MoviesList.css";
 import React from "react";
 import { connect } from "react-redux";
 import { fetchSelectedMovie } from "../actions/movieActions";
-import { Grid, Image } from "semantic-ui-react";
-import _ from "lodash";
-import history from "../history";
+import { Link } from "react-router-dom";
+//import { Pagination } from "semantic-ui-react";
 
 class MoviesList extends React.Component {
   handleClick = id => {
@@ -33,45 +32,33 @@ class MoviesList extends React.Component {
 }
 
 function MovieListContainer(props) {
+  console.log(props);
   const { moviesData, handleClick } = props;
   const sortedMoviesData = moviesData
     .sort((a, b) => b.vote_count - a.vote_count)
     .filter(movie => movie.popularity >= 1.0);
   console.log("sortedMoviesData:", sortedMoviesData);
-  const newArray = _.chunk(sortedMoviesData, 5);
-
   return (
-    <Grid style={{ marginLeft: "auto", marginRight: "auto", width: "90%" }}>
-      {newArray.map((item, index) => (
-        <Grid.Row key={index} columns={5}>
-          {item.map((elem, index) => (
-            <Grid.Column key={index} style={{ textAlign: "center" }}>
-              <Image
-                fluid
-                label={{
-                  as: "a",
-                  color: "blue",
-                  content: `${elem.vote_average}`,
-                  icon: "star outline",
-                  ribbon: true
-                }}
-                src={`https://image.tmdb.org/t/p/w185${elem.poster_path}`}
-                style={{
-                  marginLeft: "auto",
-                  marginRight: "auto",
-                  cursor: "pointer"
-                }}
-                onClick={() => {
-                  handleClick(elem.id);
-                  history.push("/movies/container");
-                }}
+    <div>
+      <div className="ui container">
+        <div
+          className="image-list"
+          style={{ textAlign: "center", fontSize: "16px" }}
+        >
+          {sortedMoviesData.map((item, index) => (
+            <Link to="/movies/container" key={index}>
+              <img
+                key={index}
+                alt={item.original_title}
+                src={`https://image.tmdb.org/t/p/w500${item.poster_path}`}
+                onClick={() => handleClick(item.id)}
               />
-              <h5 style={{ margin: "auto", padding: "20px" }}>{elem.title}</h5>
-            </Grid.Column>
+              {item.title}
+            </Link>
           ))}
-        </Grid.Row>
-      ))}
-    </Grid>
+        </div>
+      </div>
+    </div>
   );
 }
 

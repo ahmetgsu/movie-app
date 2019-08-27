@@ -1,72 +1,81 @@
 import React from "react";
 import { connect } from "react-redux";
-import { fetchTrendingMovies } from "../actions/movieActions";
+import {
+  fetchTrendingMovies,
+  fetchUpcomingMovies
+} from "../actions/movieActions";
 import ItemsCarousel from "react-items-carousel";
 
 class LandingPage extends React.Component {
   state = {
-    activeItemIndex: 0
+    activeItemIndexTrending: 0,
+    activeItemIndexUpcoming: 0
   };
 
-  changeActiveItem = activeItemIndex => this.setState({ activeItemIndex });
+  changeActiveItemTrending = activeItemIndexTrending =>
+    this.setState({ activeItemIndexTrending });
+
+  changeActiveItemUpcoming = activeItemIndexUpcoming =>
+    this.setState({ activeItemIndexUpcoming });
 
   componentDidMount() {
+    this.props.fetchUpcomingMovies();
     this.props.fetchTrendingMovies();
   }
-  render() {
-    const { trendingMovies } = this.props;
-    const sortedTrendingMovies = trendingMovies.sort(
-      (a, b) => b.vote_average - a.vote_average
-    );
-    console.log(sortedTrendingMovies);
 
-    // const child = { width: `50em`, height: `100%` };
-    // const parent = { width: `60em`, height: `100%` };
+  render() {
+    const { trendingMovies, upcomingMovies } = this.props;
 
     return (
-      <div>
-        <div className="ui container">
-          <br />
-          <h3>Trending Movies</h3>
-          <ImageMap
-            trendingMovies={trendingMovies}
-            changeActiveItem={this.changeActiveItem}
-            activeItemIndex={this.state.activeItemIndex}
-          />
-        </div>
+      <div className="ui container">
+        <br />
+        <h3>Trending Movies</h3>
+        <TrendingMoviesCarousel
+          trendingMovies={trendingMovies}
+          changeActiveItem={this.changeActiveItemTrending}
+          activeItemIndex={this.state.activeItemIndexTrending}
+        />
+        <br />
+        <h3>Upcoming Movies</h3>
+        <UpcomingMoviesCarousel
+          upcomingMovies={upcomingMovies}
+          changeActiveItem={this.changeActiveItemUpcoming}
+          activeItemIndex={this.state.activeItemIndexUpcoming}
+        />
       </div>
     );
   }
 }
 
-function ImageMap(props) {
+function TrendingMoviesCarousel(props) {
   const { trendingMovies, activeItemIndex, changeActiveItem } = props;
-  const sortedTrendingMovies = trendingMovies.sort(
-    (a, b) => b.vote_average - a.vote_average
-  );
+
+  const sortedTrendingMovies = trendingMovies
+    .filter(movie => movie.popularity > 1 && movie.vote_average >= 5)
+    .sort((a, b) => b.vote_average - a.vote_average);
+  console.log(sortedTrendingMovies);
 
   return (
     <div style={{ padding: "0", maxWidth: "100%", margin: "0 auto" }}>
       <ItemsCarousel
+        gutter={25}
+        activePosition={"center"}
+        chevronWidth={60}
         numberOfCards={5}
         slidesToScroll={5}
         outsideChevron={true}
-        chevronWidth={40}
-        activePosition={"center"}
-        gutter={25}
         showSlither={false}
         firstAndLastGutter={false}
-        freeScrolling={false}
         activeItemIndex={activeItemIndex}
         requestToChangeActive={changeActiveItem}
-        rightChevron={">"}
-        leftChevron={"<"}
+        rightChevron={<i className="right chevron icon"></i>}
+        leftChevron={<i className="left chevron icon"></i>}
       >
         {sortedTrendingMovies.map((item, index) => (
           <div
             className="ui fluid image"
             key={index}
-            style={{ textAlign: "center", fontSize: "15px" }}
+            style={{ textAlign: "center", fontSize: "16px" }}
           >
             <div className="ui blue ribbon label">
               <i className="star outline icon" />
@@ -79,7 +88,57 @@ function ImageMap(props) {
             />
             <br />
             <span>
-              <strong>{item.original_title}</strong>
+              <strong>{item.title}</strong>
+            </span>
+          </div>
+        ))}
+      </ItemsCarousel>
+    </div>
+  );
+}
+
+function UpcomingMoviesCarousel(props) {
+  const { upcomingMovies, activeItemIndex, changeActiveItem } = props;
+
+  const sortedUpcomingMovies = upcomingMovies
+    .filter(movie => movie.popularity > 1)
+    .sort((a, b) => b.vote_average - a.vote_average);
+  console.log(sortedUpcomingMovies);
+
+  return (
+    <div style={{ padding: "0", maxWidth: "100%", margin: "0 auto" }}>
+      <ItemsCarousel
+        gutter={25}
+        activePosition={"center"}
+        chevronWidth={60}
+        numberOfCards={5}
+        slidesToScroll={5}
+        outsideChevron={true}
+        showSlither={false}
+        firstAndLastGutter={false}
+        activeItemIndex={activeItemIndex}
+        requestToChangeActive={changeActiveItem}
+        rightChevron={<i className="right chevron icon"></i>}
+        leftChevron={<i className="left chevron icon"></i>}
+      >
+        {sortedUpcomingMovies.map((item, index) => (
+          <div
+            className="ui fluid image"
+            key={index}
+            style={{ textAlign: "center", fontSize: "16px" }}
+          >
+            <div className="ui blue ribbon label">
+              <i className="star outline icon" />
+              {item.vote_average}
+            </div>
+            <img
+              alt={item.original_title}
+              src={`https://image.tmdb.org/t/p/w500${item.poster_path}`}
+              //onClick={() => handleClick(item.imdbID)}
+            />
+            <br />
+            <span>
+              <strong>{item.title}</strong>
             </span>
           </div>
         ))}
@@ -89,24 +148,11 @@ function ImageMap(props) {
 }
 
 const mapStateToProps = state => ({
-  trendingMovies: state.movies.trendingMovies
+  trendingMovies: state.movies.trendingMovies,
+  upcomingMovies: state.movies.upcomingMovies
 });
 
 export default connect(
   mapStateToProps,
-  { fetchTrendingMovies }
+  { fetchTrendingMovies, fetchUpcomingMovies }
 )(LandingPage);
-
-// const LandingPage = () => {
-//   return (
-//     <div
-//       className="ui raised segment"
-//       style={{
-//         margin: "auto",
-//         textAlign: "center"
-//       }}
-//     >
-//       <h3 style={{ margin: "20px auto" }}>Please make a search...</h3>
-//     </div>
-//   );
-// };

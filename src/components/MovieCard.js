@@ -4,17 +4,21 @@ import { connect } from "react-redux";
 class MovieCard extends React.Component {
   render() {
     const { selectedMovieData } = this.props;
-    const infoArray = ["Released", "Imdb Rating", "Genre", "Runtime"];
+    console.log(selectedMovieData);
+    const infoArray = ["release_date", "genres", "runtime"];
 
     return (
       <div>
         <div className="ui centered card" style={{ width: "400px" }}>
           <div className="image">
-            <img src={selectedMovieData.Poster} alt="" />
+            <img
+              src={`https://image.tmdb.org/t/p/w500${selectedMovieData.poster_path}`}
+              alt=""
+            />
           </div>
           <div className="content" style={{ textAlign: "center" }}>
-            <div className="header">{selectedMovieData.Title}</div>
-            <div className="description">{selectedMovieData.Plot}</div>
+            <div className="header">{selectedMovieData.original_title}</div>
+            <div className="description">{selectedMovieData.overview}</div>
           </div>
           <div className="content" style={{ textAlign: "center" }}>
             <div className="ui grid">
@@ -25,7 +29,9 @@ class MovieCard extends React.Component {
                   <strong>
                     {
                       selectedMovieData[
-                        item !== "Imdb Rating" ? item : "imdbRating"
+                        item !== "genres"
+                          ? item
+                          : "{genres.map(item => item.name)}"
                       ]
                     }
                   </strong>

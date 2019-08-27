@@ -18,12 +18,3 @@ const MoviesContainer = () => {
 };
 
 export default MoviesContainer;
-
-// <div className="ui container">
-//   <div className="ten wide column">
-//     <MoviesList />
-//   </div>
-//   <div className="six wide column">
-//     <MovieCard />
-//   </div>
-// </div>

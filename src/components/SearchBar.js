@@ -1,7 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
 import { fetchMovies } from "../actions/movieActions";
-//import { Link } from "react-router-dom";
 import { Field, reduxForm } from "redux-form";
 import history from "../history";
 import GoogleAuth from "./GoogleAuth";
@@ -58,7 +57,7 @@ class SearchBar extends React.Component {
   render() {
     // console.log(this.props);
     return (
-      <div className="search-bar ui segment">
+      <div className="search-bar ui segment" style={{ width: "100%" }}>
         <SearchBarHeader />
         <br />
         <form
