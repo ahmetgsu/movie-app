@@ -57,10 +57,10 @@ export const fetchMovies = title => dispatch => {
     });
 };
 
-export const fetchSelectedMovie = imdbID => async dispatch => {
+export const fetchSelectedMovie = imdbID => dispatch => {
   //console.log(`fetchSelectedMovie function invoked`);
   const API_KEY = "9d59cf1cfa65858ed8a861785ddce025";
-  await axios
+  axios
     .get(
       `https://api.themoviedb.org/3/movie/${imdbID}?api_key=${API_KEY}&append_to_response=videos`
     )
@@ -74,10 +74,10 @@ export const fetchSelectedMovie = imdbID => async dispatch => {
     });
 };
 
-export const fetchTrendingMovies = () => async dispatch => {
+export const fetchTrendingMovies = () => dispatch => {
   //console.log("fetchTrendingMovies function invoked");
   const API_KEY = "9d59cf1cfa65858ed8a861785ddce025";
-  await axios
+  axios
     .get(`https://api.themoviedb.org/3/trending/movie/day?api_key=${API_KEY}`)
     .then(res => {
       const trendingMovies = res.data.results;
@@ -88,10 +88,10 @@ export const fetchTrendingMovies = () => async dispatch => {
     });
 };
 
-export const fetchUpcomingMovies = () => async dispatch => {
+export const fetchUpcomingMovies = () => dispatch => {
   //console.log("fetchUpcomingMovies function invoked");
   const API_KEY = "9d59cf1cfa65858ed8a861785ddce025";
-  await axios
+  axios
     .get(
       `https://api.themoviedb.org/3/movie/upcoming?api_key=${API_KEY}&language=en-US&page=2`
     )

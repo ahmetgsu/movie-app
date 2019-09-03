@@ -17,6 +17,7 @@ class MoviesList extends React.Component {
       const values = queryString.parse(this.props.location.search);
       console.log(values.query);
       this.props.fetchMovies(values.query);
+      window.scrollTo(0, 0);
     } else {
       console.log("searchTerm is: ", this.props.searchTerm);
       const values = queryString.parse(this.props.searchTerm);
@@ -25,15 +26,18 @@ class MoviesList extends React.Component {
         case "trendingMovies":
           console.log("trendingMovies case fired");
           this.props.fetchTrendingMovies();
+          window.scrollTo(0, 0);
           break;
         case "upcomingMovies":
           console.log("upcomingMovies case fired");
           this.props.fetchUpcomingMovies();
+          window.scrollTo(0, 0);
           break;
         default:
           console.log("default case fired");
           console.log(values.query);
           this.props.fetchMovies(values.query);
+          window.scrollTo(0, 0);
       }
     }
   }
@@ -45,6 +49,7 @@ class MoviesList extends React.Component {
         const values = queryString.parse(this.props.location.search);
         console.log(values.query);
         this.props.fetchMovies(values.query);
+        window.scrollTo(0, 0);
       }
     } else {
       if (this.props.searchTerm !== prevProps.searchTerm) {
@@ -52,6 +57,7 @@ class MoviesList extends React.Component {
         const values = queryString.parse(this.props.searchTerm);
         console.log(values.query);
         this.props.fetchMovies(values.query);
+        window.scrollTo(0, 0);
       }
     }
   }
