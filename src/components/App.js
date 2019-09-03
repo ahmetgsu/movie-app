@@ -14,8 +14,8 @@ const App = () => {
         <div>
           <SearchBar />
           <Route path="/" exact component={LandingPage} />
-          <Route path="/movies/list" exact component={MoviesList} />
-          <Route path="/movies/container" exact component={MoviesContainer} />
+          <Route path="/movies/list" component={MoviesList} />
+          <Route path="/movies/:id/details" component={MoviesContainer} />
           <Footer />
         </div>
       </Router>

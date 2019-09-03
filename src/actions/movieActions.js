@@ -3,13 +3,29 @@ import {
   FETCH_SELECTED_MOVIE,
   ERROR_MSG,
   TRENDING_MOVIES,
-  UPCOMING_MOVIES
+  UPCOMING_MOVIES,
+  MOVIE_ID
+  // MOVIE_TITLE
 } from "./types";
 import axios from "axios";
 
+export const selectedMovieId = id => {
+  return {
+    type: MOVIE_ID,
+    payload: id
+  };
+};
+
+// export const movieTitle = searchTitle => {
+//   return {
+//     type: MOVIE_TITLE,
+//     payload: searchTitle
+//   };
+// };
+
 export const fetchMovies = title => dispatch => {
-  // console.log(`fetchMovies function invoked`);
-  // console.log(title);
+  console.log(`fetchMovies invoked`);
+  console.log(title);
   const API_KEY = "9d59cf1cfa65858ed8a861785ddce025";
   axios
     .get(
@@ -18,6 +34,7 @@ export const fetchMovies = title => dispatch => {
     .then(res => {
       if (res.data.results.length > 0) {
         const moviesData = res.data.results;
+        //console.log(moviesData);
         dispatch({
           type: FETCH_MOVIES,
           payload: moviesData
@@ -40,10 +57,10 @@ export const fetchMovies = title => dispatch => {
     });
 };
 
-export const fetchSelectedMovie = imdbID => dispatch => {
+export const fetchSelectedMovie = imdbID => async dispatch => {
   //console.log(`fetchSelectedMovie function invoked`);
   const API_KEY = "9d59cf1cfa65858ed8a861785ddce025";
-  axios
+  await axios
     .get(
       `https://api.themoviedb.org/3/movie/${imdbID}?api_key=${API_KEY}&append_to_response=videos`
     )
@@ -57,10 +74,10 @@ export const fetchSelectedMovie = imdbID => dispatch => {
     });
 };
 
-export const fetchTrendingMovies = () => dispatch => {
+export const fetchTrendingMovies = () => async dispatch => {
   //console.log("fetchTrendingMovies function invoked");
   const API_KEY = "9d59cf1cfa65858ed8a861785ddce025";
-  axios
+  await axios
     .get(`https://api.themoviedb.org/3/trending/movie/day?api_key=${API_KEY}`)
     .then(res => {
       const trendingMovies = res.data.results;
@@ -71,10 +88,10 @@ export const fetchTrendingMovies = () => dispatch => {
     });
 };
 
-export const fetchUpcomingMovies = () => dispatch => {
+export const fetchUpcomingMovies = () => async dispatch => {
   //console.log("fetchUpcomingMovies function invoked");
   const API_KEY = "9d59cf1cfa65858ed8a861785ddce025";
-  axios
+  await axios
     .get(
       `https://api.themoviedb.org/3/movie/upcoming?api_key=${API_KEY}&language=en-US&page=2`
     )

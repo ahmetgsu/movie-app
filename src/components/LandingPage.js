@@ -4,12 +4,20 @@ import {
   fetchTrendingMovies,
   fetchUpcomingMovies
 } from "../actions/movieActions";
+import { selectedMovieId } from "../actions/movieActions";
+import history from "../history";
+import { Grid, Image } from "semantic-ui-react";
 import ItemsCarousel from "react-items-carousel";
 
 class LandingPage extends React.Component {
   state = {
     activeItemIndexTrending: 0,
     activeItemIndexUpcoming: 0
+  };
+
+  handleClick = id => {
+    console.log(id);
+    this.props.selectedMovieId(id);
   };
 
   changeActiveItemTrending = activeItemIndexTrending =>
@@ -25,15 +33,16 @@ class LandingPage extends React.Component {
 
   render() {
     const { trendingMovies, upcomingMovies } = this.props;
-
+    console.log(this.props);
     return (
-      <div className="ui container">
+      <div className="ui container" style={{ width: "80%" }}>
         <br />
         <h3>Trending Movies</h3>
         <TrendingMoviesCarousel
           trendingMovies={trendingMovies}
           changeActiveItem={this.changeActiveItemTrending}
           activeItemIndex={this.state.activeItemIndexTrending}
+          handleClick={this.handleClick}
         />
         <br />
         <h3>Upcoming Movies</h3>
@@ -41,6 +50,7 @@ class LandingPage extends React.Component {
           upcomingMovies={upcomingMovies}
           changeActiveItem={this.changeActiveItemUpcoming}
           activeItemIndex={this.state.activeItemIndexUpcoming}
+          handleClick={this.handleClick}
         />
       </div>
     );
@@ -49,14 +59,14 @@ class LandingPage extends React.Component {
 
 function TrendingMoviesCarousel(props) {
   const { trendingMovies, activeItemIndex, changeActiveItem } = props;
-
+  console.log(props);
   const sortedTrendingMovies = trendingMovies
     .filter(movie => movie.popularity > 1 && movie.vote_average >= 5)
     .sort((a, b) => b.vote_average - a.vote_average);
   console.log(sortedTrendingMovies);
 
   return (
-    <div style={{ padding: "0", maxWidth: "100%", margin: "0 auto" }}>
+    <div style={{ padding: "0", width: "100%", margin: "0 auto" }}>
       <ItemsCarousel
         gutter={25}
         activePosition={"center"}
@@ -72,25 +82,36 @@ function TrendingMoviesCarousel(props) {
         leftChevron={<i className="left chevron icon"></i>}
       >
         {sortedTrendingMovies.map((item, index) => (
-          <div
-            className="ui fluid image"
-            key={index}
-            style={{ textAlign: "center", fontSize: "16px" }}
-          >
-            <div className="ui blue ribbon label">
-              <i className="star outline icon" />
-              {item.vote_average}
-            </div>
-            <img
-              alt={item.original_title}
-              src={`https://image.tmdb.org/t/p/w500${item.poster_path}`}
-              //onClick={() => handleClick(item.imdbID)}
-            />
-            <br />
-            <span>
-              <strong>{item.title}</strong>
-            </span>
-          </div>
+          <Grid key={index}>
+            <Grid.Row>
+              <Grid.Column>
+                <Image
+                  fluid
+                  label={{
+                    as: "a",
+                    color: "blue",
+                    content: `${item.vote_average}`,
+                    icon: "star outline",
+                    ribbon: true
+                  }}
+                  src={`https://image.tmdb.org/t/p/w185${item.poster_path}`}
+                  style={{
+                    marginLeft: "auto",
+                    marginRight: "auto",
+                    cursor: "pointer"
+                  }}
+                  onClick={() => {
+                    props.handleClick(item.id);
+                    history.push(
+                      `/movies/${item.id}/details?query=trendingMovies`
+                    );
+                  }}
+                />
+                <br />
+                <strong>{item.title}</strong>
+              </Grid.Column>
+            </Grid.Row>
+          </Grid>
         ))}
       </ItemsCarousel>
     </div>
@@ -99,7 +120,7 @@ function TrendingMoviesCarousel(props) {
 
 function UpcomingMoviesCarousel(props) {
   const { upcomingMovies, activeItemIndex, changeActiveItem } = props;
-
+  console.log(props);
   const sortedUpcomingMovies = upcomingMovies
     .filter(movie => movie.popularity > 1)
     .sort((a, b) => b.vote_average - a.vote_average);
@@ -122,25 +143,36 @@ function UpcomingMoviesCarousel(props) {
         leftChevron={<i className="left chevron icon"></i>}
       >
         {sortedUpcomingMovies.map((item, index) => (
-          <div
-            className="ui fluid image"
-            key={index}
-            style={{ textAlign: "center", fontSize: "16px" }}
-          >
-            <div className="ui blue ribbon label">
-              <i className="star outline icon" />
-              {item.vote_average}
-            </div>
-            <img
-              alt={item.original_title}
-              src={`https://image.tmdb.org/t/p/w500${item.poster_path}`}
-              //onClick={() => handleClick(item.imdbID)}
-            />
-            <br />
-            <span>
-              <strong>{item.title}</strong>
-            </span>
-          </div>
+          <Grid key={index}>
+            <Grid.Row>
+              <Grid.Column>
+                <Image
+                  fluid
+                  label={{
+                    as: "a",
+                    color: "blue",
+                    content: `${item.vote_average}`,
+                    icon: "star outline",
+                    ribbon: true
+                  }}
+                  src={`https://image.tmdb.org/t/p/w185${item.poster_path}`}
+                  style={{
+                    marginLeft: "auto",
+                    marginRight: "auto",
+                    cursor: "pointer"
+                  }}
+                  onClick={() => {
+                    props.handleClick(item.id);
+                    history.push(
+                      `/movies/${item.id}/details?query=upcomingMovies`
+                    );
+                  }}
+                />
+                <br />
+                <strong>{item.title}</strong>
+              </Grid.Column>
+            </Grid.Row>
+          </Grid>
         ))}
       </ItemsCarousel>
     </div>
@@ -154,5 +186,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { fetchTrendingMovies, fetchUpcomingMovies }
+  { fetchTrendingMovies, fetchUpcomingMovies, selectedMovieId }
 )(LandingPage);

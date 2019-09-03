@@ -32,13 +32,11 @@ class SearchBar extends React.Component {
           />
           <button
             className="ui positive button"
-            onClick={() =>
-              `${
-                meta.error && meta.touched
-                  ? history.push("/")
-                  : history.push("/movies/list")
-              }`
-            }
+            onClick={() => {
+              return meta.error && meta.touched
+                ? history.push("/")
+                : history.push(`/movies/list?query=${input.value}`);
+            }}
           >
             Search
           </button>
@@ -50,12 +48,11 @@ class SearchBar extends React.Component {
 
   onSubmit = formValues => {
     console.log(formValues);
-
-    this.props.fetchMovies(formValues.movieTitle);
+    history.push(`/movies/list?query=${formValues.movieTitle}`);
   };
 
   render() {
-    // console.log(this.props);
+    //console.log(this.props);
     return (
       <div className="search-bar ui segment" style={{ width: "100%" }}>
         <SearchBarHeader />
@@ -100,6 +97,7 @@ const validate = formValue => {
 
 const formInput = reduxForm({
   form: "movieSearch",
+  destroyOnUnmount: false,
   validate
 })(SearchBar);
 

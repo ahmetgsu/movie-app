@@ -1,19 +1,23 @@
 import React from "react";
 import MoviesList from "./MoviesList";
 import MovieCard from "./MovieCard";
+import { Grid } from "semantic-ui-react";
 
-const MoviesContainer = () => {
+const MoviesContainer = props => {
+  console.log(props);
   return (
-    <div className="ui grid">
-      <div className="ui row">
-        <div className="ten wide column">
-          <MoviesList />
-        </div>
-        <div className="six wide column">
-          <MovieCard />
-        </div>
-      </div>
-    </div>
+    <React.Fragment>
+      <Grid column={1}>
+        <Grid.Row>
+          <MovieCard movieId={props.match.params.id} />
+        </Grid.Row>
+      </Grid>
+      <Grid>
+        <Grid.Row>
+          <MoviesList searchTerm={props.location.search} />
+        </Grid.Row>
+      </Grid>
+    </React.Fragment>
   );
 };
 
