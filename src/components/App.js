@@ -6,13 +6,16 @@ import MoviesList from "./MoviesList";
 import Footer from "./Footer";
 import LandingPage from "./LandingPage";
 import history from "../history";
+import { Sticky } from "semantic-ui-react";
 
 const App = () => {
   return (
     <div className="ui container" style={{ width: "100%" }}>
       <Router history={history}>
         <div>
-          <SearchBar />
+          <Sticky>
+            <SearchBar />
+          </Sticky>
           <Route path="/" exact component={LandingPage} />
           <Route path="/movies/list" component={MoviesList} />
           <Route path="/movies/:id/details" component={MoviesContainer} />

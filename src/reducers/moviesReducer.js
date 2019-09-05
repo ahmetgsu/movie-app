@@ -1,6 +1,8 @@
 import {
   FETCH_MOVIES,
   FETCH_SELECTED_MOVIE,
+  FETCH_SELECTED_MOVIE_CREDITS,
+  FETCH_SELECTED_MOVIE_REVIEW,
   ERROR_MSG,
   TRENDING_MOVIES,
   UPCOMING_MOVIES,
@@ -11,6 +13,8 @@ import {
 const initialState = {
   moviesData: null,
   selectedMovieData: null,
+  selectedMovieCredits: null,
+  selectedMovieReviews: null,
   trendingMovies: [],
   upcomingMovies: [],
   errorMessage: "",
@@ -33,6 +37,16 @@ export default function(state = initialState, action) {
       return {
         ...state,
         selectedMovieData: action.payload
+      };
+    case FETCH_SELECTED_MOVIE_CREDITS:
+      return {
+        ...state,
+        selectedMovieCredits: action.payload
+      };
+    case FETCH_SELECTED_MOVIE_REVIEW:
+      return {
+        ...state,
+        selectedMovieReviews: action.payload
       };
     case TRENDING_MOVIES:
       return {

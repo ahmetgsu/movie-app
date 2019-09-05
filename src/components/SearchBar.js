@@ -4,6 +4,7 @@ import { fetchMovies } from "../actions/movieActions";
 import { Field, reduxForm } from "redux-form";
 import history from "../history";
 import GoogleAuth from "./GoogleAuth";
+// import { Sticky } from "semantic-ui-react";
 
 class SearchBar extends React.Component {
   renderError = ({ error, touched }) => {

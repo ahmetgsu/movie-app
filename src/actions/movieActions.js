@@ -4,8 +4,9 @@ import {
   ERROR_MSG,
   TRENDING_MOVIES,
   UPCOMING_MOVIES,
-  MOVIE_ID
-  // MOVIE_TITLE
+  MOVIE_ID,
+  FETCH_SELECTED_MOVIE_CREDITS,
+  FETCH_SELECTED_MOVIE_REVIEW
 } from "./types";
 import axios from "axios";
 
@@ -15,13 +16,6 @@ export const selectedMovieId = id => {
     payload: id
   };
 };
-
-// export const movieTitle = searchTitle => {
-//   return {
-//     type: MOVIE_TITLE,
-//     payload: searchTitle
-//   };
-// };
 
 export const fetchMovies = title => dispatch => {
   console.log(`fetchMovies invoked`);
@@ -62,7 +56,7 @@ export const fetchSelectedMovie = imdbID => dispatch => {
   const API_KEY = "9d59cf1cfa65858ed8a861785ddce025";
   axios
     .get(
-      `https://api.themoviedb.org/3/movie/${imdbID}?api_key=${API_KEY}&append_to_response=videos`
+      `https://api.themoviedb.org/3/movie/${imdbID}?api_key=${API_KEY}&append_to_response=videos,images&language=en-US&include_image_language=en`
     )
     .then(res => {
       const selectedMovieData = res.data;
@@ -74,11 +68,47 @@ export const fetchSelectedMovie = imdbID => dispatch => {
     });
 };
 
+export const fetchSelectedMovieReview = id => dispatch => {
+  //console.log(`fetchSelectedMovie function invoked`);
+  const API_KEY = "9d59cf1cfa65858ed8a861785ddce025";
+  axios
+    .get(
+      `https://api.themoviedb.org/3/movie/${id}/reviews?api_key=${API_KEY}&language=en-US&page=1`
+    )
+    .then(res => {
+      const selectedMovieReviews = res.data;
+      //console.log(selectedMovieData);
+      dispatch({
+        type: FETCH_SELECTED_MOVIE_REVIEW,
+        payload: selectedMovieReviews
+      });
+    });
+};
+
+export const fetchSelectedMovieCredits = imdbID => dispatch => {
+  //console.log(`fetchSelectedMovie function invoked`);
+  const API_KEY = "9d59cf1cfa65858ed8a861785ddce025";
+  axios
+    .get(
+      `https://api.themoviedb.org/3/movie/${imdbID}/credits?api_key=${API_KEY}`
+    )
+    .then(res => {
+      const selectedMovieCredits = res.data;
+      //console.log(selectedMovieCredits);
+      dispatch({
+        type: FETCH_SELECTED_MOVIE_CREDITS,
+        payload: selectedMovieCredits
+      });
+    });
+};
+
 export const fetchTrendingMovies = () => dispatch => {
   //console.log("fetchTrendingMovies function invoked");
   const API_KEY = "9d59cf1cfa65858ed8a861785ddce025";
   axios
-    .get(`https://api.themoviedb.org/3/trending/movie/day?api_key=${API_KEY}`)
+    .get(
+      `https://api.themoviedb.org/3/trending/movie/day?api_key=${API_KEY}&language=en-US`
+    )
     .then(res => {
       const trendingMovies = res.data.results;
       dispatch({
@@ -93,7 +123,7 @@ export const fetchUpcomingMovies = () => dispatch => {
   const API_KEY = "9d59cf1cfa65858ed8a861785ddce025";
   axios
     .get(
-      `https://api.themoviedb.org/3/movie/upcoming?api_key=${API_KEY}&language=en-US&page=2`
+      `https://api.themoviedb.org/3/movie/upcoming?api_key=${API_KEY}&language=en-US&page=1`
     )
     .then(res => {
       const upcomingMovies = res.data.results;

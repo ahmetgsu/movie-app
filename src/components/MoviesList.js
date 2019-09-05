@@ -148,7 +148,14 @@ function MovieListContainer(props) {
   const newArray = _.chunk(sortedMoviesData, 5);
 
   return (
-    <Grid style={{ marginLeft: "auto", marginRight: "auto", width: "90%" }}>
+    <Grid
+      style={{
+        marginLeft: "auto",
+        marginRight: "auto",
+        marginTop: "10px",
+        width: "90%"
+      }}
+    >
       {newArray.map((item, index) => (
         <Grid.Row key={index} columns={5}>
           {item.map((elem, index) => (
@@ -168,6 +175,8 @@ function MovieListContainer(props) {
                   marginRight: "auto",
                   cursor: "pointer"
                 }}
+                rounded
+                bordered
                 onClick={() => {
                   history.push(`/movies/${elem.id}/details${search}`);
                 }}

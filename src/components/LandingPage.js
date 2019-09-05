@@ -6,7 +6,7 @@ import {
 } from "../actions/movieActions";
 import { selectedMovieId } from "../actions/movieActions";
 import history from "../history";
-import { Grid, Image } from "semantic-ui-react";
+import { Grid, Image, Button } from "semantic-ui-react";
 import ItemsCarousel from "react-items-carousel";
 
 class LandingPage extends React.Component {
@@ -33,9 +33,23 @@ class LandingPage extends React.Component {
 
   render() {
     const { trendingMovies, upcomingMovies } = this.props;
+    const buttonArray = [
+      "Latest Movies",
+      "Now Playing",
+      "Popular Movies",
+      "Top Rated Movies"
+    ];
     console.log(this.props);
     return (
       <div className="ui container" style={{ width: "80%" }}>
+        <Grid columns="equal" textAlign="center" style={{ marginTop: "10px" }}>
+          {buttonArray.map((item, index) => (
+            <Grid.Column key={index}>
+              <Button>{item}</Button>
+            </Grid.Column>
+          ))}
+        </Grid>
+
         <br />
         <h3>Trending Movies</h3>
         <TrendingMoviesCarousel
@@ -44,6 +58,7 @@ class LandingPage extends React.Component {
           activeItemIndex={this.state.activeItemIndexTrending}
           handleClick={this.handleClick}
         />
+
         <br />
         <h3>Upcoming Movies</h3>
         <UpcomingMoviesCarousel
@@ -66,55 +81,45 @@ function TrendingMoviesCarousel(props) {
   console.log(sortedTrendingMovies);
 
   return (
-    <div style={{ padding: "0", width: "100%", margin: "0 auto" }}>
-      <ItemsCarousel
-        gutter={25}
-        activePosition={"center"}
-        chevronWidth={60}
-        numberOfCards={5}
-        slidesToScroll={5}
-        outsideChevron={true}
-        showSlither={false}
-        firstAndLastGutter={false}
-        activeItemIndex={activeItemIndex}
-        requestToChangeActive={changeActiveItem}
-        rightChevron={<i className="right chevron icon"></i>}
-        leftChevron={<i className="left chevron icon"></i>}
-      >
-        {sortedTrendingMovies.map((item, index) => (
-          <Grid key={index}>
-            <Grid.Row>
-              <Grid.Column>
-                <Image
-                  fluid
-                  label={{
-                    as: "a",
-                    color: "blue",
-                    content: `${item.vote_average}`,
-                    icon: "star outline",
-                    ribbon: true
-                  }}
-                  src={`https://image.tmdb.org/t/p/w185${item.poster_path}`}
-                  style={{
-                    marginLeft: "auto",
-                    marginRight: "auto",
-                    cursor: "pointer"
-                  }}
-                  onClick={() => {
-                    props.handleClick(item.id);
-                    history.push(
-                      `/movies/${item.id}/details?query=trendingMovies`
-                    );
-                  }}
-                />
-                <br />
-                <strong>{item.title}</strong>
-              </Grid.Column>
-            </Grid.Row>
-          </Grid>
-        ))}
-      </ItemsCarousel>
-    </div>
+    <ItemsCarousel
+      gutter={25}
+      activePosition={"center"}
+      chevronWidth={60}
+      numberOfCards={5}
+      slidesToScroll={5}
+      outsideChevron={true}
+      showSlither={false}
+      firstAndLastGutter={false}
+      activeItemIndex={activeItemIndex}
+      requestToChangeActive={changeActiveItem}
+      rightChevron={<i className="big grey angle double right icon"></i>}
+      leftChevron={<i className="big grey angle double left icon"></i>}
+    >
+      {sortedTrendingMovies.map((item, index) => (
+        <Grid.Column key={index}>
+          <Image
+            fluid
+            label={{
+              as: "a",
+              color: "blue",
+              content: `${item.vote_average}`,
+              icon: "star outline",
+              ribbon: true
+            }}
+            src={`https://image.tmdb.org/t/p/w185${item.poster_path}`}
+            style={{
+              cursor: "pointer"
+            }}
+            onClick={() => {
+              props.handleClick(item.id);
+              history.push(`/movies/${item.id}/details?query=trendingMovies`);
+            }}
+          />
+          <br />
+          <strong>{item.title}</strong>
+        </Grid.Column>
+      ))}
+    </ItemsCarousel>
   );
 }
 
@@ -127,55 +132,45 @@ function UpcomingMoviesCarousel(props) {
   console.log(sortedUpcomingMovies);
 
   return (
-    <div style={{ padding: "0", maxWidth: "100%", margin: "0 auto" }}>
-      <ItemsCarousel
-        gutter={25}
-        activePosition={"center"}
-        chevronWidth={60}
-        numberOfCards={5}
-        slidesToScroll={5}
-        outsideChevron={true}
-        showSlither={false}
-        firstAndLastGutter={false}
-        activeItemIndex={activeItemIndex}
-        requestToChangeActive={changeActiveItem}
-        rightChevron={<i className="right chevron icon"></i>}
-        leftChevron={<i className="left chevron icon"></i>}
-      >
-        {sortedUpcomingMovies.map((item, index) => (
-          <Grid key={index}>
-            <Grid.Row>
-              <Grid.Column>
-                <Image
-                  fluid
-                  label={{
-                    as: "a",
-                    color: "blue",
-                    content: `${item.vote_average}`,
-                    icon: "star outline",
-                    ribbon: true
-                  }}
-                  src={`https://image.tmdb.org/t/p/w185${item.poster_path}`}
-                  style={{
-                    marginLeft: "auto",
-                    marginRight: "auto",
-                    cursor: "pointer"
-                  }}
-                  onClick={() => {
-                    props.handleClick(item.id);
-                    history.push(
-                      `/movies/${item.id}/details?query=upcomingMovies`
-                    );
-                  }}
-                />
-                <br />
-                <strong>{item.title}</strong>
-              </Grid.Column>
-            </Grid.Row>
-          </Grid>
-        ))}
-      </ItemsCarousel>
-    </div>
+    <ItemsCarousel
+      gutter={25}
+      activePosition={"center"}
+      chevronWidth={60}
+      numberOfCards={5}
+      slidesToScroll={5}
+      outsideChevron={true}
+      showSlither={false}
+      firstAndLastGutter={false}
+      activeItemIndex={activeItemIndex}
+      requestToChangeActive={changeActiveItem}
+      rightChevron={<i className="big grey angle double right icon"></i>}
+      leftChevron={<i className="big grey angle double left icon"></i>}
+    >
+      {sortedUpcomingMovies.map((item, index) => (
+        <Grid.Column key={index}>
+          <Image
+            fluid
+            label={{
+              as: "a",
+              color: "blue",
+              content: `${item.vote_average}`,
+              icon: "star outline",
+              ribbon: true
+            }}
+            src={`https://image.tmdb.org/t/p/w185${item.poster_path}`}
+            style={{
+              cursor: "pointer"
+            }}
+            onClick={() => {
+              props.handleClick(item.id);
+              history.push(`/movies/${item.id}/details?query=upcomingMovies`);
+            }}
+          />
+          <br />
+          <strong>{item.title}</strong>
+        </Grid.Column>
+      ))}
+    </ItemsCarousel>
   );
 }
 
