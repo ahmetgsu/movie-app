@@ -59,8 +59,6 @@ class LandingPage extends React.Component {
           ))}
         </Grid>
         <br />
-        {}
-        <br />
         <h3 style={{ color: "white" }}>Trending Movies</h3>
         <TrendingMoviesCarousel
           trendingMovies={trendingMovies}
