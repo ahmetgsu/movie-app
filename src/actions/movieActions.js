@@ -106,30 +106,61 @@ export const fetchTrendingMovies = () => dispatch => {
   //console.log("fetchTrendingMovies function invoked");
   const API_KEY = "9d59cf1cfa65858ed8a861785ddce025";
   axios
-    .get(
-      `https://api.themoviedb.org/3/trending/movie/day?api_key=${API_KEY}&language=en-US`
-    )
-    .then(res => {
-      const trendingMovies = res.data.results;
-      dispatch({
-        type: TRENDING_MOVIES,
-        payload: trendingMovies
-      });
-    });
+    .all([
+      axios.get(
+        `https://api.themoviedb.org/3/trending/movie/day?api_key=${API_KEY}&language=en-US&page=1`
+      ),
+      axios.get(
+        `https://api.themoviedb.org/3/trending/movie/day?api_key=${API_KEY}&language=en-US&page=2`
+      )
+    ])
+    .then(
+      axios.spread((res1, res2) => {
+        const trendingMovies1 = res1.data.results;
+        const trendingMovies2 = res2.data.results;
+        console.log("page1", trendingMovies1);
+        console.log("page2", trendingMovies2);
+        const trendingMovies = [...trendingMovies1, ...trendingMovies2];
+        console.log("trendingMovies", trendingMovies);
+        dispatch({
+          type: TRENDING_MOVIES,
+          payload: trendingMovies
+        });
+      })
+    );
 };
 
 export const fetchUpcomingMovies = () => dispatch => {
   //console.log("fetchUpcomingMovies function invoked");
   const API_KEY = "9d59cf1cfa65858ed8a861785ddce025";
   axios
-    .get(
-      `https://api.themoviedb.org/3/movie/upcoming?api_key=${API_KEY}&language=en-US&page=1`
-    )
-    .then(res => {
-      const upcomingMovies = res.data.results;
-      dispatch({
-        type: UPCOMING_MOVIES,
-        payload: upcomingMovies
-      });
-    });
+    .all([
+      axios.get(
+        `https://api.themoviedb.org/3/movie/upcoming?api_key=${API_KEY}&language=en-US&page=1`
+      ),
+      axios.get(
+        `https://api.themoviedb.org/3/movie/upcoming?api_key=${API_KEY}&language=en-US&page=2`
+      )
+    ])
+    .then(
+      axios.spread((res1, res2) => {
+        const upcomingMovies1 = res1.data.results;
+        // Somestimes 1999 or 1982 movies on the list
+        const upcomingMovies1Filtered = upcomingMovies1.filter(
+          item => item.release_date.slice(0, 4) === "2019"
+        );
+        const upcomingMovies2 = res2.data.results;
+        const upcomingMovies2Filtered = upcomingMovies2.filter(
+          item => item.release_date.slice(0, 4) === "2019"
+        );
+        const upcomingMovies = [
+          ...upcomingMovies1Filtered,
+          ...upcomingMovies2Filtered
+        ];
+        dispatch({
+          type: UPCOMING_MOVIES,
+          payload: upcomingMovies
+        });
+      })
+    );
 };

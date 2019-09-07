@@ -140,11 +140,11 @@ class MoviesList extends React.Component {
 
 function MovieListContainer(props) {
   const { moviesData, search } = props;
-  console.log(search);
+  //console.log(search);
   const sortedMoviesData = moviesData
     .sort((a, b) => b.vote_count - a.vote_count)
     .filter(movie => movie.popularity >= 1.0);
-
+  console.log(sortedMoviesData);
   const newArray = _.chunk(sortedMoviesData, 5);
 
   return (
@@ -167,13 +167,15 @@ function MovieListContainer(props) {
                   color: "blue",
                   content: `${elem.vote_average}`,
                   icon: "star outline",
-                  ribbon: true
+                  ribbon: true,
+                  size: "big"
                 }}
-                src={`https://image.tmdb.org/t/p/w185${elem.poster_path}`}
+                src={`https://image.tmdb.org/t/p/w342${elem.poster_path}`}
                 style={{
                   marginLeft: "auto",
                   marginRight: "auto",
-                  cursor: "pointer"
+                  cursor: "pointer",
+                  border: "5px solid #fff"
                 }}
                 rounded
                 bordered
@@ -181,7 +183,9 @@ function MovieListContainer(props) {
                   history.push(`/movies/${elem.id}/details${search}`);
                 }}
               />
-              <h5 style={{ margin: "auto", padding: "20px" }}>{elem.title}</h5>
+              <h3 style={{ margin: "auto", padding: "20px", color: "white" }}>
+                {elem.title}
+              </h3>
             </Grid.Column>
           ))}
         </Grid.Row>

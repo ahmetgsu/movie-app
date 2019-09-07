@@ -72,29 +72,43 @@ class MovieCard extends React.Component {
       return <div className="ui message">Loading... Please wait</div>;
     } else {
       console.log("3", selectedMovieData.videos.results);
+      // const gridRowStyle = {
+      //   backgroundImage: `url(https://image.tmdb.org/t/p/w1280${selectedMovieData.backdrop_path})`,
+      //   height: "100%",
+      //   backgroudPosition: "center",
+      //   backgroundRepeat: "no-repeat",
+      //   backgroundSize: "cover"
+      // };
       return (
-        <Card
-          style={{
-            marginLeft: "auto",
-            marginRight: "auto",
-            marginTop: "10px",
-            width: "60%",
-            minWidth: "1072px"
-          }}
-        >
-          <CardHeader
-            selectedMovieData={selectedMovieData}
-            handleClickRate={this.handleClickRate}
-            selectedMovieReviews={selectedMovieReviews}
-          />
-          <CardMedia
-            selectedMovieData={selectedMovieData}
-            activeIndex={this.state.activeIndex}
-            handleClick={this.handleClick}
-          />
-          <CardDescription selectedMovieData={selectedMovieData} />
-          <CardFooter selectedMovieCredits={selectedMovieCredits} />
-        </Card>
+        <Grid>
+          <Grid.Row /*style={gridRowStyle}*/>
+            <Card
+              style={{
+                marginLeft: "auto",
+                marginRight: "auto",
+                marginTop: "10px",
+                width: "60%",
+                minWidth: "1072px"
+              }}
+            >
+              <CardHeader
+                selectedMovieData={selectedMovieData}
+                handleClickRate={this.handleClickRate}
+                selectedMovieReviews={selectedMovieReviews}
+              />
+              <CardMedia
+                selectedMovieData={selectedMovieData}
+                activeIndex={this.state.activeIndex}
+                handleClick={this.handleClick}
+              />
+              <CardDescription selectedMovieData={selectedMovieData} />
+              <CardFooter
+                selectedMovieCredits={selectedMovieCredits}
+                selectedMovieData={selectedMovieData}
+              />
+            </Card>
+          </Grid.Row>
+        </Grid>
       );
     }
   }
@@ -103,6 +117,7 @@ class MovieCard extends React.Component {
 function CardHeader(props) {
   //console.log(props);
   const { selectedMovieData, handleClickRate, selectedMovieReviews } = props;
+  const movieYear = new Date(selectedMovieData.release_date);
   return (
     <Card.Content>
       <Grid>
@@ -112,7 +127,9 @@ function CardHeader(props) {
           </Grid.Column>
           <Grid.Column width={8}>
             <Card.Header>
-              <h2>{selectedMovieData.title}</h2>
+              <h2>
+                {selectedMovieData.title} ({movieYear.getFullYear()})
+              </h2>
             </Card.Header>
             <br />
             <Card.Meta>
@@ -182,14 +199,14 @@ function CardMedia(props) {
                 ? ""
                 : selectedMovieData.videos.results[activeIndex].key
             }
-            placeholder={`https://image.tmdb.org/t/p/w500${selectedMovieData.backdrop_path}`}
+            placeholder={`https://image.tmdb.org/t/p/w1280${selectedMovieData.backdrop_path}`}
             source="youtube"
             style={{ width: "100%" }}
             iframe={{ allowFullScreen: true }}
           />
           {selectedMovieData.videos.results
             .slice(
-              1,
+              0,
               selectedMovieData.videos.results.length >= 13
                 ? 13
                 : selectedMovieData.videos.results.length
@@ -200,7 +217,7 @@ function CardMedia(props) {
                 style={{ marginTop: "5px" }}
                 size="small"
                 key={index}
-                onClick={() => handleClick(`${index + 1}`)}
+                onClick={() => handleClick(`${index}`)}
               />
             ))}
         </Grid.Column>
@@ -223,7 +240,7 @@ function CardDescription(props) {
 
 function CardFooter(props) {
   console.log(props);
-  const { selectedMovieCredits } = props;
+  const { selectedMovieCredits, selectedMovieData } = props;
   return (
     <Card.Content>
       <Grid.Row>
@@ -241,6 +258,10 @@ function CardFooter(props) {
         <br />
         <span style={{ color: "dodgerblue" }}>
           <strong>See full cast and crew</strong>
+          {/* <FullCastModal
+            selectedMovieCredits={selectedMovieCredits}
+            selectedMovieData={selectedMovieData}
+          /> */}
         </span>
       </Grid.Row>
     </Card.Content>
@@ -297,9 +318,52 @@ function ReviewModal(props) {
 
 // function FullCastModal(props) {
 //   console.log(props);
-//   const { } = props;
+//   const { selectedMovieCredits, selectedMovieData } = props;
 //   return (
-
+//     <Modal trigger={<strong>See full cast and crew</strong>}>
+//       <Modal.Header>
+//         {selectedMovieData.title} ({selectedMovieData.release_date.slice(0, 4)})
+//         <br />
+//         Full Cast & Crew
+//       </Modal.Header>
+//       <Modal.Content image scrolling>
+//         <Image
+//           size="large"
+//           /*src={`https://image.tmdb.org/t/p/w342${props.selectedMovieData.poster_path}`}*/
+//           wrapped
+//         />
+//         <Modal.Description>
+//           {selectedMovieCredits.results.map((item, index) => (
+//             <React.Fragment key={index}>
+//               <Header as="h3">Author: {item.author}</Header>
+//               <Container textAlign="justified" style={{ fontSize: "18px" }}>
+//                 {item.content.length > 500
+//                   ? `${item.content.slice(0, 500)}...`
+//                   : item.content}
+//               </Container>
+//               <br />
+//               {item.content.length > 500 ? (
+//                 <Container>
+//                   To read the whole content please visit:{" "}
+//                   <strong>
+//                     <a
+//                       href={item.url}
+//                       target="_blank"
+//                       rel="noopener noreferrer"
+//                     >
+//                       {item.url}
+//                     </a>
+//                   </strong>
+//                 </Container>
+//               ) : null}
+//             </React.Fragment>
+//           ))}
+//         </Modal.Description>
+//       </Modal.Content>
+//       <Modal.Actions>
+//         <Container></Container>
+//       </Modal.Actions>
+//     </Modal>
 //   );
 // }
 
