@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-//import _ from "lodash";
+import _ from "lodash";
 import {
   fetchSelectedMovie,
   fetchSelectedMovieCredits,
@@ -25,7 +25,8 @@ class MovieCard extends React.Component {
   state = {
     activeIndex: 0,
     iconClicked: false,
-    modalOpen: false
+    modalOpen: false,
+    isHovered: false
   };
   // componentDidMount works when a movie is clicked on MovieList
   componentDidMount() {
@@ -53,7 +54,6 @@ class MovieCard extends React.Component {
 
   handleIconClick = () => {
     const { iconClicked } = this.state;
-    console.log(iconClicked);
     this.setState({ iconClicked: !iconClicked });
   };
 
@@ -63,6 +63,10 @@ class MovieCard extends React.Component {
 
   handleClose = () => {
     this.setState({ modalOpen: false });
+  };
+
+  handleHover = () => {
+    this.setState(prevState => ({ isHovered: !prevState.isHovered }));
   };
 
   handleClickRate = () => {};
@@ -89,25 +93,18 @@ class MovieCard extends React.Component {
       return <div className="ui message">Loading... Please wait</div>;
     } else {
       console.log("3", selectedMovieData.videos.results);
-      // const gridRowStyle = {
-      //   backgroundImage: `url(https://image.tmdb.org/t/p/w1280${selectedMovieData.backdrop_path})`,
-      //   height: "100%",
-      //   backgroudPosition: "center",
-      //   backgroundRepeat: "no-repeat",
-      //   backgroundSize: "cover"
-      // };
+
+      const cardStyle = {
+        marginLeft: "auto",
+        marginRight: "auto",
+        marginTop: "10px",
+        width: "60%",
+        minWidth: "1072px"
+      };
       return (
         <Grid>
           <Grid.Row>
-            <Card
-              style={{
-                marginLeft: "auto",
-                marginRight: "auto",
-                marginTop: "10px",
-                width: "60%",
-                minWidth: "1072px"
-              }}
-            >
+            <Card style={cardStyle}>
               <CardHeader
                 selectedMovieData={selectedMovieData}
                 handleClickRate={this.handleClickRate}
@@ -117,6 +114,8 @@ class MovieCard extends React.Component {
                 handleOpen={this.handleOpen}
                 handleClose={this.handleClose}
                 open={this.state.modalOpen}
+                handleHover={this.handleHover}
+                isHovered={this.state.isHovered}
               />
               <CardMedia
                 selectedMovieData={selectedMovieData}
@@ -146,7 +145,9 @@ function CardHeader(props) {
     handleIconClick,
     handleOpen,
     handleClose,
-    open
+    open,
+    handleHover,
+    isHovered
   } = props;
   const movieYear = new Date(selectedMovieData.release_date);
   return (
@@ -162,11 +163,12 @@ function CardHeader(props) {
               }
               hoverable
               inverted
+              flowing
               position="bottom left"
               style={{
                 opacity: 0.9,
                 border: "5px #33112c",
-                padding: "2em",
+                padding: "0.8em",
                 fontWeight: "bold"
               }}
               trigger={
@@ -215,15 +217,40 @@ function CardHeader(props) {
                 </h2>
                 <h4 style={{ marginTop: "0px", marginLeft: "5px" }}> /10</h4>
               </Menu.Item>
-              <Menu.Item
-                name="Rate movie"
-                icon="star outline"
-                onClick={() => handleClickRate()}
-                style={{
-                  fontSize: "19px",
-                  padding: "10px",
-                  fontWeight: "bold"
-                }}
+              <Popup
+                flowing
+                content={_.times(11, i =>
+                  i === 0 ? (
+                    <Icon
+                      name={isHovered ? "times circle outline" : "times circle"}
+                      color={isHovered ? "red" : ""}
+                      key={i}
+                      size="large"
+                    />
+                  ) : (
+                    <Icon
+                      name="star"
+                      key={i}
+                      size="large"
+                      style={{ marginleft: "6px", marginRight: "6px" }}
+                    />
+                  )
+                )}
+                position="left center"
+                hoverable
+                inverted
+                trigger={
+                  <Menu.Item
+                    name="Rate movie"
+                    icon="star outline"
+                    onClick={() => handleClickRate()}
+                    style={{
+                      fontSize: "19px",
+                      padding: "10px",
+                      fontWeight: "bold"
+                    }}
+                  />
+                }
               />
             </Menu>
           </Grid.Column>
@@ -469,3 +496,11 @@ export default connect(
   mapStateToProps,
   { fetchSelectedMovie, fetchSelectedMovieCredits, fetchSelectedMovieReview }
 )(MovieCard);
+
+// const gridRowStyle = {
+//   backgroundImage: `url(https://image.tmdb.org/t/p/w1280${selectedMovieData.backdrop_path})`,
+//   height: "100%",
+//   backgroudPosition: "center",
+//   backgroundRepeat: "no-repeat",
+//   backgroundSize: "cover"
+// };

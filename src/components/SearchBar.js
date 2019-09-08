@@ -60,7 +60,7 @@ class SearchBar extends React.Component {
           width: "100%",
           zIndex: "2",
           backgroundColor: "#333",
-          minWidth: "1100px"
+          minWidth: "960px"
         }}
       >
         <SearchBarHeader />

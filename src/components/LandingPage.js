@@ -45,7 +45,7 @@ class LandingPage extends React.Component {
     ];
     //console.log(this.props);
     return (
-      <Container style={{ width: "80%" }}>
+      <Container style={{ width: "80%", minWidth: "1020px" }}>
         <Grid columns="equal" textAlign="center" style={{ marginTop: "10px" }}>
           {buttonArray.map((item, index) => (
             <Grid.Column key={index}>
