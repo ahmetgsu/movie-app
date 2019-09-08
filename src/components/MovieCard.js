@@ -16,13 +16,16 @@ import {
   Modal,
   Header,
   Container,
-  Menu
+  Menu,
+  Popup
 } from "semantic-ui-react";
 
 class MovieCard extends React.Component {
   // state will be used to change Movie trailer via buttons
   state = {
-    activeIndex: 0
+    activeIndex: 0,
+    iconClicked: false,
+    modalOpen: false
   };
   // componentDidMount works when a movie is clicked on MovieList
   componentDidMount() {
@@ -48,6 +51,20 @@ class MovieCard extends React.Component {
     this.setState({ activeIndex: videoNumber });
   };
 
+  handleIconClick = () => {
+    const { iconClicked } = this.state;
+    console.log(iconClicked);
+    this.setState({ iconClicked: !iconClicked });
+  };
+
+  handleOpen = () => {
+    this.setState({ modalOpen: true });
+  };
+
+  handleClose = () => {
+    this.setState({ modalOpen: false });
+  };
+
   handleClickRate = () => {};
 
   // handleClickReview = id => {
@@ -55,7 +72,7 @@ class MovieCard extends React.Component {
   // };
 
   render() {
-    console.log(this.props);
+    console.log(this.state.iconClicked);
     const {
       selectedMovieData,
       selectedMovieCredits,
@@ -81,7 +98,7 @@ class MovieCard extends React.Component {
       // };
       return (
         <Grid>
-          <Grid.Row /*style={gridRowStyle}*/>
+          <Grid.Row>
             <Card
               style={{
                 marginLeft: "auto",
@@ -95,6 +112,11 @@ class MovieCard extends React.Component {
                 selectedMovieData={selectedMovieData}
                 handleClickRate={this.handleClickRate}
                 selectedMovieReviews={selectedMovieReviews}
+                iconClicked={this.state.iconClicked}
+                handleIconClick={this.handleIconClick}
+                handleOpen={this.handleOpen}
+                handleClose={this.handleClose}
+                open={this.state.modalOpen}
               />
               <CardMedia
                 selectedMovieData={selectedMovieData}
@@ -116,14 +138,47 @@ class MovieCard extends React.Component {
 
 function CardHeader(props) {
   //console.log(props);
-  const { selectedMovieData, handleClickRate, selectedMovieReviews } = props;
+  const {
+    selectedMovieData,
+    handleClickRate,
+    selectedMovieReviews,
+    iconClicked,
+    handleIconClick,
+    handleOpen,
+    handleClose,
+    open
+  } = props;
   const movieYear = new Date(selectedMovieData.release_date);
   return (
     <Card.Content>
       <Grid>
         <Grid.Row>
-          <Grid.Column width={2} verticalAlign="middle">
-            <Icon name="bookmark outline" size="huge" color="blue" />
+          <Grid.Column width={2} verticalAlign="middle" textAlign="center">
+            <Popup
+              content={
+                iconClicked === false
+                  ? "+ Add movie to watchlist"
+                  : "Movie successfully added to watchlist"
+              }
+              hoverable
+              inverted
+              position="bottom left"
+              style={{
+                opacity: 0.9,
+                border: "5px #33112c",
+                padding: "2em",
+                fontWeight: "bold"
+              }}
+              trigger={
+                <Icon
+                  name={iconClicked === false ? "bookmark outline" : "check"}
+                  size="huge"
+                  color={iconClicked === false ? "blue" : "green"}
+                  link
+                  onClick={() => handleIconClick()}
+                />
+              }
+            />
           </Grid.Column>
           <Grid.Column width={8}>
             <Card.Header>
@@ -148,6 +203,9 @@ function CardHeader(props) {
                 <ReviewModal
                   selectedMovieData={selectedMovieData}
                   selectedMovieReviews={selectedMovieReviews}
+                  handleOpen={handleOpen}
+                  handleClose={handleClose}
+                  open={open}
                 />
               </Menu.Item>
               <Menu.Item>
@@ -240,12 +298,15 @@ function CardDescription(props) {
 
 function CardFooter(props) {
   console.log(props);
-  const { selectedMovieCredits, selectedMovieData } = props;
+  const { selectedMovieCredits /*selectedMovieData*/ } = props;
   return (
     <Card.Content>
       <Grid.Row>
         <strong>Director: </strong>
-        {selectedMovieCredits.crew.find(item => item.job === "Director").name}
+        {/* to handle error in case of no crew information */}
+        {selectedMovieCredits.crew.length !== 0
+          ? selectedMovieCredits.crew.find(item => item.job === "Director").name
+          : ""}
       </Grid.Row>
       <Grid.Row>
         <strong>Stars: </strong>
@@ -270,9 +331,16 @@ function CardFooter(props) {
 
 function ReviewModal(props) {
   //console.log(props);
+  const { handleOpen, handleClose, open } = props;
   return (
     <Modal
-      trigger={<p style={{ cursor: "pointer", fontSize: "19px" }}>Reviews</p>}
+      trigger={
+        <p onClick={handleOpen} style={{ cursor: "pointer", fontSize: "19px" }}>
+          Reviews
+        </p>
+      }
+      open={open}
+      onClose={handleClose}
     >
       <Modal.Header>{props.selectedMovieData.title} Reviews</Modal.Header>
       <Modal.Content image scrolling>
@@ -310,7 +378,9 @@ function ReviewModal(props) {
         </Modal.Description>
       </Modal.Content>
       <Modal.Actions>
-        <Container></Container>
+        <Button color="red" onClick={handleClose}>
+          Close <Icon name="close" />
+        </Button>
       </Modal.Actions>
     </Modal>
   );

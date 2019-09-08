@@ -4,7 +4,7 @@ import { fetchMovies } from "../actions/movieActions";
 import { Field, reduxForm } from "redux-form";
 import history from "../history";
 import GoogleAuth from "./GoogleAuth";
-import { Grid, Icon, Segment, Form } from "semantic-ui-react";
+import { Grid, Icon, Segment, Form, Button } from "semantic-ui-react";
 
 class SearchBar extends React.Component {
   renderError = ({ error, touched }) => {
@@ -55,9 +55,15 @@ class SearchBar extends React.Component {
 
   render() {
     return (
-      <Segment style={{ width: "100%", zIndex: "2", backgroundColor: "#333" }}>
+      <Segment
+        style={{
+          width: "100%",
+          zIndex: "2",
+          backgroundColor: "#333",
+          minWidth: "1100px"
+        }}
+      >
         <SearchBarHeader />
-        <br />
         <Form
           onSubmit={this.props.handleSubmit(this.onSubmit)}
           className="ui form error"
@@ -71,8 +77,8 @@ class SearchBar extends React.Component {
 
 function SearchBarHeader(props) {
   return (
-    <Grid>
-      <Grid.Column width={4} verticalAlign="middle">
+    <Grid style={{ marginBottom: "1px" }}>
+      <Grid.Column width={1} verticalAlign="middle">
         <Icon
           name="home"
           size="big"
@@ -82,14 +88,24 @@ function SearchBarHeader(props) {
           inverted
         />
       </Grid.Column>
+      <Grid.Column width={2}></Grid.Column>
       <Grid.Column
-        width={8}
         verticalAlign="middle"
-        style={{ textAlign: "center", fontSize: "1.5em", color: "white" }}
+        width={9}
+        style={{ textAlign: "center", fontSize: "2em", color: "white" }}
       >
         <strong>Movie Search</strong>
       </Grid.Column>
-      <Grid.Column width={4}>
+      <Grid.Column width={2}>
+        <Button
+          inverted
+          content="Watchlist"
+          icon="heart"
+          floated="right"
+          style={{ minWidth: "122px" }}
+        />
+      </Grid.Column>
+      <Grid.Column width={2}>
         <GoogleAuth />
       </Grid.Column>
     </Grid>

@@ -1,5 +1,5 @@
 import React from "react";
-import { Container, Image, Grid } from "semantic-ui-react";
+import { Image, Grid } from "semantic-ui-react";
 
 const Footer = () => {
   const today = new Date();
