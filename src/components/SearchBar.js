@@ -54,6 +54,7 @@ class SearchBar extends React.Component {
   };
 
   render() {
+    const { watchlistedNumber } = this.props;
     return (
       <Segment
         style={{
@@ -63,7 +64,7 @@ class SearchBar extends React.Component {
           minWidth: "960px"
         }}
       >
-        <SearchBarHeader />
+        <SearchBarHeader watchlistedNumber={watchlistedNumber} />
         <Form
           onSubmit={this.props.handleSubmit(this.onSubmit)}
           className="ui form error"
@@ -76,6 +77,7 @@ class SearchBar extends React.Component {
 }
 
 function SearchBarHeader(props) {
+  const { watchlistedNumber } = props;
   return (
     <Grid style={{ marginBottom: "1px" }}>
       <Grid.Column width={1} verticalAlign="middle">
@@ -99,7 +101,11 @@ function SearchBarHeader(props) {
       <Grid.Column width={2}>
         <Button
           inverted
-          content="Watchlist"
+          content={
+            watchlistedNumber === null
+              ? "Watchlist"
+              : `Watchlist (${watchlistedNumber})`
+          }
           icon="heart"
           floated="right"
           style={{ minWidth: "122px" }}
@@ -123,6 +129,13 @@ const validate = formValue => {
   return error;
 };
 
+const mapStateToProps = state => {
+  //console.log("state.userActions: ", state.userActions);
+  return {
+    watchlistedNumber: state.userActions.watchlistedNumber
+  };
+};
+
 const formInput = reduxForm({
   form: "movieSearch",
   destroyOnUnmount: false,
@@ -130,6 +143,6 @@ const formInput = reduxForm({
 })(SearchBar);
 
 export default connect(
-  null,
+  mapStateToProps,
   { fetchMovies }
 )(formInput);

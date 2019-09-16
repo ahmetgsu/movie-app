@@ -25,7 +25,10 @@ class App extends React.Component {
             </Sticky>
             <Route path="/" exact component={LandingPage} />
             <Route path="/movies/list" component={MoviesList} />
-            <Route path="/movies/:id/details" component={MoviesContainer} />
+            <Route
+              path="/movies/:movieId/details"
+              component={MoviesContainer}
+            />
             <Footer />
           </div>
         </Router>

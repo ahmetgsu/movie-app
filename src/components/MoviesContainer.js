@@ -7,7 +7,7 @@ const MoviesContainer = props => {
   console.log(props);
   return (
     <React.Fragment>
-      <MovieCard movieId={props.match.params.id} />
+      <MovieCard movieId={props.match.params.movieId} />
       <Grid>
         <Grid.Row>
           <MoviesList searchTerm={props.location.search} />

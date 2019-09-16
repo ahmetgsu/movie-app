@@ -118,10 +118,10 @@ export const fetchTrendingMovies = () => dispatch => {
       axios.spread((res1, res2) => {
         const trendingMovies1 = res1.data.results;
         const trendingMovies2 = res2.data.results;
-        console.log("page1", trendingMovies1);
-        console.log("page2", trendingMovies2);
+        // console.log("page1", trendingMovies1);
+        // console.log("page2", trendingMovies2);
         const trendingMovies = [...trendingMovies1, ...trendingMovies2];
-        console.log("trendingMovies", trendingMovies);
+        // console.log("trendingMovies", trendingMovies);
         dispatch({
           type: TRENDING_MOVIES,
           payload: trendingMovies

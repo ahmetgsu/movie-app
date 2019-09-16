@@ -1,4 +1,29 @@
 {
-  "comments": [],
-  "watchlist": []
+  "reviews": [],
+  "watchlist": [
+    {
+      "movieId": 245891,
+      "userId": "110841191487109395845",
+      "id": 2
+    },
+    {
+      "movieId": 299534,
+      "userId": "110841191487109395845",
+      "id": 3
+    }
+  ],
+  "movieRates": [
+    {
+      "movieId": 299534,
+      "userRate": 9,
+      "userId": "110841191487109395845",
+      "id": 1
+    },
+    {
+      "movieId": 429617,
+      "userRate": 9,
+      "userId": "110841191487109395845",
+      "id": 2
+    }
+  ]
 }

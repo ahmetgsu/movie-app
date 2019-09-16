@@ -3,7 +3,7 @@ import { Image, Grid } from "semantic-ui-react";
 
 const Footer = () => {
   const today = new Date();
-  console.log(today);
+  //console.log(today);
   const year = today.getFullYear();
   return (
     <Grid

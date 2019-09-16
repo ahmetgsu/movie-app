@@ -15,16 +15,16 @@ class MoviesList extends React.Component {
   componentDidMount() {
     if ("location" in this.props) {
       const values = queryString.parse(this.props.location.search);
-      console.log(values.query);
+      //console.log(values.query);
       this.props.fetchMovies(values.query);
       window.scrollTo(0, 0);
     } else {
-      console.log("searchTerm is: ", this.props.searchTerm);
+      //console.log("searchTerm is: ", this.props.searchTerm);
       const values = queryString.parse(this.props.searchTerm);
-      console.log(values.query);
+      //console.log(values.query);
       switch (values.query) {
         case "trendingMovies":
-          console.log("trendingMovies case fired");
+          //console.log("trendingMovies case fired");
           this.props.fetchTrendingMovies();
           window.scrollTo(0, 0);
           break;
@@ -68,7 +68,7 @@ class MoviesList extends React.Component {
   // };
 
   render() {
-    console.log(this.props);
+    //console.log(this.props);
     if ("location" in this.props) {
       console.log("location: ", this.props.location);
       const { errorMessage, moviesData } = this.props;
@@ -94,12 +94,12 @@ class MoviesList extends React.Component {
         );
       }
     } else {
-      console.log("searchTerm: ", this.props.searchTerm);
+      //console.log("searchTerm: ", this.props.searchTerm);
 
       const searchArray = ["trendingMovies", "upcomingMovies"];
       let { errorMessage, moviesData, searchTerm } = this.props;
       const values = queryString.parse(searchTerm);
-      console.log(values.query, typeof values.query);
+      //console.log(values.query, typeof values.query);
       // checks if values.query comes from SearchBar component or LandingPage component
       if (!searchArray.includes(values.query)) {
         // values.query comes from SearchBar component
@@ -125,7 +125,7 @@ class MoviesList extends React.Component {
       } else {
         // values.query comes from LandingPage component
         moviesData = [...this.props[values.query]]; //moviesData assigned to related array trendingMovies or upcomingMovies
-        console.log("moviesData: ", moviesData);
+        //console.log("moviesData: ", moviesData);
         return (
           <MovieListContainer
             moviesData={moviesData}
@@ -144,7 +144,7 @@ function MovieListContainer(props) {
   const sortedMoviesData = moviesData
     .sort((a, b) => b.vote_count - a.vote_count)
     .filter(movie => movie.popularity >= 1.0);
-  console.log(sortedMoviesData);
+  //console.log(sortedMoviesData);
   const newArray = _.chunk(sortedMoviesData, 5);
 
   return (

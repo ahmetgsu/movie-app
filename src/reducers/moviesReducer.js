@@ -7,7 +7,6 @@ import {
   TRENDING_MOVIES,
   UPCOMING_MOVIES,
   MOVIE_ID
-  // MOVIE_TITLE
 } from "../actions/types";
 
 const initialState = {
@@ -63,11 +62,6 @@ export default function(state = initialState, action) {
         ...state,
         movieId: action.payload
       };
-    // case MOVIE_TITLE:
-    //   return {
-    //     ...state,
-    //     title: action.payload
-    //   };
     default:
       return state;
   }
