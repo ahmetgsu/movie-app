@@ -45,6 +45,7 @@ class GoogleAuth extends Component {
         <button
           onClick={this.onSignOutClick}
           className="ui right floated red google button"
+          style={{ minWidth: "115.3px" }}
         >
           <i className="sign out alternate icon" />
           Sign Out
@@ -55,6 +56,7 @@ class GoogleAuth extends Component {
         <button
           onClick={this.onSignInClick}
           className="ui right floated green google button"
+          style={{ minWidth: "115.3px" }}
         >
           <i className="google icon" />
           Sign In with Google

@@ -1,15 +1,23 @@
 import {
   FETCH_MOVIES,
   FETCH_SELECTED_MOVIE,
-  MOVIE_TITLE,
-  ERROR_MSG
+  FETCH_SELECTED_MOVIE_CREDITS,
+  FETCH_SELECTED_MOVIE_REVIEW,
+  ERROR_MSG,
+  TRENDING_MOVIES,
+  UPCOMING_MOVIES,
+  MOVIE_ID
 } from "../actions/types";
 
 const initialState = {
-  title: "",
-  moviesData: [],
-  selectedMovieData: [],
-  errorMessage: ""
+  moviesData: null,
+  selectedMovieData: null,
+  selectedMovieCredits: null,
+  selectedMovieReviews: null,
+  trendingMovies: [],
+  upcomingMovies: [],
+  errorMessage: "",
+  movieId: null
 };
 
 export default function(state = initialState, action) {
@@ -24,15 +32,35 @@ export default function(state = initialState, action) {
         ...state,
         errorMessage: action.payload
       };
-    case MOVIE_TITLE:
-      return {
-        ...state,
-        title: action.payload
-      };
     case FETCH_SELECTED_MOVIE:
       return {
         ...state,
         selectedMovieData: action.payload
+      };
+    case FETCH_SELECTED_MOVIE_CREDITS:
+      return {
+        ...state,
+        selectedMovieCredits: action.payload
+      };
+    case FETCH_SELECTED_MOVIE_REVIEW:
+      return {
+        ...state,
+        selectedMovieReviews: action.payload
+      };
+    case TRENDING_MOVIES:
+      return {
+        ...state,
+        trendingMovies: action.payload
+      };
+    case UPCOMING_MOVIES:
+      return {
+        ...state,
+        upcomingMovies: action.payload
+      };
+    case MOVIE_ID:
+      return {
+        ...state,
+        movieId: action.payload
       };
     default:
       return state;

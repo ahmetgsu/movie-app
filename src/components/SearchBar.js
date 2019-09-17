@@ -1,10 +1,10 @@
 import React from "react";
 import { connect } from "react-redux";
 import { fetchMovies } from "../actions/movieActions";
-//import { Link } from "react-router-dom";
 import { Field, reduxForm } from "redux-form";
 import history from "../history";
 import GoogleAuth from "./GoogleAuth";
+import { Grid, Icon, Segment, Form, Button } from "semantic-ui-react";
 
 class SearchBar extends React.Component {
   renderError = ({ error, touched }) => {
@@ -30,16 +30,15 @@ class SearchBar extends React.Component {
             {...input}
             autoComplete="off"
             placeholder="Search by movie title"
+            style={{ backgroundColor: "grey" }}
           />
           <button
             className="ui positive button"
-            onClick={() =>
-              `${
-                meta.error && meta.touched
-                  ? history.push("/")
-                  : history.push("/movies/list")
-              }`
-            }
+            onClick={() => {
+              return meta.error && meta.touched
+                ? history.push("/")
+                : history.push(`/movies/list?query=${input.value}`);
+            }}
           >
             Search
           </button>
@@ -51,40 +50,71 @@ class SearchBar extends React.Component {
 
   onSubmit = formValues => {
     console.log(formValues);
-
-    this.props.fetchMovies(formValues.movieTitle);
+    history.push(`/movies/list?query=${formValues.movieTitle}`);
   };
 
   render() {
-    // console.log(this.props);
+    const { watchlistedNumber } = this.props;
     return (
-      <div className="search-bar ui segment">
-        <SearchBarHeader />
-        <br />
-        <form
+      <Segment
+        style={{
+          width: "100%",
+          zIndex: "2",
+          backgroundColor: "#333",
+          minWidth: "960px"
+        }}
+      >
+        <SearchBarHeader watchlistedNumber={watchlistedNumber} />
+        <Form
           onSubmit={this.props.handleSubmit(this.onSubmit)}
           className="ui form error"
         >
           <Field name="movieTitle" component={this.renderInput} />
-        </form>
-      </div>
+        </Form>
+      </Segment>
     );
   }
 }
 
 function SearchBarHeader(props) {
+  const { watchlistedNumber } = props;
   return (
-    <div className="ui grid">
-      <div className="four wide column" />
-      <div className="eight wide column">
-        <div style={{ textAlign: "center", fontSize: "1.5em" }}>
-          <strong>Movie Search</strong>
-        </div>
-      </div>
-      <div className="four wide column">
+    <Grid style={{ marginBottom: "1px" }}>
+      <Grid.Column width={1} verticalAlign="middle">
+        <Icon
+          name="home"
+          size="big"
+          color="green"
+          onClick={() => history.push("/")}
+          link
+          inverted
+        />
+      </Grid.Column>
+      <Grid.Column width={2}></Grid.Column>
+      <Grid.Column
+        verticalAlign="middle"
+        width={9}
+        style={{ textAlign: "center", fontSize: "2em", color: "white" }}
+      >
+        <strong>Movie Search</strong>
+      </Grid.Column>
+      <Grid.Column width={2}>
+        <Button
+          inverted
+          content={
+            watchlistedNumber === null
+              ? "Watchlist"
+              : `Watchlist (${watchlistedNumber})`
+          }
+          icon="heart"
+          floated="right"
+          style={{ minWidth: "122px" }}
+        />
+      </Grid.Column>
+      <Grid.Column width={2}>
         <GoogleAuth />
-      </div>
-    </div>
+      </Grid.Column>
+    </Grid>
   );
 }
 
@@ -99,12 +129,20 @@ const validate = formValue => {
   return error;
 };
 
+const mapStateToProps = state => {
+  //console.log("state.userActions: ", state.userActions);
+  return {
+    watchlistedNumber: state.userActions.watchlistedNumber
+  };
+};
+
 const formInput = reduxForm({
   form: "movieSearch",
+  destroyOnUnmount: false,
   validate
 })(SearchBar);
 
 export default connect(
-  null,
+  mapStateToProps,
   { fetchMovies }
 )(formInput);
