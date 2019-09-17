@@ -12,6 +12,8 @@ import {
   // ICON_CLICK
 } from "./types";
 
+//USER MOVIE RATE CREATE, UPDATE & DELETE ACTIONS
+
 export const createMovieRate = (movieId, userRate) => async (
   dispatch,
   getState
@@ -31,44 +33,40 @@ export const createMovieRate = (movieId, userRate) => async (
   }
 };
 
-export const fetchMoviesRates = () => async dispatch => {
-  const response = await movieUserActions.get("/movieRates");
-
-  dispatch({ type: GET_MOVIES_RATES, payload: response.data });
+export const updateMovieRate = (movieId, userRate) => async (
+  dispatch,
+  getState
+) => {
+  const { userId } = getState().auth;
+  console.log("updateMovieRate function invoked");
+  const res1 = await movieUserActions.get("/movieRates");
+  const movie = res1.data.find(elem => elem.movieId === parseInt(movieId, 10));
+  if (movie !== undefined) {
+    const params = { userRate: userRate };
+    const response = await movieUserActions.patch(
+      `/movieRates/${movie.id}`,
+      params
+    );
+    console.log(response);
+    dispatch({ type: UPDATE_MOVIE_RATE, payload: response.data });
+  }
 };
 
-export const fetchMovieRate = movieId => async dispatch => {
-  const res1 = await movieUserActions.get("/movieRates");
-  const id = res1.data.find(elem => elem.movieId === movieId).id;
-  if (id) {
-    const response = await movieUserActions.get(`/movieRates/${id}`);
+export const deleteMovieRate = movieId => async dispatch => {
+  const response1 = await movieUserActions.get("/movieRates");
+  const movie = response1.data.find(elem => elem.movieId === movieId);
+  if (movie !== undefined) {
+    await movieUserActions.delete(`/movieRates/${movie.id}`);
     dispatch({
-      type: GET_MOVIE_RATE,
-      payload1: response.data.userRate,
-      payload2: true
+      type: DELETE_MOVIE_RATE,
+      payload: movie.id
     });
   } else {
     return;
   }
 };
 
-export const updateMovieRate = (movieId, userRate) => async dispatch => {
-  const res1 = await movieUserActions.get("/movieRates");
-  if (res1.data.find(elem => elem.movieId === movieId)) {
-  }
-  const response = await movieUserActions.put(
-    `/movieRates/${movieId}`,
-    userRate
-  );
-
-  dispatch({ type: UPDATE_MOVIE_RATE, payload: response.data });
-};
-
-export const deleteMovieRate = movieId => async dispatch => {
-  await movieUserActions.delete(`/movieRates/${movieId}`);
-
-  dispatch({ type: DELETE_MOVIE_RATE, payload: movieId });
-};
+//USER WATCHLIST CREATE & DELETE ACTIONS
 
 export const addToWatchList = movieId => async (dispatch, getState) => {
   console.log("addToWatchList invoked");
@@ -91,27 +89,6 @@ export const addToWatchList = movieId => async (dispatch, getState) => {
       payload2: res3.data.length
     });
   }
-
-  // axios
-  //   .all([
-  //     await axios.post("http://localhost:5000/watchlist", {
-  //       ...params,
-  //       userId
-  //     }),
-  //     await axios.get("http://localhost:5000/watchlist")
-  //   ])
-  //   .then(
-  //     axios.spread((res1, res2) => {
-  //       console.log("res1: ", res1, "res2: ", res2);
-  //       const watchlistedMovieNumber = res2.data.length;
-
-  //       dispatch({
-  //         type: ADD_TO_WATCHLIST,
-  //         payload1: res1.data,
-  //         payload2: watchlistedMovieNumber
-  //       });
-  //     })
-  //   );
 };
 
 export const deleteFromWatchList = movieId => async dispatch => {
@@ -126,45 +103,3 @@ export const deleteFromWatchList = movieId => async dispatch => {
     payload2: response2.data.length
   });
 };
-
-// export const addToWatchList = movieId => async (dispatch, getState) => {
-//   console.log("addToWatchList invoked");
-//   const params = {
-//     movieId: movieId
-//   };
-//   const { userId } = getState().auth;
-//   axios
-//     .all([
-//       await axios.post("http://localhost:5000/watchlist", {
-//         ...params,
-//         userId
-//       }),
-//       await axios.get("http://localhost:5000/watchlist")
-//     ])
-//     .then(
-//       axios.spread((res1, res2) => {
-//         console.log("res1: ", res1, "res2: ", res2);
-//         const watchlistedMovieNumber = res2.data.length;
-
-//         dispatch({
-//           type: ADD_TO_WATCHLIST,
-//           payload1: res1.data,
-//           payload2: watchlistedMovieNumber
-//         });
-//       })
-//     );
-// };
-
-// export const iconClicked = (movieId) => {
-//   return {
-//     type: ICON_CLICK,
-//     payload: true
-//   };
-// };
-
-// export const iconNotClicked = (movieId) => {
-//   return {
-//     type: ICON_CLICK,
-//     payload: false
-//   };
-// };

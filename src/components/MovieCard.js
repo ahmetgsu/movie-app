@@ -9,7 +9,9 @@ import {
 } from "../actions/movieActions";
 import {
   createMovieRate,
+  updateMovieRate,
   addToWatchList,
+  deleteMovieRate,
   deleteFromWatchList
 } from "../actions/userActions";
 import {
@@ -44,33 +46,60 @@ class MovieCard extends React.Component {
     this.props.fetchSelectedMovieCredits(this.props.movieId);
     this.props.fetchSelectedMovieReview(this.props.movieId);
     this.fetchMovieRate(this.props.movieId);
+    this.movieWatchlistCheck(this.props.movieId);
   }
   // componentDidUpdate works when a movie is clicked in MovieContainer
   componentDidUpdate(prevProps) {
-    if (this.props.movieId !== prevProps.movieId) {
+    if (
+      this.props.movieId !== prevProps.movieId ||
+      this.props.isSignedIn !== prevProps.isSignedIn
+    ) {
       //console.log("2-ComponentDidUpdate invoked,", this.props.movieId);
       this.props.fetchSelectedMovie(this.props.movieId);
       this.props.fetchSelectedMovieCredits(this.props.movieId);
       this.props.fetchSelectedMovieReview(this.props.movieId);
+      this.fetchMovieRate(this.props.movieId);
+      this.movieWatchlistCheck(this.props.movieId);
       // After render, go to the top of the page
       window.scrollTo(0, 0);
     }
   }
 
   fetchMovieRate = async movieId => {
-    console.log(typeof movieId);
-    console.log("fetchMovieRate invoked");
-    const res1 = await movieUserActions.get("/movieRates");
-    console.log("res1.data: ", res1.data);
-    console.log(typeof res1.data[0].movieId);
-    const id = _.find(res1.data, ["movieId", movieId]);
-    console.log(id);
-    if (id) {
-      const response = await movieUserActions.get(`/movieRates/${id}`);
-      console.log(response);
-      this.setState({ starIndex: response.data.userRate });
+    const { isSignedIn } = this.props;
+    console.log(isSignedIn);
+    if (isSignedIn) {
+      const res1 = await movieUserActions.get("/movieRates");
+      const id = _.find(
+        res1.data,
+        item => item.movieId === parseInt(movieId, 10)
+      );
+      if (id !== undefined) {
+        const response = await movieUserActions.get(`/movieRates/${id.id}`);
+        this.setState({ starIndex: response.data.userRate });
+      } else {
+        return;
+      }
     } else {
-      return;
+      return null;
+    }
+  };
+
+  movieWatchlistCheck = async movieId => {
+    const { isSignedIn } = this.props;
+    if (isSignedIn) {
+      const res1 = await movieUserActions.get("/watchlist");
+      const id = _.find(
+        res1.data,
+        item => item.movieId === parseInt(movieId, 10)
+      );
+      if (id !== undefined) {
+        this.setState({ iconClicked: true });
+      } else {
+        return;
+      }
+    } else {
+      this.setState({ iconClicked: false });
     }
   };
 
@@ -119,15 +148,22 @@ class MovieCard extends React.Component {
   handleClickStar = (movieId, index) => {
     const { isSignedIn } = this.props;
     if (isSignedIn) {
-      this.setState({ starIndex: index });
-      this.props.createMovieRate(movieId, index);
+      if (this.state.starIndex === null) {
+        this.setState({ starIndex: index });
+        this.props.createMovieRate(movieId, index);
+      } else {
+        this.setState({ starIndex: index });
+        this.props.updateMovieRate(movieId, index);
+      }
     } else {
       alert("To rate this movie, you need to sign in first");
     }
   };
 
-  handleClickTimes = () => {
+  handleClickTimes = movieId => {
+    console.log(movieId);
     this.setState({ starIndex: null });
+    this.props.deleteMovieRate(movieId);
   };
 
   // handleClickReview = id => {
@@ -135,14 +171,12 @@ class MovieCard extends React.Component {
   // };
 
   render() {
-    //console.log("MovieCard props: ", this.props);
+    console.log(this.state.starIndex, this.state.activeIndexRate);
     const {
       selectedMovieData,
       selectedMovieCredits,
       selectedMovieReviews
     } = this.props;
-    // console.log("selectedMovieData: ", selectedMovieData);
-    // console.log("selectedMovieCredits: ", selectedMovieCredits);
     if (
       selectedMovieData === null ||
       selectedMovieCredits === null ||
@@ -150,9 +184,6 @@ class MovieCard extends React.Component {
     ) {
       return <div className="ui message">Loading... Please wait</div>;
     } else {
-      //console.log("3", selectedMovieData.videos.results);
-      // console.log(this.state.activeIndexRate);
-      // console.log(this.state.isHovered);
       const cardStyle = {
         marginLeft: "auto",
         marginRight: "auto",
@@ -292,7 +323,7 @@ function CardHeader(props) {
                     <Icon
                       onMouseOver={() => handleMouseOver(i)}
                       onMouseOut={handleMouseOut}
-                      onClick={handleClickTimes}
+                      onClick={() => handleClickTimes(selectedMovieData.id)}
                       name={
                         isHovered && activeIndexRate === i
                           ? "times circle outline"
@@ -514,57 +545,6 @@ function ReviewModal(props) {
   );
 }
 
-// function FullCastModal(props) {
-//   console.log(props);
-//   const { selectedMovieCredits, selectedMovieData } = props;
-//   return (
-//     <Modal trigger={<strong>See full cast and crew</strong>}>
-//       <Modal.Header>
-//         {selectedMovieData.title} ({selectedMovieData.release_date.slice(0, 4)})
-//         <br />
-//         Full Cast & Crew
-//       </Modal.Header>
-//       <Modal.Content image scrolling>
-//         <Image
-//           size="large"
-//           /*src={`https://image.tmdb.org/t/p/w342${props.selectedMovieData.poster_path}`}*/
-//           wrapped
-//         />
-//         <Modal.Description>
-//           {selectedMovieCredits.results.map((item, index) => (
-//             <React.Fragment key={index}>
-//               <Header as="h3">Author: {item.author}</Header>
-//               <Container textAlign="justified" style={{ fontSize: "18px" }}>
-//                 {item.content.length > 500
-//                   ? `${item.content.slice(0, 500)}...`
-//                   : item.content}
-//               </Container>
-//               <br />
-//               {item.content.length > 500 ? (
-//                 <Container>
-//                   To read the whole content please visit:{" "}
-//                   <strong>
-//                     <a
-//                       href={item.url}
-//                       target="_blank"
-//                       rel="noopener noreferrer"
-//                     >
-//                       {item.url}
-//                     </a>
-//                   </strong>
-//                 </Container>
-//               ) : null}
-//             </React.Fragment>
-//           ))}
-//         </Modal.Description>
-//       </Modal.Content>
-//       <Modal.Actions>
-//         <Container></Container>
-//       </Modal.Actions>
-//     </Modal>
-//   );
-// }
-
 function dateConversion(date) {
   //console.log(date);
   const dateArray = date.split("-");
@@ -604,6 +584,8 @@ export default connect(
     fetchSelectedMovieCredits,
     fetchSelectedMovieReview,
     createMovieRate,
+    updateMovieRate,
+    deleteMovieRate,
     addToWatchList,
     deleteFromWatchList
   }
