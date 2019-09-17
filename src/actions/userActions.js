@@ -5,8 +5,8 @@ import {
   CREATE_MOVIE_RATE,
   DELETE_MOVIE_RATE,
   UPDATE_MOVIE_RATE,
-  GET_MOVIE_RATE,
-  GET_MOVIES_RATES,
+  // GET_MOVIE_RATE,
+  // GET_MOVIES_RATES,
   ADD_TO_WATCHLIST,
   DELETE_FROM_WATCHLIST
   // ICON_CLICK
@@ -33,11 +33,7 @@ export const createMovieRate = (movieId, userRate) => async (
   }
 };
 
-export const updateMovieRate = (movieId, userRate) => async (
-  dispatch,
-  getState
-) => {
-  const { userId } = getState().auth;
+export const updateMovieRate = (movieId, userRate) => async dispatch => {
   console.log("updateMovieRate function invoked");
   const res1 = await movieUserActions.get("/movieRates");
   const movie = res1.data.find(elem => elem.movieId === parseInt(movieId, 10));
