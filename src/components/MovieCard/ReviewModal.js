@@ -1,4 +1,5 @@
 import React from "react";
+import { connect } from "react-redux";
 import {
   Icon,
   Image,
@@ -8,9 +9,7 @@ import {
   Container
 } from "semantic-ui-react";
 
-function ReviewModal(props) {
-  //console.log(props);
-  const { handleOpen, handleClose, open } = props;
+const ReviewModal = ({ movieData, reviews, handleOpen, handleClose, open }) => {
   return (
     <Modal
       trigger={
@@ -21,15 +20,15 @@ function ReviewModal(props) {
       open={open}
       onClose={handleClose}
     >
-      <Modal.Header>{props.selectedMovieData.title} Reviews</Modal.Header>
+      <Modal.Header>{movieData.title} Reviews</Modal.Header>
       <Modal.Content image scrolling>
         <Image
           size="large"
-          src={`https://image.tmdb.org/t/p/w342${props.selectedMovieData.poster_path}`}
+          src={`https://image.tmdb.org/t/p/w342${movieData.poster_path}`}
           wrapped
         />
         <Modal.Description>
-          {props.selectedMovieReviews.results.map((item, index) => (
+          {reviews.results.map((item, index) => (
             <React.Fragment key={index}>
               <Header as="h3">Author: {item.author}</Header>
               <Container textAlign="justified" style={{ fontSize: "18px" }}>
@@ -63,6 +62,11 @@ function ReviewModal(props) {
       </Modal.Actions>
     </Modal>
   );
-}
+};
 
-export default ReviewModal;
+const mapStateToProps = state => ({
+  movieData: state.movies.selectedMovieData,
+  reviews: state.movies.selectedMovieReviews
+});
+
+export default connect(mapStateToProps)(ReviewModal);

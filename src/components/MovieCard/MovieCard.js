@@ -166,7 +166,6 @@ class MovieCard extends React.Component {
   // };
 
   render() {
-    console.log(this.state.starIndex, this.state.activeIndexRate);
     const {
       selectedMovieData,
       selectedMovieCredits,
@@ -189,11 +188,9 @@ class MovieCard extends React.Component {
       return (
         <Grid>
           <Grid.Row>
-            <Card style={cardStyle}>
+            <Card className="movie card" style={cardStyle}>
               <CardHeader
-                selectedMovieData={selectedMovieData}
                 handleClickRate={this.handleClickRate}
-                selectedMovieReviews={selectedMovieReviews}
                 iconClicked={this.state.iconClicked}
                 handleIconClick={this.handleIconClick}
                 handleOpen={this.handleOpen}
@@ -208,15 +205,11 @@ class MovieCard extends React.Component {
                 starIndex={this.state.starIndex}
               />
               <CardMedia
-                selectedMovieData={selectedMovieData}
                 activeIndex={this.state.activeIndex}
                 handleClick={this.handleClick}
               />
-              <CardDescription selectedMovieData={selectedMovieData} />
-              <CardFooter
-                selectedMovieCredits={selectedMovieCredits}
-                selectedMovieData={selectedMovieData}
-              />
+              <CardDescription />
+              <CardFooter />
             </Card>
           </Grid.Row>
         </Grid>

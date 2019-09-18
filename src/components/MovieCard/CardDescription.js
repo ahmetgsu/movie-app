@@ -1,16 +1,21 @@
 import React from "react";
+import { connect } from "react-redux";
 import { Card } from "semantic-ui-react";
 
-function CardDescription(props) {
+const CardDescription = props => {
   //console.log(props);
-  const { selectedMovieData } = props;
+  const { movieData } = props;
   return (
     <Card.Content>
       <Card.Description style={{ fontSize: "18px" }}>
-        {selectedMovieData.overview}
+        {movieData.overview}
       </Card.Description>
     </Card.Content>
   );
-}
+};
 
-export default CardDescription;
+const mapStateToProps = state => ({
+  movieData: state.movies.selectedMovieData
+});
+
+export default connect(mapStateToProps)(CardDescription);
