@@ -1,10 +1,10 @@
 import React, { createRef } from "react";
 import { Router, Route } from "react-router-dom";
 import MoviesContainer from "./MoviesContainer";
-import SearchBar from "./SearchBar";
-import MoviesList from "./MoviesList";
+import SearchBar from "./SearchBar/SearchBar";
+import MoviesList from "./MoviesList/MoviesList";
 import Footer from "./Footer";
-import LandingPage from "./LandingPage";
+import LandingPage from "./LandingPage/LandingPage";
 import history from "../history";
 import { Sticky } from "semantic-ui-react";
 

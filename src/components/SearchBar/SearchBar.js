@@ -1,10 +1,10 @@
 import React from "react";
 import { connect } from "react-redux";
-import { fetchMovies } from "../actions/movieActions";
+import { fetchMovies } from "../../actions/movieActions";
 import { Field, reduxForm } from "redux-form";
-import history from "../history";
-import GoogleAuth from "./GoogleAuth";
-import { Grid, Icon, Segment, Form, Button } from "semantic-ui-react";
+import history from "../../history";
+import SearchBarHeader from "./SearchBarHeader";
+import { Segment, Form } from "semantic-ui-react";
 
 class SearchBar extends React.Component {
   renderError = ({ error, touched }) => {
@@ -74,48 +74,6 @@ class SearchBar extends React.Component {
       </Segment>
     );
   }
-}
-
-function SearchBarHeader(props) {
-  const { watchlistedNumber } = props;
-  return (
-    <Grid style={{ marginBottom: "1px" }}>
-      <Grid.Column width={1} verticalAlign="middle">
-        <Icon
-          name="home"
-          size="big"
-          color="green"
-          onClick={() => history.push("/")}
-          link
-          inverted
-        />
-      </Grid.Column>
-      <Grid.Column width={2}></Grid.Column>
-      <Grid.Column
-        verticalAlign="middle"
-        width={9}
-        style={{ textAlign: "center", fontSize: "2em", color: "white" }}
-      >
-        <strong>Movie Search</strong>
-      </Grid.Column>
-      <Grid.Column width={2}>
-        <Button
-          inverted
-          content={
-            watchlistedNumber === null
-              ? "Watchlist"
-              : `Watchlist (${watchlistedNumber})`
-          }
-          icon="heart"
-          floated="right"
-          style={{ minWidth: "122px" }}
-        />
-      </Grid.Column>
-      <Grid.Column width={2}>
-        <GoogleAuth />
-      </Grid.Column>
-    </Grid>
-  );
 }
 
 const validate = formValue => {
