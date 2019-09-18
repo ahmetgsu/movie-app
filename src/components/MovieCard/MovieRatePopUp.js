@@ -14,7 +14,6 @@ const MovieRatePopUp = props => {
     activeIndexRate,
     starIndex
   } = props;
-  console.log(movieData);
   return (
     <Popup
       flowing
