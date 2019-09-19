@@ -1,5 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
+import MovieCardContext from "../../contexts/MovieCardContext";
 import ReviewModal from "./ReviewModal";
 import MovieRatePopUp from "./MovieRatePopUp";
 import WatchListPopUp from "./WatchListPopUp";
@@ -7,18 +8,16 @@ import dateConversion from "./dateConversion";
 import { Grid, Card, Icon, Menu } from "semantic-ui-react";
 
 class CardHeader extends React.Component {
+  static contextType = MovieCardContext;
   render() {
-    const { movieData } = this.props;
+    const { movieData, handleIconClick } = this.props;
     const movieYear = new Date(movieData.release_date);
     return (
       <Card.Content>
         <Grid>
           <Grid.Row>
             <Grid.Column width={2} verticalAlign="middle" textAlign="center">
-              <WatchListPopUp
-                iconClicked={this.props.iconClicked}
-                handleIconClick={this.props.handleIconClick}
-              />
+              <WatchListPopUp handleIconClick={handleIconClick} />
             </Grid.Column>
             <Grid.Column width={8}>
               <Card.Header>
@@ -40,11 +39,7 @@ class CardHeader extends React.Component {
             <Grid.Column width={6}>
               <Menu secondary size="large" position="right">
                 <Menu.Item style={{ marginLeft: "0px" }}>
-                  <ReviewModal
-                    handleOpen={this.props.handleOpen}
-                    handleClose={this.props.handleClose}
-                    open={this.props.open}
-                  />
+                  <ReviewModal />
                 </Menu.Item>
                 <Menu.Item>
                   <Icon name="star" size="large" color="yellow" />
@@ -54,13 +49,8 @@ class CardHeader extends React.Component {
                   <h4 style={{ marginTop: "2px", marginLeft: "5px" }}> /10</h4>
                 </Menu.Item>
                 <MovieRatePopUp
-                  mouseOver={this.props.handleMouseOver}
-                  mouseOut={this.props.handleMouseOut}
                   clickTimes={this.props.handleClickTimes}
                   clickStar={this.props.handleClickStar}
-                  isHovered={this.props.isHovered}
-                  activeIndexRate={this.props.activeIndexRate}
-                  starIndex={this.props.starIndex}
                 />
               </Menu>
             </Grid.Column>
