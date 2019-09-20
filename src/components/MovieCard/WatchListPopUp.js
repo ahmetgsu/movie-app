@@ -43,7 +43,7 @@ class WatchListPopUp extends React.Component {
             size="huge"
             color={iconClicked === false ? "grey" : "green"}
             link
-            onClick={e => this.iconCondition(movieData.id)}
+            onClick={() => this.iconCondition(movieData.id)}
           />
         }
       />

@@ -5,6 +5,7 @@ import { Image, Button, Modal, Header, Container } from "semantic-ui-react";
 
 class ReviewModal extends React.Component {
   static contextType = MovieCardContext;
+
   render() {
     const { movieData, reviews } = this.props;
     const { handleOpen, handleClose, modalOpen } = this.context;

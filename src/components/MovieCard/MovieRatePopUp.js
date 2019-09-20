@@ -1,5 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
+import RateMovieText from "./RateMovieText";
 import {
   createMovieRate,
   updateMovieRate,
@@ -23,25 +24,21 @@ class MovieRatePopUp extends React.Component {
   };
 
   render() {
-    const {
-      handleMouseOver,
-      handleMouseOut,
-      handleClickTimes,
-      isHovered,
-      activeIndexRate,
-      starIndex
-    } = this.context;
+    const { isHovered, activeIndexRate, starIndex } = this.context;
     const { movieData } = this.props;
     return (
       <Popup
         flowing
+        position="left center"
+        hoverable
+        inverted
         content={_.times(11, i =>
           i === 0 ? (
             <Icon
-              onMouseOver={() => handleMouseOver(i)}
-              onMouseOut={handleMouseOut}
+              onMouseOver={() => this.context.handleMouseOver(i)}
+              onMouseOut={this.context.handleMouseOut}
               onClick={() => {
-                handleClickTimes();
+                this.context.handleClickTimes();
                 this.props.deleteMovieRate(movieData.id);
               }}
               name={
@@ -56,8 +53,8 @@ class MovieRatePopUp extends React.Component {
             />
           ) : (
             <Icon
-              onMouseOver={() => handleMouseOver(i)}
-              onMouseOut={handleMouseOut}
+              onMouseOver={() => this.context.handleMouseOver(i)}
+              onMouseOut={this.context.handleMouseOut}
               onClick={() => this.starCondition(movieData.id, i)}
               name={isHovered && i <= activeIndexRate ? "star" : "star outline"}
               color={isHovered && i <= activeIndexRate ? "yellow" : null}
@@ -67,9 +64,6 @@ class MovieRatePopUp extends React.Component {
             />
           )
         )}
-        position="left center"
-        hoverable
-        inverted
         trigger={
           <Menu.Item style={{ margin: "0px" }}>
             <Icon
@@ -77,24 +71,7 @@ class MovieRatePopUp extends React.Component {
               color={starIndex === null ? null : "yellow"}
               size="large"
             />
-            {starIndex === null ? (
-              <p style={{ fontSize: "19px" }}>Rate movie</p>
-            ) : (
-              <>
-                <h2 style={{ margin: "0px", fontWeight: "bold" }}>
-                  {starIndex}
-                </h2>
-                <h4
-                  style={{
-                    fontSize: "13px",
-                    marginTop: "2px",
-                    marginLeft: "5px"
-                  }}
-                >
-                  Your Rate
-                </h4>
-              </>
-            )}
+            <RateMovieText />
           </Menu.Item>
         }
       />

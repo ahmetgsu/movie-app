@@ -1,7 +1,5 @@
 import React from "react";
 import { connect } from "react-redux";
-import _ from "lodash";
-import movieUserActions from "../../apis/movieUserActions";
 
 import {
   fetchSelectedMovie,
@@ -11,82 +9,59 @@ import {
 
 import { Grid, Card } from "semantic-ui-react";
 
-import { MovieCardStore } from "../../contexts/MovieCardContext";
+import MovieCardContext from "../../contexts/MovieCardContext";
 import CardHeader from "./CardHeader";
 import CardMedia from "./CardMedia";
 import CardDescription from "./CardDescription";
 import CardFooter from "./CardFooter";
 
 class MovieCard extends React.Component {
+  static contextType = MovieCardContext;
+
   // componentDidMount works when a movie is clicked on MovieList
   componentDidMount() {
     console.log("1-ComponentDidMount invoked,", this.props.movieId);
     this.props.fetchSelectedMovie(this.props.movieId);
     this.props.fetchSelectedMovieCredits(this.props.movieId);
     this.props.fetchSelectedMovieReview(this.props.movieId);
-    this.fetchMovieRate(this.props.movieId);
-    this.movieWatchlistCheck(this.props.movieId);
+    this.movieRateCondition(this.props.movieId);
+    this.watchListCondition(this.props.movieId);
   }
+
   // componentDidUpdate works when a movie is clicked in MovieContainer
   componentDidUpdate(prevProps) {
     if (
       this.props.movieId !== prevProps.movieId ||
       this.props.isSignedIn !== prevProps.isSignedIn
     ) {
-      //console.log("2-ComponentDidUpdate invoked,", this.props.movieId);
+      console.log("2-ComponentDidUpdate invoked,", this.props.movieId);
       this.props.fetchSelectedMovie(this.props.movieId);
       this.props.fetchSelectedMovieCredits(this.props.movieId);
       this.props.fetchSelectedMovieReview(this.props.movieId);
-      this.fetchMovieRate(this.props.movieId);
-      this.movieWatchlistCheck(this.props.movieId);
+      this.movieRateCondition(this.props.movieId);
+      this.watchListCondition(this.props.movieId);
       // After render, go to the top of the page
       window.scrollTo(0, 0);
     }
   }
 
-  // MOVE IT TO userActions.js
-  fetchMovieRate = async movieId => {
-    const { isSignedIn } = this.props;
-    console.log(isSignedIn);
-    if (isSignedIn) {
-      const res1 = await movieUserActions.get("/movieRates");
-      const id = _.find(
-        res1.data,
-        item => item.movieId === parseInt(movieId, 10)
-      );
-      if (id !== undefined) {
-        const response = await movieUserActions.get(`/movieRates/${id.id}`);
-        this.setState({ starIndex: response.data.userRate });
-      } else {
-        return;
-      }
+  // this is to check if the selected movie has already rated or not
+  movieRateCondition = movieId => {
+    if (this.props.isSignedIn) {
+      this.context.fetchMovieRate(movieId);
     } else {
       return null;
     }
   };
 
-  // MOVE IT TO userActions.js
-  movieWatchlistCheck = async movieId => {
-    const { isSignedIn } = this.props;
-    if (isSignedIn) {
-      const res1 = await movieUserActions.get("/watchlist");
-      const id = _.find(
-        res1.data,
-        item => item.movieId === parseInt(movieId, 10)
-      );
-      if (id !== undefined) {
-        this.setState({ iconClicked: true });
-      } else {
-        return;
-      }
+  // this is to check if the selected movie has already added to watchlist or not
+  watchListCondition = movieId => {
+    if (this.props.isSignedIn) {
+      this.context.movieWatchlistCheck(movieId);
     } else {
-      this.setState({ iconClicked: false });
+      this.context.handleIconClick();
     }
   };
-
-  // handleClickReview = id => {
-  //   console.log("Review clicked");
-  // };
 
   render() {
     const { movieData, credits, reviews } = this.props;
@@ -102,16 +77,14 @@ class MovieCard extends React.Component {
       };
       return (
         <Grid>
-          <MovieCardStore>
-            <Grid.Row>
-              <Card className="movie card" style={cardStyle}>
-                <CardHeader />
-                <CardMedia />
-                <CardDescription />
-                <CardFooter />
-              </Card>
-            </Grid.Row>
-          </MovieCardStore>
+          <Grid.Row>
+            <Card style={cardStyle}>
+              <CardHeader />
+              <CardMedia />
+              <CardDescription />
+              <CardFooter />
+            </Card>
+          </Grid.Row>
         </Grid>
       );
     }

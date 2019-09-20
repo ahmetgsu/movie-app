@@ -1,5 +1,9 @@
 import React from "react";
+import movieUserActions from "../apis/movieUserActions";
+import _ from "lodash";
+
 const Context = React.createContext();
+
 export class MovieCardStore extends React.Component {
   state = {
     activeIndex: 0,
@@ -52,6 +56,41 @@ export class MovieCardStore extends React.Component {
     this.setState({ isHovered: false });
   };
 
+  fetchMovieRate = async movieId => {
+    console.log(
+      "fetchMovieRate from context is invoked with movieId: ",
+      movieId
+    );
+    const res1 = await movieUserActions.get("/movieRates");
+    const id = _.find(
+      res1.data,
+      item => item.movieId === parseInt(movieId, 10)
+    );
+    if (id !== undefined) {
+      const response = await movieUserActions.get(`/movieRates/${id.id}`);
+      this.setState({ starIndex: response.data.userRate });
+    } else {
+      return;
+    }
+  };
+
+  movieWatchlistCheck = async movieId => {
+    console.log(
+      "movieWatchlistCheck from context is invoked with movieId: ",
+      movieId
+    );
+    const res1 = await movieUserActions.get("/watchlist");
+    const id = _.find(
+      res1.data,
+      item => item.movieId === parseInt(movieId, 10)
+    );
+    if (id !== undefined) {
+      this.setState({ iconClicked: true });
+    } else {
+      return;
+    }
+  };
+
   render() {
     return (
       <Context.Provider
@@ -64,7 +103,9 @@ export class MovieCardStore extends React.Component {
           handleOpen: this.handleOpen,
           handleClose: this.handleClose,
           handleMouseOver: this.handleMouseOver,
-          handleMouseOut: this.handleMouseOut
+          handleMouseOut: this.handleMouseOut,
+          fetchMovieRate: this.fetchMovieRate,
+          movieWatchlistCheck: this.movieWatchlistCheck
         }}
       >
         {this.props.children}

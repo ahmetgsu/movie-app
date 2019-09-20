@@ -54,7 +54,6 @@ function UpcomingMoviesCarousel(props) {
               border: "5px solid #fff"
             }}
             onClick={() => {
-              props.handleClick(item.id);
               history.push(`/movies/${item.id}/details?query=upcomingMovies`);
             }}
           />
