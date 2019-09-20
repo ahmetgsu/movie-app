@@ -1,181 +1,71 @@
 import React from "react";
 import { connect } from "react-redux";
-import _ from "lodash";
-import movieUserActions from "../../apis/movieUserActions";
+
 import {
   fetchSelectedMovie,
   fetchSelectedMovieCredits,
   fetchSelectedMovieReview
 } from "../../actions/movieActions";
-import {
-  createMovieRate,
-  updateMovieRate,
-  addToWatchList,
-  deleteMovieRate,
-  deleteFromWatchList
-} from "../../actions/userActions";
+
 import { Grid, Card } from "semantic-ui-react";
 
+import MovieCardContext from "../../contexts/MovieCardContext";
 import CardHeader from "./CardHeader";
 import CardMedia from "./CardMedia";
 import CardDescription from "./CardDescription";
 import CardFooter from "./CardFooter";
 
 class MovieCard extends React.Component {
-  // state will be used to change Movie trailer via buttons
-  state = {
-    activeIndex: 0,
-    iconClicked: false,
-    modalOpen: false,
-    isHovered: false,
-    activeIndexRate: null,
-    starIndex: null,
-    isRated: null
-  };
+  static contextType = MovieCardContext;
+
   // componentDidMount works when a movie is clicked on MovieList
   componentDidMount() {
-    //console.log("1-ComponentDidMount invoked,", this.props.movieId);
+    console.log("1-ComponentDidMount invoked,", this.props.movieId);
     this.props.fetchSelectedMovie(this.props.movieId);
     this.props.fetchSelectedMovieCredits(this.props.movieId);
     this.props.fetchSelectedMovieReview(this.props.movieId);
-    this.fetchMovieRate(this.props.movieId);
-    this.movieWatchlistCheck(this.props.movieId);
+    this.movieRateCondition(this.props.movieId);
+    this.watchListCondition(this.props.movieId);
   }
+
   // componentDidUpdate works when a movie is clicked in MovieContainer
   componentDidUpdate(prevProps) {
     if (
       this.props.movieId !== prevProps.movieId ||
       this.props.isSignedIn !== prevProps.isSignedIn
     ) {
-      //console.log("2-ComponentDidUpdate invoked,", this.props.movieId);
+      console.log("2-ComponentDidUpdate invoked,", this.props.movieId);
       this.props.fetchSelectedMovie(this.props.movieId);
       this.props.fetchSelectedMovieCredits(this.props.movieId);
       this.props.fetchSelectedMovieReview(this.props.movieId);
-      this.fetchMovieRate(this.props.movieId);
-      this.movieWatchlistCheck(this.props.movieId);
+      this.movieRateCondition(this.props.movieId);
+      this.watchListCondition(this.props.movieId);
       // After render, go to the top of the page
       window.scrollTo(0, 0);
     }
   }
 
-  // MOVE IT TO userActions.js
-  fetchMovieRate = async movieId => {
-    const { isSignedIn } = this.props;
-    console.log(isSignedIn);
-    if (isSignedIn) {
-      const res1 = await movieUserActions.get("/movieRates");
-      const id = _.find(
-        res1.data,
-        item => item.movieId === parseInt(movieId, 10)
-      );
-      if (id !== undefined) {
-        const response = await movieUserActions.get(`/movieRates/${id.id}`);
-        this.setState({ starIndex: response.data.userRate });
-      } else {
-        return;
-      }
+  // this is to check if the selected movie has already rated or not
+  movieRateCondition = movieId => {
+    if (this.props.isSignedIn) {
+      this.context.fetchMovieRate(movieId);
     } else {
       return null;
     }
   };
 
-  // MOVE IT TO userActions.js
-  movieWatchlistCheck = async movieId => {
-    const { isSignedIn } = this.props;
-    if (isSignedIn) {
-      const res1 = await movieUserActions.get("/watchlist");
-      const id = _.find(
-        res1.data,
-        item => item.movieId === parseInt(movieId, 10)
-      );
-      if (id !== undefined) {
-        this.setState({ iconClicked: true });
-      } else {
-        return;
-      }
+  // this is to check if the selected movie has already added to watchlist or not
+  watchListCondition = movieId => {
+    if (this.props.isSignedIn) {
+      this.context.movieWatchlistCheck(movieId);
     } else {
-      this.setState({ iconClicked: false });
+      this.context.handleIconClick();
     }
   };
-
-  handleClick = videoNumber => {
-    console.log(videoNumber);
-    this.setState({ activeIndex: videoNumber });
-  };
-
-  handleIconClick = movieId => {
-    const { iconClicked } = this.state;
-    const { isSignedIn } = this.props;
-    console.log(movieId);
-    if (isSignedIn) {
-      if (iconClicked === false) {
-        //console.log("iconClicked: ", iconClicked);
-        this.setState({ iconClicked: !iconClicked }, () =>
-          this.props.addToWatchList(movieId)
-        );
-      } else {
-        //console.log("iconClicked: ", iconClicked);
-        this.setState({ iconClicked: !iconClicked }, () =>
-          this.props.deleteFromWatchList(movieId)
-        );
-      }
-    } else {
-      alert("Please sign in first to add movie to your watchlist");
-    }
-  };
-
-  handleOpen = () => {
-    this.setState({ modalOpen: true });
-  };
-
-  handleClose = () => {
-    this.setState({ modalOpen: false });
-  };
-
-  handleMouseOver = index => {
-    this.setState({ isHovered: true, activeIndexRate: index });
-  };
-
-  handleMouseOut = () => {
-    this.setState({ isHovered: false });
-  };
-
-  handleClickStar = (movieId, index) => {
-    const { isSignedIn } = this.props;
-    if (isSignedIn) {
-      if (this.state.starIndex === null) {
-        this.setState({ starIndex: index });
-        this.props.createMovieRate(movieId, index);
-      } else {
-        this.setState({ starIndex: index });
-        this.props.updateMovieRate(movieId, index);
-      }
-    } else {
-      alert("To rate this movie, you need to sign in first");
-    }
-  };
-
-  handleClickTimes = movieId => {
-    console.log(movieId);
-    this.setState({ starIndex: null });
-    this.props.deleteMovieRate(movieId);
-  };
-
-  // handleClickReview = id => {
-  //   console.log("Review clicked");
-  // };
 
   render() {
-    const {
-      selectedMovieData,
-      selectedMovieCredits,
-      selectedMovieReviews
-    } = this.props;
-    if (
-      selectedMovieData === null ||
-      selectedMovieCredits === null ||
-      selectedMovieReviews === null
-    ) {
+    const { movieData, credits, reviews } = this.props;
+    if (movieData === null || credits === null || reviews === null) {
       return <div className="ui message">Loading... Please wait</div>;
     } else {
       const cardStyle = {
@@ -188,26 +78,9 @@ class MovieCard extends React.Component {
       return (
         <Grid>
           <Grid.Row>
-            <Card className="movie card" style={cardStyle}>
-              <CardHeader
-                handleClickRate={this.handleClickRate}
-                iconClicked={this.state.iconClicked}
-                handleIconClick={this.handleIconClick}
-                handleOpen={this.handleOpen}
-                handleClose={this.handleClose}
-                open={this.state.modalOpen}
-                handleMouseOver={this.handleMouseOver}
-                handleMouseOut={this.handleMouseOut}
-                isHovered={this.state.isHovered}
-                activeIndexRate={this.state.activeIndexRate}
-                handleClickStar={this.handleClickStar}
-                handleClickTimes={this.handleClickTimes}
-                starIndex={this.state.starIndex}
-              />
-              <CardMedia
-                activeIndex={this.state.activeIndex}
-                handleClick={this.handleClick}
-              />
+            <Card style={cardStyle}>
+              <CardHeader />
+              <CardMedia />
               <CardDescription />
               <CardFooter />
             </Card>
@@ -219,11 +92,10 @@ class MovieCard extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  //console.log(ownProps);
   return {
-    selectedMovieData: state.movies.selectedMovieData,
-    selectedMovieCredits: state.movies.selectedMovieCredits,
-    selectedMovieReviews: state.movies.selectedMovieReviews,
+    movieData: state.movies.selectedMovieData,
+    credits: state.movies.selectedMovieCredits,
+    reviews: state.movies.selectedMovieReviews,
     isSignedIn: state.auth.isSignedIn
   };
 };
@@ -233,11 +105,6 @@ export default connect(
   {
     fetchSelectedMovie,
     fetchSelectedMovieCredits,
-    fetchSelectedMovieReview,
-    createMovieRate,
-    updateMovieRate,
-    deleteMovieRate,
-    addToWatchList,
-    deleteFromWatchList
+    fetchSelectedMovieReview
   }
 )(MovieCard);

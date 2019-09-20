@@ -1,5 +1,4 @@
 export default function dateConversion(date) {
-  console.log("dateConversion invoked: ", date);
   const dateArray = date.split("-");
   const months = {
     "01": "January",

@@ -52,7 +52,7 @@ export const fetchMovies = title => dispatch => {
 };
 
 export const fetchSelectedMovie = imdbID => dispatch => {
-  //console.log(`fetchSelectedMovie function invoked`);
+  console.log(`fetchSelectedMovie function invoked`);
   const API_KEY = "9d59cf1cfa65858ed8a861785ddce025";
   axios
     .get(
@@ -69,7 +69,7 @@ export const fetchSelectedMovie = imdbID => dispatch => {
 };
 
 export const fetchSelectedMovieReview = id => dispatch => {
-  //console.log(`fetchSelectedMovie function invoked`);
+  console.log(`fetchSelectedMovie function invoked`);
   const API_KEY = "9d59cf1cfa65858ed8a861785ddce025";
   axios
     .get(
@@ -86,7 +86,7 @@ export const fetchSelectedMovieReview = id => dispatch => {
 };
 
 export const fetchSelectedMovieCredits = imdbID => dispatch => {
-  //console.log(`fetchSelectedMovie function invoked`);
+  console.log(`fetchSelectedMovie function invoked`);
   const API_KEY = "9d59cf1cfa65858ed8a861785ddce025";
   axios
     .get(

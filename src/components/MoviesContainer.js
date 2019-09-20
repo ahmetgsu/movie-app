@@ -1,13 +1,13 @@
 import React from "react";
 import MoviesList from "./MoviesList/MoviesList";
-import MovieCard from "./MovieCard/MovieCard";
+import ParentCard from "./MovieCard/ParentCard";
 import { Grid } from "semantic-ui-react";
 
 const MoviesContainer = props => {
   //console.log(props);
   return (
     <React.Fragment>
-      <MovieCard movieId={props.match.params.movieId} />
+      <ParentCard movieId={props.match.params.movieId} />
       <Grid>
         <Grid.Row>
           <MoviesList searchTerm={props.location.search} />

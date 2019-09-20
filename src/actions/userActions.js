@@ -1,6 +1,5 @@
 import movieUserActions from "../apis/movieUserActions";
 import axios from "axios";
-// import _ from lodash;
 import {
   CREATE_MOVIE_RATE,
   DELETE_MOVIE_RATE,
@@ -8,8 +7,8 @@ import {
   // GET_MOVIE_RATE,
   // GET_MOVIES_RATES,
   ADD_TO_WATCHLIST,
-  DELETE_FROM_WATCHLIST
-  // ICON_CLICK
+  DELETE_FROM_WATCHLIST,
+  WATCHLIST_CHECK
 } from "./types";
 
 //USER MOVIE RATE CREATE, UPDATE & DELETE ACTIONS
@@ -63,6 +62,24 @@ export const deleteMovieRate = movieId => async dispatch => {
 };
 
 //USER WATCHLIST CREATE & DELETE ACTIONS
+
+export const watchListCheck = () => async (dispatch, getState) => {
+  console.log("watchListCheck invoked");
+  const { isSignedIn } = getState().auth;
+  if (isSignedIn) {
+    const res = await axios.get("http://localhost:5000/watchlist");
+
+    dispatch({
+      type: WATCHLIST_CHECK,
+      payload: res.data.length
+    });
+  } else {
+    dispatch({
+      type: WATCHLIST_CHECK,
+      payload: null
+    });
+  }
+};
 
 export const addToWatchList = movieId => async (dispatch, getState) => {
   console.log("addToWatchList invoked");

@@ -8,7 +8,6 @@ function TrendingMoviesCarousel(props) {
   const sortedTrendingMovies = trendingMovies
     .filter(movie => movie.popularity > 1 && movie.vote_average >= 5)
     .sort((a, b) => b.vote_average - a.vote_average);
-  // console.log(sortedTrendingMovies);
 
   return (
     <ItemsCarousel
@@ -54,7 +53,6 @@ function TrendingMoviesCarousel(props) {
               width: "100%"
             }}
             onClick={() => {
-              props.handleClick(item.id);
               history.push(`/movies/${item.id}/details?query=trendingMovies`);
             }}
           />

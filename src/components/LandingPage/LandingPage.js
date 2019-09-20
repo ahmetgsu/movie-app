@@ -15,11 +15,6 @@ class LandingPage extends React.Component {
     activeItemIndexUpcoming: 0
   };
 
-  handleClick = id => {
-    console.log(id);
-    this.props.selectedMovieId(id);
-  };
-
   handleButtonClick = name => {
     console.log(name);
   };
@@ -43,7 +38,6 @@ class LandingPage extends React.Component {
       "Popular Movies",
       "Top Rated Movies"
     ];
-    //console.log(this.props);
     return (
       <Container style={{ width: "80%", minWidth: "1020px" }}>
         <Grid columns="equal" textAlign="center" style={{ marginTop: "10px" }}>
@@ -64,16 +58,13 @@ class LandingPage extends React.Component {
           trendingMovies={trendingMovies}
           changeActiveItem={this.changeActiveItemTrending}
           activeItemIndex={this.state.activeItemIndexTrending}
-          handleClick={this.handleClick}
         />
-
         <br />
         <h3 style={{ color: "white" }}>Upcoming Movies</h3>
         <UpcomingMoviesCarousel
           upcomingMovies={upcomingMovies}
           changeActiveItem={this.changeActiveItemUpcoming}
           activeItemIndex={this.state.activeItemIndexUpcoming}
-          handleClick={this.handleClick}
         />
       </Container>
     );
