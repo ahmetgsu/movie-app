@@ -5,6 +5,8 @@ import { Image, Button, Modal, Header, Container } from "semantic-ui-react";
 
 class ReviewModal extends React.Component {
   static contextType = Context;
+  // const movieData = useSelector(state => state.movies.selectedMovieData);
+  // const reviews = useSelector(state => state.movies.selectedMovieReviews);
 
   render() {
     const { movieData, reviews } = this.props;
