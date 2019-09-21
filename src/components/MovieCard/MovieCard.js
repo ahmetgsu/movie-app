@@ -1,22 +1,19 @@
 import React from "react";
 import { connect } from "react-redux";
-
+import Context from "../../contexts/movieCardContext";
+import CardHeader from "./CardHeader";
+import CardMedia from "./CardMedia";
+import CardDescription from "./CardDescription";
+import CardFooter from "./CardFooter";
+import { Grid, Card } from "semantic-ui-react";
 import {
   fetchSelectedMovie,
   fetchSelectedMovieCredits,
   fetchSelectedMovieReview
 } from "../../actions/movieActions";
 
-import { Grid, Card } from "semantic-ui-react";
-
-import MovieCardContext from "../../contexts/MovieCardContext";
-import CardHeader from "./CardHeader";
-import CardMedia from "./CardMedia";
-import CardDescription from "./CardDescription";
-import CardFooter from "./CardFooter";
-
 class MovieCard extends React.Component {
-  static contextType = MovieCardContext;
+  static contextType = Context;
 
   // componentDidMount works when a movie is clicked on MovieList
   componentDidMount() {
@@ -91,14 +88,12 @@ class MovieCard extends React.Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
-  return {
-    movieData: state.movies.selectedMovieData,
-    credits: state.movies.selectedMovieCredits,
-    reviews: state.movies.selectedMovieReviews,
-    isSignedIn: state.auth.isSignedIn
-  };
-};
+const mapStateToProps = state => ({
+  movieData: state.movies.selectedMovieData,
+  credits: state.movies.selectedMovieCredits,
+  reviews: state.movies.selectedMovieReviews,
+  isSignedIn: state.auth.isSignedIn
+});
 
 export default connect(
   mapStateToProps,

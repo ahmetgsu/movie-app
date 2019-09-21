@@ -1,11 +1,11 @@
 import React from "react";
-import MovieCardContext from "../../contexts/MovieCardContext";
+import Context from "../../contexts/movieCardContext";
 import { connect } from "react-redux";
 import { addToWatchList, deleteFromWatchList } from "../../actions/userActions";
 import { Popup, Icon } from "semantic-ui-react";
 
 class WatchListPopUp extends React.Component {
-  static contextType = MovieCardContext;
+  static contextType = Context;
 
   iconCondition = movieId => {
     const { iconClicked, handleIconClick } = this.context;

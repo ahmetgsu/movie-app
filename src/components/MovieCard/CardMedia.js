@@ -1,10 +1,10 @@
 import React from "react";
 import { connect } from "react-redux";
-import MovieCardContext from "../../contexts/MovieCardContext";
+import Context from "../../contexts/movieCardContext";
 import { Grid, Card, Image, Embed, Button } from "semantic-ui-react";
 
 class CardMedia extends React.Component {
-  static contextType = MovieCardContext;
+  static contextType = Context;
 
   render() {
     const { activeIndex, handleClick } = this.context;

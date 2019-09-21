@@ -1,10 +1,10 @@
 import React from "react";
-import MovieCardContext from "../../contexts/MovieCardContext";
+import Context from "../../contexts/movieCardContext";
 import { connect } from "react-redux";
 import { Image, Button, Modal, Header, Container } from "semantic-ui-react";
 
 class ReviewModal extends React.Component {
-  static contextType = MovieCardContext;
+  static contextType = Context;
 
   render() {
     const { movieData, reviews } = this.props;

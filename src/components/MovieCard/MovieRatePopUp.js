@@ -6,12 +6,12 @@ import {
   updateMovieRate,
   deleteMovieRate
 } from "../../actions/userActions";
-import MovieCardContext from "../../contexts/MovieCardContext";
+import Context from "../../contexts/movieCardContext";
 import { Popup, Icon, Menu } from "semantic-ui-react";
 import _ from "lodash";
 
 class MovieRatePopUp extends React.Component {
-  static contextType = MovieCardContext;
+  static contextType = Context;
 
   starCondition = (movieId, index) => {
     const { starIndex, handleClickStar } = this.context;

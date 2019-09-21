@@ -17,6 +17,7 @@ class SearchBarHeader extends React.Component {
       if (this.props.isSignedIn) {
         this.props.watchListCheck();
       } else {
+        // watchListCheck() will return null to watchlistedNumber
         this.props.watchListCheck();
       }
     }
@@ -24,7 +25,6 @@ class SearchBarHeader extends React.Component {
 
   render() {
     const { watchlistedNumber } = this.props;
-    console.log(this.props);
     return (
       <Grid style={{ marginBottom: "1px" }}>
         <Grid.Column width={1} verticalAlign="middle">

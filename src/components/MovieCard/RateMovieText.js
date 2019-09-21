@@ -1,8 +1,8 @@
 import React from "react";
-import MovieCardContext from "../../contexts/MovieCardContext";
+import Context from "../../contexts/movieCardContext";
 
 class RateMovieText extends React.Component {
-  static contextType = MovieCardContext;
+  static contextType = Context;
 
   render() {
     const { starIndex } = this.context;

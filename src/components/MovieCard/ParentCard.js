@@ -1,5 +1,5 @@
 import React from "react";
-import { MovieCardStore } from "../../contexts/MovieCardContext";
+import MovieCardStore from "../../contexts/MovieCardState";
 import MovieCard from "./MovieCard";
 
 const ParentCard = props => {
