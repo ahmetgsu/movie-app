@@ -77,7 +77,7 @@ const MovieCardStore = props => {
     }
   };
 
-  const movieWatchlistCheck = async movieId => {
+  const watchlistCheck = async movieId => {
     console.log(
       "movieWatchlistCheck from context is invoked with movieId: ",
       movieId
@@ -107,7 +107,7 @@ const MovieCardStore = props => {
         handleMouseOver,
         handleMouseOut,
         fetchMovieRate,
-        movieWatchlistCheck
+        watchlistCheck
       }}
     >
       {props.children}

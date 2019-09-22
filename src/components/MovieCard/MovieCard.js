@@ -1,5 +1,5 @@
-import React from "react";
-import { connect } from "react-redux";
+import React, { useEffect, useContext } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import Context from "../../contexts/movieCardContext";
 import CardHeader from "./CardHeader";
 import CardMedia from "./CardMedia";
@@ -12,94 +12,60 @@ import {
   fetchSelectedMovieReview
 } from "../../actions/movieActions";
 
-class MovieCard extends React.Component {
-  static contextType = Context;
+const MovieCard = ({ movieId }) => {
+  const context = useContext(Context);
+  const movieData = useSelector(state => state.movies.selectedMovieData);
+  const credits = useSelector(state => state.movies.selectedMovieCredits);
+  const reviews = useSelector(state => state.movies.selectedMovieReviews);
+  const isSignedIn = useSelector(state => state.auth.isSignedIn);
 
-  // componentDidMount works when a movie is clicked on MovieList
-  componentDidMount() {
-    console.log("1-ComponentDidMount invoked,", this.props.movieId);
-    this.props.fetchSelectedMovie(this.props.movieId);
-    this.props.fetchSelectedMovieCredits(this.props.movieId);
-    this.props.fetchSelectedMovieReview(this.props.movieId);
-    this.movieRateCondition(this.props.movieId);
-    this.watchListCondition(this.props.movieId);
-  }
+  const dispatch = useDispatch();
+  const fetchMovie = id => dispatch(fetchSelectedMovie(id));
+  const fetchCredits = id => dispatch(fetchSelectedMovieCredits(id));
+  const fetchReview = id => dispatch(fetchSelectedMovieReview(id));
 
-  // componentDidUpdate works when a movie is clicked in MovieContainer
-  componentDidUpdate(prevProps) {
-    if (
-      this.props.movieId !== prevProps.movieId ||
-      this.props.isSignedIn !== prevProps.isSignedIn
-    ) {
-      console.log("2-ComponentDidUpdate invoked,", this.props.movieId);
-      this.props.fetchSelectedMovie(this.props.movieId);
-      this.props.fetchSelectedMovieCredits(this.props.movieId);
-      this.props.fetchSelectedMovieReview(this.props.movieId);
-      this.movieRateCondition(this.props.movieId);
-      this.watchListCondition(this.props.movieId);
-      // After render, go to the top of the page
-      window.scrollTo(0, 0);
-    }
-  }
+  useEffect(() => {
+    fetchMovie(movieId);
+    fetchCredits(movieId);
+    fetchReview(movieId);
+    movieRateCondition(movieId);
+    watchListCondition(movieId);
+    // eslint-disable-next-line
+  }, [movieId, isSignedIn]);
 
   // this is to check if the selected movie has already rated or not
-  movieRateCondition = movieId => {
-    if (this.props.isSignedIn) {
-      this.context.fetchMovieRate(movieId);
-    } else {
-      return null;
-    }
+  const movieRateCondition = movieId => {
+    isSignedIn && context.fetchMovieRate(movieId);
   };
 
   // this is to check if the selected movie has already added to watchlist or not
-  watchListCondition = movieId => {
-    if (this.props.isSignedIn) {
-      this.context.movieWatchlistCheck(movieId);
-    } else {
-      this.context.handleIconClick();
-    }
+  const watchListCondition = movieId => {
+    isSignedIn ? context.watchlistCheck(movieId) : context.handleIconClick();
   };
 
-  render() {
-    const { movieData, credits, reviews } = this.props;
-    if (movieData === null || credits === null || reviews === null) {
-      return <div className="ui message">Loading... Please wait</div>;
-    } else {
-      const cardStyle = {
-        marginLeft: "auto",
-        marginRight: "auto",
-        marginTop: "10px",
-        width: "60%",
-        minWidth: "1072px"
-      };
-      return (
-        <Grid>
-          <Grid.Row>
-            <Card style={cardStyle}>
-              <CardHeader />
-              <CardMedia />
-              <CardDescription />
-              <CardFooter />
-            </Card>
-          </Grid.Row>
-        </Grid>
-      );
-    }
+  if (movieData === null || credits === null || reviews === null) {
+    return <div className="ui message">Loading... Please wait</div>;
+  } else {
+    const cardStyle = {
+      marginLeft: "auto",
+      marginRight: "auto",
+      marginTop: "10px",
+      width: "60%",
+      minWidth: "1072px"
+    };
+    return (
+      <Grid>
+        <Grid.Row>
+          <Card style={cardStyle}>
+            <CardHeader />
+            <CardMedia />
+            <CardDescription />
+            <CardFooter />
+          </Card>
+        </Grid.Row>
+      </Grid>
+    );
   }
-}
+};
 
-const mapStateToProps = state => ({
-  movieData: state.movies.selectedMovieData,
-  credits: state.movies.selectedMovieCredits,
-  reviews: state.movies.selectedMovieReviews,
-  isSignedIn: state.auth.isSignedIn
-});
-
-export default connect(
-  mapStateToProps,
-  {
-    fetchSelectedMovie,
-    fetchSelectedMovieCredits,
-    fetchSelectedMovieReview
-  }
-)(MovieCard);
+export default MovieCard;
