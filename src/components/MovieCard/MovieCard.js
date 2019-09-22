@@ -30,6 +30,7 @@ const MovieCard = ({ movieId }) => {
     fetchReview(movieId);
     movieRateCondition(movieId);
     watchListCondition(movieId);
+    window.scrollTo(0, 0);
     // eslint-disable-next-line
   }, [movieId, isSignedIn]);
 
