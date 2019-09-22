@@ -6,8 +6,7 @@ import { Image, Button, Modal, Header, Container } from "semantic-ui-react";
 const ReviewModal = () => {
   const movieData = useSelector(state => state.movies.selectedMovieData);
   const reviews = useSelector(state => state.movies.selectedMovieReviews);
-  const context = useContext(Context);
-  const { handleOpen, handleClose, modalOpen } = context;
+  const { handleOpen, handleClose, modalOpen } = useContext(Context);
 
   return (
     <Modal

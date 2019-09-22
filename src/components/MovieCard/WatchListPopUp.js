@@ -10,8 +10,7 @@ const WatchListPopUp = () => {
   const deleteItem = movieId => dispatch(deleteFromWatchList(movieId));
   const isSignedIn = useSelector(state => state.auth.isSignedIn);
   const movieData = useSelector(state => state.movies.selectedMovieData);
-  const context = useContext(Context);
-  const { iconClicked, handleIconClick } = context;
+  const { iconClicked, handleIconClick } = useContext(Context);
 
   const iconCondition = movieId => {
     return isSignedIn
