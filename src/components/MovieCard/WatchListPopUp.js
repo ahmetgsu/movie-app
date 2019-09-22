@@ -5,15 +5,11 @@ import { addToWatchList, deleteFromWatchList } from "../../actions/userActions";
 import { Popup, Icon } from "semantic-ui-react";
 
 const WatchListPopUp = () => {
-  //Redux related hooks
   const dispatch = useDispatch();
   const addItem = movieId => dispatch(addToWatchList(movieId));
   const deleteItem = movieId => dispatch(deleteFromWatchList(movieId));
-
   const isSignedIn = useSelector(state => state.auth.isSignedIn);
   const movieData = useSelector(state => state.movies.selectedMovieData);
-
-  // Context related hooks
   const context = useContext(Context);
   const { iconClicked, handleIconClick } = context;
 
