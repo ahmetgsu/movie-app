@@ -62,7 +62,7 @@ export const deleteMovieRate = movieId => async dispatch => {
 //USER WATCHLIST CREATE & DELETE ACTIONS
 
 export const watchListCheck = () => async (dispatch, getState) => {
-  console.log("watchListCheck invoked");
+  console.log("watchListCheck invoked for SearchBar");
   const { isSignedIn } = getState().auth;
   if (isSignedIn) {
     const res = await axios.get("http://localhost:5000/watchlist");
@@ -103,9 +103,11 @@ export const addToWatchList = movieId => async (dispatch, getState) => {
 };
 
 export const deleteFromWatchList = movieId => async dispatch => {
+  console.log("deleteFromWatchList invoked");
   const response1 = await axios.get("http://localhost:5000/watchlist");
-  const idOfMovie = response1.data.find(elem => elem.movieId === movieId).id;
-  await axios.delete(`http://localhost:5000/watchlist/${idOfMovie}`);
+  const idOfMovie = response1.data.find(elem => elem.movieId === movieId);
+  console.log(idOfMovie);
+  await axios.delete(`http://localhost:5000/watchlist/${idOfMovie.id}`);
   const response2 = await axios.get("http://localhost:5000/watchlist");
 
   dispatch({

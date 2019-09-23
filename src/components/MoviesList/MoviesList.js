@@ -1,5 +1,5 @@
-import React from "react";
-import { connect } from "react-redux";
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import {
   fetchMovies,
   fetchTrendingMovies,
@@ -10,51 +10,67 @@ import queryString from "query-string";
 import MovieListContainer from "./MovieListContainer";
 import ErrorMessage from "./ErrorMessage";
 
-class MoviesList extends React.Component {
-  componentDidMount() {
-    if ("location" in this.props) {
-      const values = queryString.parse(this.props.location.search);
-      this.props.fetchMovies(values.query);
+const MoviesList = props => {
+  let moviesData = useSelector(state => state.movies.moviesData);
+  const errorMessage = useSelector(state => state.movies.errorMessage);
+  const trendingMovies = useSelector(state => state.movies.trendingMovies);
+  const upcomingMovies = useSelector(state => state.movies.upcomingMovies);
+
+  const dispatch = useDispatch();
+  const moviesFetch = term => dispatch(fetchMovies(term));
+  const fetchTrending = () => dispatch(fetchTrendingMovies());
+  const fetchUpcoming = () => dispatch(fetchUpcomingMovies());
+
+  useEffect(() => {
+    renderCondition();
+    // eslint-disable-next-line
+  }, [props.location, props.searchTerm]);
+
+  const renderCondition = () => {
+    if ("location" in props) {
+      const values = queryString.parse(props.location.search);
+      moviesFetch(values.query);
       window.scrollTo(0, 0);
     } else {
-      const values = queryString.parse(this.props.searchTerm);
+      const values = queryString.parse(props.searchTerm);
       switch (values.query) {
         case "trendingMovies":
-          this.props.fetchTrendingMovies();
+          fetchTrending();
           window.scrollTo(0, 0);
           break;
         case "upcomingMovies":
-          this.props.fetchUpcomingMovies();
+          fetchUpcoming();
           window.scrollTo(0, 0);
           break;
         default:
-          this.props.fetchMovies(values.query);
+          moviesFetch(values.query);
           window.scrollTo(0, 0);
       }
     }
-  }
-
-  componentDidUpdate(prevProps) {
-    if ("location" in this.props) {
-      if (this.props.location.search !== prevProps.location.search) {
-        const values = queryString.parse(this.props.location.search);
-        this.props.fetchMovies(values.query);
-        window.scrollTo(0, 0);
-      }
+  };
+  // MoviesList created by SearchBar component input
+  if ("location" in props) {
+    const { search } = props.location;
+    if (moviesData === null) {
+      return (
+        <Grid style={{ marginLeft: "auto", marginRight: "auto", width: "90%" }}>
+          Loading...
+        </Grid>
+      );
+    } else if (errorMessage !== "") {
+      return <ErrorMessage errorMessage={errorMessage} />;
     } else {
-      if (this.props.searchTerm !== prevProps.searchTerm) {
-        const values = queryString.parse(this.props.searchTerm);
-        this.props.fetchMovies(values.query);
-        window.scrollTo(0, 0);
-      }
+      return <MovieListContainer moviesData={moviesData} search={search} />;
     }
   }
+  // MoviesList created via Carousels on LandingPage or via an image in MoviesContainer
+  else {
+    const searchArray = ["trendingMovies", "upcomingMovies"];
+    let { searchTerm } = props;
+    const values = queryString.parse(searchTerm);
 
-  render() {
-    if ("location" in this.props) {
-      const { errorMessage, moviesData } = this.props;
-      const { search } = this.props.location;
-
+    // values.query comes from MoviesContainer created by a SearchBar input
+    if (!searchArray.includes(values.query)) {
       if (moviesData === null) {
         return (
           <Grid
@@ -67,64 +83,18 @@ class MoviesList extends React.Component {
         return <ErrorMessage errorMessage={errorMessage} />;
       } else {
         return (
-          <MovieListContainer
-            moviesData={moviesData}
-            handleClick={this.handleClick}
-            search={search}
-          />
+          <MovieListContainer moviesData={moviesData} search={searchTerm} />
         );
       }
     } else {
-      const searchArray = ["trendingMovies", "upcomingMovies"];
-      let { errorMessage, moviesData, searchTerm } = this.props;
-      const values = queryString.parse(searchTerm);
+      // values.query comes from LandingPage component
+      moviesData = [
+        ...(values.query === "trendingMovies" ? trendingMovies : upcomingMovies)
+      ]; //moviesData assigned to related array trendingMovies or upcomingMovies
 
-      // checks if values.query comes from SearchBar component or LandingPage component
-      if (!searchArray.includes(values.query)) {
-        // values.query comes from SearchBar component
-        if (moviesData === null) {
-          return (
-            <Grid
-              style={{ marginLeft: "auto", marginRight: "auto", width: "90%" }}
-            >
-              Loading...
-            </Grid>
-          );
-        } else if (errorMessage !== "") {
-          return <ErrorMessage errorMessage={errorMessage} />;
-        } else {
-          return (
-            <MovieListContainer
-              moviesData={moviesData}
-              handleClick={this.handleClick}
-              search={searchTerm}
-            />
-          );
-        }
-      } else {
-        // values.query comes from LandingPage component
-        moviesData = [...this.props[values.query]]; //moviesData assigned to related array trendingMovies or upcomingMovies
-        //console.log("moviesData: ", moviesData);
-        return (
-          <MovieListContainer
-            moviesData={moviesData}
-            handleClick={this.handleClick}
-            search={searchTerm}
-          />
-        );
-      }
+      return <MovieListContainer moviesData={moviesData} search={searchTerm} />;
     }
   }
-}
+};
 
-const mapStateToProps = state => ({
-  moviesData: state.movies.moviesData,
-  errorMessage: state.movies.errorMessage,
-  trendingMovies: state.movies.trendingMovies,
-  upcomingMovies: state.movies.upcomingMovies
-});
-
-export default connect(
-  mapStateToProps,
-  { fetchMovies, fetchTrendingMovies, fetchUpcomingMovies }
-)(MoviesList);
+export default MoviesList;

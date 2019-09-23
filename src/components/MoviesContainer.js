@@ -4,7 +4,7 @@ import ParentCard from "./MovieCard/ParentCard";
 import { Grid } from "semantic-ui-react";
 
 const MoviesContainer = props => {
-  //console.log(props);
+  console.log(props);
   return (
     <React.Fragment>
       <ParentCard movieId={props.match.params.movieId} />

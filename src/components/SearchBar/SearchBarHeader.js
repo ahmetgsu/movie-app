@@ -67,7 +67,7 @@ class SearchBarHeader extends React.Component {
 }
 
 const mapStateToProps = state => {
-  console.log(state);
+  //console.log(state);
   return {
     watchlistedNumber: state.userActions.watchlistedNumber,
     isSignedIn: state.auth.isSignedIn

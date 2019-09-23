@@ -18,8 +18,7 @@ export const selectedMovieId = id => {
 };
 
 export const fetchMovies = title => dispatch => {
-  console.log(`fetchMovies invoked`);
-  console.log(title);
+  console.log("fetchMovies fired");
   const API_KEY = "9d59cf1cfa65858ed8a861785ddce025";
   axios
     .get(
@@ -52,7 +51,6 @@ export const fetchMovies = title => dispatch => {
 };
 
 export const fetchSelectedMovie = imdbID => dispatch => {
-  console.log(`fetchSelectedMovie function invoked`);
   const API_KEY = "9d59cf1cfa65858ed8a861785ddce025";
   axios
     .get(
@@ -69,7 +67,6 @@ export const fetchSelectedMovie = imdbID => dispatch => {
 };
 
 export const fetchSelectedMovieReview = id => dispatch => {
-  console.log(`fetchSelectedMovie function invoked`);
   const API_KEY = "9d59cf1cfa65858ed8a861785ddce025";
   axios
     .get(
@@ -86,7 +83,6 @@ export const fetchSelectedMovieReview = id => dispatch => {
 };
 
 export const fetchSelectedMovieCredits = imdbID => dispatch => {
-  console.log(`fetchSelectedMovie function invoked`);
   const API_KEY = "9d59cf1cfa65858ed8a861785ddce025";
   axios
     .get(
@@ -103,7 +99,7 @@ export const fetchSelectedMovieCredits = imdbID => dispatch => {
 };
 
 export const fetchTrendingMovies = () => dispatch => {
-  //console.log("fetchTrendingMovies function invoked");
+  console.log("fetchTrendingMovies function invoked");
   const API_KEY = "9d59cf1cfa65858ed8a861785ddce025";
   axios
     .all([
@@ -131,7 +127,7 @@ export const fetchTrendingMovies = () => dispatch => {
 };
 
 export const fetchUpcomingMovies = () => dispatch => {
-  //console.log("fetchUpcomingMovies function invoked");
+  console.log("fetchUpcomingMovies function invoked");
   const API_KEY = "9d59cf1cfa65858ed8a861785ddce025";
   axios
     .all([

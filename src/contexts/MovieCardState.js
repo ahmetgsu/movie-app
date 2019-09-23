@@ -60,10 +60,10 @@ const MovieCardStore = props => {
   const handleMouseOut = () => dispatch({ type: MOUSE_OUT });
 
   const fetchMovieRate = async movieId => {
-    console.log(
-      "fetchMovieRate from context is invoked with movieId: ",
-      movieId
-    );
+    // console.log(
+    //   "fetchMovieRate from context is invoked with movieId: ",
+    //   movieId
+    // );
     const res1 = await movieUserActions.get("/movieRates");
     const id = _.find(
       res1.data,
@@ -78,10 +78,10 @@ const MovieCardStore = props => {
   };
 
   const watchlistCheck = async movieId => {
-    console.log(
-      "movieWatchlistCheck from context is invoked with movieId: ",
-      movieId
-    );
+    // console.log(
+    //   "movieWatchlistCheck from context is invoked with movieId: ",
+    //   movieId
+    // );
     const res1 = await movieUserActions.get("/watchlist");
     const id = _.find(
       res1.data,

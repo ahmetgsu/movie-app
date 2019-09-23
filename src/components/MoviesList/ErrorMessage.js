@@ -1,7 +1,6 @@
 import React from "react";
 
-function ErrorMessage(props) {
-  const { errorMessage } = props;
+const ErrorMessage = ({ errorMessage }) => {
   return (
     <div
       className="ui raised segment"
@@ -13,6 +12,6 @@ function ErrorMessage(props) {
       <h3 style={{ margin: "20px auto" }}>{errorMessage}</h3>
     </div>
   );
-}
+};
 
 export default ErrorMessage;
