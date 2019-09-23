@@ -77,20 +77,20 @@ const MovieCardStore = props => {
     }
   };
 
-  const watchlistCheck = async movieId => {
-    // console.log(
-    //   "movieWatchlistCheck from context is invoked with movieId: ",
-    //   movieId
-    // );
+  const watchlistCheck = async _movieId => {
+    console.log(
+      "movieWatchlistCheck from context is invoked with movieId: ",
+      _movieId
+    );
     const res1 = await movieUserActions.get("/watchlist");
     const id = _.find(
       res1.data,
-      item => item.movieId === parseInt(movieId, 10)
+      item => item.movieId === parseInt(_movieId, 10)
     );
     if (id !== undefined) {
-      dispatch({ type: CHECK_WATCHLIST });
+      dispatch({ type: CHECK_WATCHLIST, payload: true });
     } else {
-      return;
+      dispatch({ type: CHECK_WATCHLIST, payload: false });
     }
   };
 

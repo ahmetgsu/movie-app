@@ -62,7 +62,7 @@ export default (state, { type, payload }) => {
     case CHECK_WATCHLIST:
       return {
         ...state,
-        iconClicked: true
+        iconClicked: payload
       };
     default:
       return state;
