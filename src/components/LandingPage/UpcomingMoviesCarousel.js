@@ -5,11 +5,9 @@ import { Image } from "semantic-ui-react";
 
 function UpcomingMoviesCarousel(props) {
   const { upcomingMovies, activeItemIndex, changeActiveItem } = props;
-  console.log(props);
   const sortedUpcomingMovies = upcomingMovies
     .filter(movie => movie.popularity > 1)
     .sort((a, b) => b.vote_average - a.vote_average);
-  console.log(sortedUpcomingMovies);
 
   return (
     <ItemsCarousel
