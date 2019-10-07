@@ -5,7 +5,8 @@ import {
   GET_MOVIE_RATE,
   GET_MOVIES_RATES,
   ADD_TO_WATCHLIST,
-  DELETE_FROM_WATCHLIST
+  DELETE_FROM_WATCHLIST,
+  WATCHLIST_CHECK
 } from "../actions/types";
 import _ from "lodash";
 
@@ -37,6 +38,11 @@ export default (state = initialState, action) => {
       return {
         ..._.omit(state, action.payload1.id),
         watchlistedNumber: action.payload2
+      };
+    case WATCHLIST_CHECK:
+      return {
+        ...state,
+        watchlistedNumber: action.payload
       };
     default:
       return state;

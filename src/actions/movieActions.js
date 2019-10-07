@@ -18,12 +18,10 @@ export const selectedMovieId = id => {
 };
 
 export const fetchMovies = title => dispatch => {
-  console.log(`fetchMovies invoked`);
-  console.log(title);
-  const API_KEY = "9d59cf1cfa65858ed8a861785ddce025";
+  console.log("fetchMovies fired");
   axios
     .get(
-      `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&query=${title}`
+      `https://api.themoviedb.org/3/search/movie?api_key=${process.env.REACT_APP_API_KEY}&query=${title}`
     )
     .then(res => {
       if (res.data.results.length > 0) {
@@ -52,11 +50,9 @@ export const fetchMovies = title => dispatch => {
 };
 
 export const fetchSelectedMovie = imdbID => dispatch => {
-  //console.log(`fetchSelectedMovie function invoked`);
-  const API_KEY = "9d59cf1cfa65858ed8a861785ddce025";
   axios
     .get(
-      `https://api.themoviedb.org/3/movie/${imdbID}?api_key=${API_KEY}&append_to_response=videos,images&language=en-US&include_image_language=en`
+      `https://api.themoviedb.org/3/movie/${imdbID}?api_key=${process.env.REACT_APP_API_KEY}&append_to_response=videos,images&language=en-US&include_image_language=en`
     )
     .then(res => {
       const selectedMovieData = res.data;
@@ -69,11 +65,9 @@ export const fetchSelectedMovie = imdbID => dispatch => {
 };
 
 export const fetchSelectedMovieReview = id => dispatch => {
-  //console.log(`fetchSelectedMovie function invoked`);
-  const API_KEY = "9d59cf1cfa65858ed8a861785ddce025";
   axios
     .get(
-      `https://api.themoviedb.org/3/movie/${id}/reviews?api_key=${API_KEY}&language=en-US&page=1`
+      `https://api.themoviedb.org/3/movie/${id}/reviews?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&page=1`
     )
     .then(res => {
       const selectedMovieReviews = res.data;
@@ -86,15 +80,12 @@ export const fetchSelectedMovieReview = id => dispatch => {
 };
 
 export const fetchSelectedMovieCredits = imdbID => dispatch => {
-  //console.log(`fetchSelectedMovie function invoked`);
-  const API_KEY = "9d59cf1cfa65858ed8a861785ddce025";
   axios
     .get(
-      `https://api.themoviedb.org/3/movie/${imdbID}/credits?api_key=${API_KEY}`
+      `https://api.themoviedb.org/3/movie/${imdbID}/credits?api_key=${process.env.REACT_APP_API_KEY}`
     )
     .then(res => {
       const selectedMovieCredits = res.data;
-      //console.log(selectedMovieCredits);
       dispatch({
         type: FETCH_SELECTED_MOVIE_CREDITS,
         payload: selectedMovieCredits
@@ -103,25 +94,21 @@ export const fetchSelectedMovieCredits = imdbID => dispatch => {
 };
 
 export const fetchTrendingMovies = () => dispatch => {
-  //console.log("fetchTrendingMovies function invoked");
-  const API_KEY = "9d59cf1cfa65858ed8a861785ddce025";
+  console.log("fetchTrendingMovies function invoked");
   axios
     .all([
       axios.get(
-        `https://api.themoviedb.org/3/trending/movie/day?api_key=${API_KEY}&language=en-US&page=1`
+        `https://api.themoviedb.org/3/trending/movie/day?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&page=1`
       ),
       axios.get(
-        `https://api.themoviedb.org/3/trending/movie/day?api_key=${API_KEY}&language=en-US&page=2`
+        `https://api.themoviedb.org/3/trending/movie/day?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&page=2`
       )
     ])
     .then(
       axios.spread((res1, res2) => {
         const trendingMovies1 = res1.data.results;
         const trendingMovies2 = res2.data.results;
-        // console.log("page1", trendingMovies1);
-        // console.log("page2", trendingMovies2);
         const trendingMovies = [...trendingMovies1, ...trendingMovies2];
-        // console.log("trendingMovies", trendingMovies);
         dispatch({
           type: TRENDING_MOVIES,
           payload: trendingMovies
@@ -131,15 +118,14 @@ export const fetchTrendingMovies = () => dispatch => {
 };
 
 export const fetchUpcomingMovies = () => dispatch => {
-  //console.log("fetchUpcomingMovies function invoked");
-  const API_KEY = "9d59cf1cfa65858ed8a861785ddce025";
+  console.log("fetchUpcomingMovies function invoked");
   axios
     .all([
       axios.get(
-        `https://api.themoviedb.org/3/movie/upcoming?api_key=${API_KEY}&language=en-US&page=1`
+        `https://api.themoviedb.org/3/movie/upcoming?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&page=1`
       ),
       axios.get(
-        `https://api.themoviedb.org/3/movie/upcoming?api_key=${API_KEY}&language=en-US&page=2`
+        `https://api.themoviedb.org/3/movie/upcoming?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&page=2`
       )
     ])
     .then(

@@ -1,16 +1,13 @@
-import React from "react";
-import {
-  Icon,
-  Image,
-  Button,
-  Modal,
-  Header,
-  Container
-} from "semantic-ui-react";
+import React, { useContext } from "react";
+import Context from "../../contexts/movieCardContext";
+import { useSelector } from "react-redux";
+import { Image, Button, Modal, Header, Container } from "semantic-ui-react";
 
-function ReviewModal(props) {
-  //console.log(props);
-  const { handleOpen, handleClose, open } = props;
+const ReviewModal = () => {
+  const movieData = useSelector(state => state.movies.selectedMovieData);
+  const reviews = useSelector(state => state.movies.selectedMovieReviews);
+  const { handleOpen, handleClose, modalOpen } = useContext(Context);
+
   return (
     <Modal
       trigger={
@@ -18,18 +15,18 @@ function ReviewModal(props) {
           Reviews
         </p>
       }
-      open={open}
+      open={modalOpen}
       onClose={handleClose}
     >
-      <Modal.Header>{props.selectedMovieData.title} Reviews</Modal.Header>
+      <Modal.Header>{movieData.title} Reviews</Modal.Header>
       <Modal.Content image scrolling>
         <Image
           size="large"
-          src={`https://image.tmdb.org/t/p/w342${props.selectedMovieData.poster_path}`}
+          src={`https://image.tmdb.org/t/p/w342${movieData.poster_path}`}
           wrapped
         />
         <Modal.Description>
-          {props.selectedMovieReviews.results.map((item, index) => (
+          {reviews.results.map((item, index) => (
             <React.Fragment key={index}>
               <Header as="h3">Author: {item.author}</Header>
               <Container textAlign="justified" style={{ fontSize: "18px" }}>
@@ -57,12 +54,15 @@ function ReviewModal(props) {
         </Modal.Description>
       </Modal.Content>
       <Modal.Actions>
-        <Button color="red" onClick={handleClose}>
-          Close <Icon name="close" />
-        </Button>
+        <Button
+          color="red"
+          onClick={handleClose}
+          content="Close"
+          icon="shutdown"
+        />
       </Modal.Actions>
     </Modal>
   );
-}
+};
 
 export default ReviewModal;

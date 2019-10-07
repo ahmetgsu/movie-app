@@ -3,8 +3,7 @@ import history from "../../history";
 import { Grid, Image } from "semantic-ui-react";
 import _ from "lodash";
 
-function MovieListContainer(props) {
-  const { moviesData, search } = props;
+const MovieListContainer = ({ moviesData, search }) => {
   const sortedMoviesData = moviesData
     .sort((a, b) => b.vote_count - a.vote_count)
     .filter(movie => movie.popularity >= 1.0);
@@ -55,6 +54,6 @@ function MovieListContainer(props) {
       ))}
     </Grid>
   );
-}
+};
 
 export default MovieListContainer;

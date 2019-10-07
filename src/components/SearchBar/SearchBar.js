@@ -1,6 +1,4 @@
 import React from "react";
-import { connect } from "react-redux";
-import { fetchMovies } from "../../actions/movieActions";
 import { Field, reduxForm } from "redux-form";
 import history from "../../history";
 import SearchBarHeader from "./SearchBarHeader";
@@ -18,7 +16,6 @@ class SearchBar extends React.Component {
   };
 
   renderInput = ({ input, meta }) => {
-    // console.log(input);
     const className = `ui fluid input ${
       meta.error && meta.touched ? "error" : ""
     }`;
@@ -54,7 +51,6 @@ class SearchBar extends React.Component {
   };
 
   render() {
-    const { watchlistedNumber } = this.props;
     return (
       <Segment
         style={{
@@ -64,7 +60,7 @@ class SearchBar extends React.Component {
           minWidth: "960px"
         }}
       >
-        <SearchBarHeader watchlistedNumber={watchlistedNumber} />
+        <SearchBarHeader />
         <Form
           onSubmit={this.props.handleSubmit(this.onSubmit)}
           className="ui form error"
@@ -87,20 +83,8 @@ const validate = formValue => {
   return error;
 };
 
-const mapStateToProps = state => {
-  //console.log("state.userActions: ", state.userActions);
-  return {
-    watchlistedNumber: state.userActions.watchlistedNumber
-  };
-};
-
-const formInput = reduxForm({
+export default reduxForm({
   form: "movieSearch",
   destroyOnUnmount: false,
   validate
 })(SearchBar);
-
-export default connect(
-  mapStateToProps,
-  { fetchMovies }
-)(formInput);

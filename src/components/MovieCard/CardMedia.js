@@ -1,16 +1,19 @@
-import React from "react";
+import React, { useContext } from "react";
+import { useSelector } from "react-redux";
+import Context from "../../contexts/movieCardContext";
 import { Grid, Card, Image, Embed, Button } from "semantic-ui-react";
 
-function CardMedia(props) {
-  //console.log(props);
-  const { selectedMovieData, activeIndex, handleClick } = props;
+const CardMedia = () => {
+  const { activeIndex, handleClick } = useContext(Context);
+  const movieData = useSelector(state => state.movies.selectedMovieData);
+
   return (
     <Card.Content>
       <Grid>
         <Grid.Column width={5}>
           <Image
             floated="left"
-            src={`https://image.tmdb.org/t/p/w342${selectedMovieData.poster_path}`}
+            src={`https://image.tmdb.org/t/p/w342${movieData.poster_path}`}
             style={{ margin: "0px", width: "100%" }}
           />
         </Grid.Column>
@@ -21,21 +24,21 @@ function CardMedia(props) {
         >
           <Embed
             id={
-              selectedMovieData.videos.results.length === 0
+              movieData.videos.results.length === 0
                 ? ""
-                : selectedMovieData.videos.results[activeIndex].key
+                : movieData.videos.results[activeIndex].key
             }
-            placeholder={`https://image.tmdb.org/t/p/w1280${selectedMovieData.backdrop_path}`}
+            placeholder={`https://image.tmdb.org/t/p/w1280${movieData.backdrop_path}`}
             source="youtube"
             style={{ width: "100%" }}
             iframe={{ allowFullScreen: true }}
           />
-          {selectedMovieData.videos.results
+          {movieData.videos.results
             .slice(
               0,
-              selectedMovieData.videos.results.length >= 13
+              movieData.videos.results.length >= 13
                 ? 13
-                : selectedMovieData.videos.results.length
+                : movieData.videos.results.length
             )
             .map((elem, index) => (
               <Button
@@ -50,6 +53,6 @@ function CardMedia(props) {
       </Grid>
     </Card.Content>
   );
-}
+};
 
 export default CardMedia;
