@@ -1,7 +1,7 @@
-import React, { useContext } from "react";
-import Context from "../../contexts/movieCardContext";
-import { useSelector } from "react-redux";
-import { Image, Button, Modal, Header, Container } from "semantic-ui-react";
+import React, { useContext } from 'react';
+import Context from '../../contexts/MovieCardContext';
+import { useSelector } from 'react-redux';
+import { Image, Button, Modal, Header, Container } from 'semantic-ui-react';
 
 const ReviewModal = () => {
   const movieData = useSelector(state => state.movies.selectedMovieData);
@@ -11,7 +11,7 @@ const ReviewModal = () => {
   return (
     <Modal
       trigger={
-        <p onClick={handleOpen} style={{ cursor: "pointer", fontSize: "19px" }}>
+        <p onClick={handleOpen} style={{ cursor: 'pointer', fontSize: '19px' }}>
           Reviews
         </p>
       }
@@ -21,15 +21,15 @@ const ReviewModal = () => {
       <Modal.Header>{movieData.title} Reviews</Modal.Header>
       <Modal.Content image scrolling>
         <Image
-          size="large"
+          size='large'
           src={`https://image.tmdb.org/t/p/w342${movieData.poster_path}`}
           wrapped
         />
         <Modal.Description>
           {reviews.results.map((item, index) => (
             <React.Fragment key={index}>
-              <Header as="h3">Author: {item.author}</Header>
-              <Container textAlign="justified" style={{ fontSize: "18px" }}>
+              <Header as='h3'>Author: {item.author}</Header>
+              <Container textAlign='justified' style={{ fontSize: '18px' }}>
                 {item.content.length > 500
                   ? `${item.content.slice(0, 500)}...`
                   : item.content}
@@ -37,12 +37,12 @@ const ReviewModal = () => {
               <br />
               {item.content.length > 500 ? (
                 <Container>
-                  To read the whole content please visit:{" "}
+                  To read the whole content please visit:{' '}
                   <strong>
                     <a
                       href={item.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
+                      target='_blank'
+                      rel='noopener noreferrer'
                     >
                       {item.url}
                     </a>
@@ -55,10 +55,10 @@ const ReviewModal = () => {
       </Modal.Content>
       <Modal.Actions>
         <Button
-          color="red"
+          color='red'
           onClick={handleClose}
-          content="Close"
-          icon="shutdown"
+          content='Close'
+          icon='shutdown'
         />
       </Modal.Actions>
     </Modal>

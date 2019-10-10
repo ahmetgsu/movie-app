@@ -1,8 +1,8 @@
-import React, { useContext } from "react";
-import Context from "../../contexts/movieCardContext";
-import { useDispatch, useSelector } from "react-redux";
-import { addToWatchList, deleteFromWatchList } from "../../actions/userActions";
-import { Popup, Icon } from "semantic-ui-react";
+import React, { useContext } from 'react';
+import Context from '../../contexts/MovieCardContext';
+import { useDispatch, useSelector } from 'react-redux';
+import { addToWatchList, deleteFromWatchList } from '../../actions/userActions';
+import { Popup, Icon } from 'semantic-ui-react';
 
 const WatchListPopUp = () => {
   const dispatch = useDispatch();
@@ -17,31 +17,31 @@ const WatchListPopUp = () => {
       ? iconClicked === false
         ? (handleIconClick(), addItem(movieId))
         : (handleIconClick(), deleteItem(movieId))
-      : alert("Please sign in first to add movie to your watchlist");
+      : alert('Please sign in first to add movie to your watchlist');
   };
 
   return (
     <Popup
       content={
         iconClicked === false
-          ? "+ Add movie to watchlist"
-          : "Movie successfully added to watchlist"
+          ? '+ Add movie to watchlist'
+          : 'Movie successfully added to watchlist'
       }
       hoverable
       inverted
       flowing
-      position="bottom left"
+      position='bottom left'
       style={{
         opacity: 0.9,
-        border: "5px #33112c",
-        padding: "0.8em",
-        fontWeight: "bold"
+        border: '5px #33112c',
+        padding: '0.8em',
+        fontWeight: 'bold'
       }}
       trigger={
         <Icon
-          name={iconClicked === false ? "plus square" : "check square"}
-          size="huge"
-          color={iconClicked === false ? "grey" : "green"}
+          name={iconClicked === false ? 'plus square' : 'check square'}
+          size='huge'
+          color={iconClicked === false ? 'grey' : 'green'}
           link
           onClick={() => iconCondition(movieData.id)}
         />

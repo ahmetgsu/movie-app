@@ -1,8 +1,8 @@
-import React, { useReducer } from "react";
-import Context from "./movieCardContext";
-import movieCardReducer from "./movieCardReducer";
-import movieUserActions from "../apis/movieUserActions";
-import _ from "lodash";
+import React, { useReducer } from 'react';
+import Context from './MovieCardContext';
+import movieCardReducer from './movieCardReducer';
+import movieUserActions from '../apis/movieUserActions';
+import _ from 'lodash';
 import {
   VIDEO_BUTTON_CLICK,
   WATCHLIST_ICON_CLICK,
@@ -14,7 +14,7 @@ import {
   MOUSE_OUT,
   CHECK_MOVIE_RATE,
   CHECK_WATCHLIST
-} from "./types";
+} from './types';
 
 const MovieCardStore = props => {
   const initialState = {
@@ -64,7 +64,7 @@ const MovieCardStore = props => {
     //   "fetchMovieRate from context is invoked with movieId: ",
     //   movieId
     // );
-    const res1 = await movieUserActions.get("/movieRates");
+    const res1 = await movieUserActions.get('/movieRates');
     const id = _.find(
       res1.data,
       item => item.movieId === parseInt(movieId, 10)
@@ -79,10 +79,10 @@ const MovieCardStore = props => {
 
   const watchlistCheck = async _movieId => {
     console.log(
-      "movieWatchlistCheck from context is invoked with movieId: ",
+      'movieWatchlistCheck from context is invoked with movieId: ',
       _movieId
     );
-    const res1 = await movieUserActions.get("/watchlist");
+    const res1 = await movieUserActions.get('/watchlist');
     const id = _.find(
       res1.data,
       item => item.movieId === parseInt(_movieId, 10)

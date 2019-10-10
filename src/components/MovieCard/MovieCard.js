@@ -1,16 +1,16 @@
-import React, { useEffect, useContext } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import Context from "../../contexts/movieCardContext";
-import CardHeader from "./CardHeader";
-import CardMedia from "./CardMedia";
-import CardDescription from "./CardDescription";
-import CardFooter from "./CardFooter";
-import { Grid, Card } from "semantic-ui-react";
+import React, { useEffect, useContext } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import Context from '../../contexts/MovieCardContext';
+import CardHeader from './CardHeader';
+import CardMedia from './CardMedia';
+import CardDescription from './CardDescription';
+import CardFooter from './CardFooter';
+import { Grid, Card } from 'semantic-ui-react';
 import {
   fetchSelectedMovie,
   fetchSelectedMovieCredits,
   fetchSelectedMovieReview
-} from "../../actions/movieActions";
+} from '../../actions/movieActions';
 
 const MovieCard = ({ movieId }) => {
   const context = useContext(Context);
@@ -45,14 +45,14 @@ const MovieCard = ({ movieId }) => {
   };
 
   if (movieData === null || credits === null || reviews === null) {
-    return <div className="ui message">Loading... Please wait</div>;
+    return <div className='ui message'>Loading... Please wait</div>;
   } else {
     const cardStyle = {
-      marginLeft: "auto",
-      marginRight: "auto",
-      marginTop: "10px",
-      width: "60%",
-      minWidth: "1072px"
+      marginLeft: 'auto',
+      marginRight: 'auto',
+      marginTop: '10px',
+      width: '60%',
+      minWidth: '1072px'
     };
     return (
       <Grid>
