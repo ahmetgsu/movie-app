@@ -1,12 +1,12 @@
 # Movie Search App (React.JS)
 
 What this project is about to create a movie search app by using REACT. This is the lastest version of the app.
-First, I've built the app with pure React ( Component level state, parent to child, child to parent and child to child communication). Then I've implemented respectively Redux, Redux Thunk for async actions, Redux Form, React Router, Authentication with Google OAuth, React Context System and React Hooks. By doing so, I've almost practiced all the important topics of React.
+First, I've built the app with pure React ( Component level state, parent to child, child to parent and child to child communication). Then I've implemented respectively **Redux (Redux Thunk for async actions), Redux Form, React Router, Authentication with Google OAuth, React Context System and React Hooks**. By doing so, I've almost practiced all the important topics of React. Besides, I've found the change to use **lodash** Javascript library.
 Building this app has really helped me to dive into React and its latest tools.
 
 I've also tried to use different kind of Semantic UI React elements such as Grid, Card, Embed, Popup, Menu etc.
 
-Finally, to get a better understanding of React Hooks, I made use of different kind of Hooks such as useState, useEffect, useContext, useSelector, useDispatch, useRef
+Finally, to get a better understanding of React Hooks, I made use of different kind of Hooks such as **useState, useEffect, useContext, useSelector, useDispatch** and **useRef**
 
 The next step is going to be implementing backend side to make it a full stack app.
 
@@ -30,7 +30,7 @@ App gets data from [https://www.themoviedb.org/](https://www.themoviedb.org/)
 4. React Hooks
 5. Javascript (ES6 Features)
 6. HTML
-7. CSS (Semantic UI)
+7. CSS (Semantic UI React)
 8. Version Control System (Git)
 
 ## Goals for this project:
