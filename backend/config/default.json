@@ -1,0 +1,3 @@
+{
+  "mongoURI": "mongodb+srv://ahmetgsu:19840604@moviesearchapp-p01a3.mongodb.net/test?retryWrites=true&w=majority"
+}

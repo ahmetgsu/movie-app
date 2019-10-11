@@ -1,7 +1,11 @@
 const express = require('express');
+const connectDB = require('./config/db');
 
 // initialize express into a variable app
 const app = express();
+
+// Connect Database
+connectDB();
 
 app.get('/', (req, res) => res.send('Hello'));
 
