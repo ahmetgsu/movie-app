@@ -14,6 +14,8 @@ The next step is going to be implementing backend side to make it a full stack a
 
 App gets data from [https://www.themoviedb.org/](https://www.themoviedb.org/)
 
+![TMDB Logo](/src/images/tmdb_logo.png)
+
 ## Table of contents:
 
 1. Technologies used
