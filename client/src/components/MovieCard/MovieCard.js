@@ -52,7 +52,8 @@ const MovieCard = ({ movieId }) => {
       marginRight: 'auto',
       marginTop: '10px',
       width: '60%',
-      minWidth: '1072px'
+      minWidth: '1072px',
+      backgroundColor: '#ebe8e8'
     };
     return (
       <Grid>

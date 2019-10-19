@@ -1,13 +1,13 @@
-import React from "react";
-import { connect } from "react-redux";
+import React from 'react';
+import { connect } from 'react-redux';
 import {
   fetchTrendingMovies,
   fetchUpcomingMovies,
   selectedMovieId
-} from "../../actions/movieActions";
-import { Grid, Button, Container } from "semantic-ui-react";
-import TrendingMoviesCarousel from "./TrendingMoviesCarousel";
-import UpcomingMoviesCarousel from "./UpcomingMoviesCarousel";
+} from '../../actions/movieActions';
+import { Grid, Button, Container } from 'semantic-ui-react';
+import TrendingMoviesCarousel from './TrendingMoviesCarousel';
+import UpcomingMoviesCarousel from './UpcomingMoviesCarousel';
 
 class LandingPage extends React.Component {
   state = {
@@ -33,18 +33,18 @@ class LandingPage extends React.Component {
   render() {
     const { trendingMovies, upcomingMovies } = this.props;
     const buttonArray = [
-      "Latest Movies",
-      "Now Playing",
-      "Popular Movies",
-      "Top Rated Movies"
+      'Latest Movies',
+      'Now Playing',
+      'Popular Movies',
+      'Top Rated Movies'
     ];
     return (
-      <Container style={{ width: "80%", minWidth: "1020px" }}>
-        <Grid columns="equal" textAlign="center" style={{ marginTop: "10px" }}>
+      <Container style={{ width: '80%', minWidth: '1020px' }}>
+        <Grid columns='equal' textAlign='center' style={{ marginTop: '10px' }}>
           {buttonArray.map((item, index) => (
             <Grid.Column key={index}>
               <Button
-                style={{ color: "#121212", fontSize: "16px" }}
+                style={{ color: '#121212', fontSize: '14px' }}
                 onClick={e => this.handleButtonClick(item)}
               >
                 {item}
@@ -53,14 +53,14 @@ class LandingPage extends React.Component {
           ))}
         </Grid>
         <br />
-        <h3 style={{ color: "white" }}>Trending Movies</h3>
+        <h3 style={{ color: 'white' }}>Trending Movies</h3>
         <TrendingMoviesCarousel
           trendingMovies={trendingMovies}
           changeActiveItem={this.changeActiveItemTrending}
           activeItemIndex={this.state.activeItemIndexTrending}
         />
         <br />
-        <h3 style={{ color: "white" }}>Upcoming Movies</h3>
+        <h3 style={{ color: 'white' }}>Upcoming Movies</h3>
         <UpcomingMoviesCarousel
           upcomingMovies={upcomingMovies}
           changeActiveItem={this.changeActiveItemUpcoming}
