@@ -71,6 +71,6 @@ C. Version Control System
 
 You can find below the latest version of the app's screenshots:
 
-![App Gif](./src/images/movie-app-latest.gif)
+![App Gif](./client/src/images/movie-app-latest.gif)
 
-![TMDB Logo](/src/images/tmdb_logo.png)
+![TMDB Logo](/client/src/images/tmdb_logo.png)
