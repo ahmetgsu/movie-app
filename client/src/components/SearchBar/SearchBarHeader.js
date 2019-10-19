@@ -53,11 +53,16 @@ const SearchBarHeader = () => {
             color='red'
             link
           ></Menu.Item>
-          <Menu.Item name='sign in' icon='sign in' link />
+          <Menu.Item
+            name='sign in'
+            icon='sign in'
+            link
+            onClick={() => history.push('/api/auth')}
+          />
           <Menu.Item name='register' link />
-          <Menu.Item>
+          {/* <Menu.Item>
             <GoogleAuth />
-          </Menu.Item>
+          </Menu.Item> */}
         </Menu.Menu>
       </Menu>
     </Segment>

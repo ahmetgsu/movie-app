@@ -5,6 +5,8 @@ import SearchBarHeader from './SearchBar/SearchBarHeader';
 import MoviesList from './MoviesList/MoviesList';
 import Footer from './Footer';
 import LandingPage from './LandingPage/LandingPage';
+import LoginForm from './Login/Login';
+import RegisterForm from './Register/Register';
 import history from '../history';
 import { Sticky } from 'semantic-ui-react';
 
@@ -21,6 +23,8 @@ const App = () => {
           <Route path='/' exact component={LandingPage} />
           <Route path='/movies/list' component={MoviesList} />
           <Route path='/movies/:movieId/details' component={MoviesContainer} />
+          <Route path='/api/auth' component={LoginForm} />
+          <Route path='/api/users' component={RegisterForm} />
           <Footer />
         </div>
       </Router>

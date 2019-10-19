@@ -1,17 +1,19 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { signIn, signOut } from "../../actions/authActions";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { signIn, signOut } from '../../actions/authActions';
+import { Button, Image } from 'semantic-ui-react';
+import google from './google.png';
 
 class GoogleAuth extends Component {
   componentDidMount() {
-    window.gapi.load("client:auth2", () => {
+    window.gapi.load('client:auth2', () => {
       //loads library
       window.gapi.client
         .init({
           // initialize the loaded library
           clientId:
-            "864593952798-4ie8le2su9ioj0aig6dud19bok0d3600.apps.googleusercontent.com",
-          scope: "email"
+            '864593952798-4ie8le2su9ioj0aig6dud19bok0d3600.apps.googleusercontent.com',
+          scope: 'email'
         })
         .then(() => {
           this.auth = window.gapi.auth2.getAuthInstance(); //ref to auth library
@@ -42,25 +44,17 @@ class GoogleAuth extends Component {
       return null;
     } else if (this.props.isSignedIn) {
       return (
-        <button
+        <Button
           onClick={this.onSignOutClick}
-          className="ui right floated red google button"
-          style={{ minWidth: "115.3px" }}
-        >
-          <i className="sign out alternate icon" />
-          Sign Out
-        </button>
+          className='ui floated red google button'
+          style={{ minWidth: '115.3px' }}
+          content='Sign Out'
+          icon='sign out alternate icon'
+        />
       );
     } else {
       return (
-        <button
-          onClick={this.onSignInClick}
-          className="ui right floated green google button"
-          style={{ minWidth: "115.3px" }}
-        >
-          <i className="google icon" />
-          Sign In with Google
-        </button>
+        <Image src={google} centered size='tiny' onClick={this.onSignInClick} />
       );
     }
   }
