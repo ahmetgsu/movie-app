@@ -14,8 +14,8 @@ router.post(
   '/',
   [
     // First parameter is the item to check, second is an err message
-    check('name', 'Name is required')
-      .not() //name field must not be empty
+    check('username', 'Username is required')
+      .not() //username field must not be empty
       .isEmpty(),
     check('email', 'Please include a valid email').isEmail(),
     check(
@@ -28,7 +28,7 @@ router.post(
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
-    const { name, email, password } = req.body;
+    const { username, email, password } = req.body;
 
     try {
       // 1st check if there is a user with that email
@@ -39,7 +39,7 @@ router.post(
       }
       // Email not registered before, then create a new User
       user = new User({
-        name,
+        username,
         email,
         password
       });

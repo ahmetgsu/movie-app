@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { watchListCheck } from '../../actions/userActions';
-import GoogleAuth from './GoogleAuth';
+// import GoogleAuth from './GoogleAuth';
 import SearchBar from './SearchBar';
 import { Menu, Segment } from 'semantic-ui-react';
 import history from '../../history';
@@ -31,9 +31,9 @@ const SearchBarHeader = () => {
           header
           onClick={() => history.push('/')}
           style={{ cursor: 'pointer' }}
-        >
-          Movie Search
-        </Menu.Item>
+          content='Movie Search'
+          icon='film'
+        />
         {/* <Menu.Item
           name='home'
           icon={{ color: 'green', name: 'home', size: 'big' }}
@@ -54,12 +54,16 @@ const SearchBarHeader = () => {
             link
           ></Menu.Item>
           <Menu.Item
-            name='sign in'
+            name='login'
             icon='sign in'
             link
-            onClick={() => history.push('/api/auth')}
+            onClick={() => history.push('/login')}
           />
-          <Menu.Item name='register' link />
+          <Menu.Item
+            name='register'
+            link
+            onClick={() => history.push('/register')}
+          />
           {/* <Menu.Item>
             <GoogleAuth />
           </Menu.Item> */}

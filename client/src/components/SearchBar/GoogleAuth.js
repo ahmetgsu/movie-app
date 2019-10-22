@@ -55,6 +55,12 @@ class GoogleAuth extends Component {
     } else {
       return (
         <Image src={google} centered size='tiny' onClick={this.onSignInClick} />
+        // <Button
+        //   onClick={this.onSignInClick}
+        //   style={{ minWidth: '115.3px' }}
+        //   content='sign in with google'
+        //   icon='google'
+        // />
       );
     }
   }
